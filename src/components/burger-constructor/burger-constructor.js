@@ -16,56 +16,61 @@ export const BurgerConstructor = () => {
                         thumbnail={normilizedBuns[0]["image"]}
                     />
                 </div>
-                <div className={constructorStyles.constructorElement_box}>
-                    <div className="mr-2">
-                        <DragIcon type="primary" />
+
+                {/* скролл-контэйнер */}
+                <div className={constructorStyles.scroll_container}>
+                    <div className={constructorStyles.constructorElement_box}>
+                        <div className="mr-2" style={{cursor: "pointer"}}>
+                            <DragIcon type="primary" />
+                        </div>
+                        <ConstructorElement
+                            text="Соус традиционный галактический"
+                            price={normilizedSauce[1]["price"]}
+                            thumbnail={normilizedSauce[1]["image"]}
+                        />
                     </div>
-                    <ConstructorElement
-                        text="Соус традиционный галактический"
-                        price={normilizedSauce[1]["price"]}
-                        thumbnail={normilizedSauce[1]["image"]}
-                    />
-                </div>
-                <div className={constructorStyles.constructorElement_box}>
-                    <div className="mr-2">
-                        <DragIcon type="primary" />
+                    <div className={constructorStyles.constructorElement_box}>
+                        <div className="mr-2" style={{cursor: "pointer"}}>
+                            <DragIcon type="primary" />
+                        </div>
+                        <ConstructorElement
+                            text="Мясо бессмертных моллюсков Protostomia"
+                            price={normilizedFillings[2]["price"]}
+                            thumbnail={normilizedFillings[2]["image"]}
+                        />
                     </div>
-                    <ConstructorElement
-                        text="Мясо бессмертных моллюсков Protostomia"
-                        price={normilizedFillings[2]["price"]}
-                        thumbnail={normilizedFillings[2]["image"]}
-                    />
-                </div>
-                <div className={constructorStyles.constructorElement_box}>
-                    <div className="mr-2">
-                        <DragIcon type="primary" />
+                    <div className={constructorStyles.constructorElement_box}>
+                        <div className="mr-2" style={{cursor: "pointer"}}>
+                            <DragIcon type="primary" />
+                        </div>
+                        <ConstructorElement
+                            text="Плоды Фалленианского дерева"
+                            price={normilizedFillings[3]["price"]}
+                            thumbnail={normilizedFillings[3]["image"]}
+                        />
                     </div>
-                    <ConstructorElement
-                        text="Плоды Фалленианского дерева"
-                        price={normilizedFillings[3]["price"]}
-                        thumbnail={normilizedFillings[3]["image"]}
-                    />
-                </div>
-                <div className={constructorStyles.constructorElement_box}>
-                    <div className="mr-2">
-                        <DragIcon type="primary" />
+                    <div className={constructorStyles.constructorElement_box}>
+                        <div className="mr-2" style={{cursor: "pointer"}}>
+                            <DragIcon type="primary" />
+                        </div>
+                        <ConstructorElement
+                            text="Хрустящие минеральные кольца"
+                            price={normilizedFillings[4]["price"]}
+                            thumbnail={normilizedFillings[4]["image"]}
+                        />
                     </div>
-                    <ConstructorElement
-                        text="Хрустящие минеральные кольца"
-                        price={normilizedFillings[4]["price"]}
-                        thumbnail={normilizedFillings[4]["image"]}
-                    />
-                </div>
-                <div className={constructorStyles.constructorElement_box}>
-                    <div className="mr-2">
-                        <DragIcon type="primary" />
+                    <div className={constructorStyles.constructorElement_box}>
+                        <div className="mr-2" style={{cursor: "pointer"}}>
+                            <DragIcon type="primary" />
+                        </div>
+                        <ConstructorElement
+                            text="Хрустящие минеральные кольца"
+                            price={normilizedFillings[4]["price"]}
+                            thumbnail={normilizedFillings[4]["image"]}
+                        />
                     </div>
-                    <ConstructorElement
-                        text="Хрустящие минеральные кольца"
-                        price={normilizedFillings[4]["price"]}
-                        thumbnail={normilizedFillings[4]["image"]}
-                    />
                 </div>
+
                 <div className={`${constructorStyles.constructorElement_box} ${"ml-8"}`}>
                     <ConstructorElement
                         type="bottom"

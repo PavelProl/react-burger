@@ -9,7 +9,7 @@ class App extends React.Component {
         return (
             <>
                 <AppHeader />
-                <div className={appStyles.constructor}>
+                <div className={`${appStyles.constructor} ${"mb-10"}`}>
                     <BurgerIngredients />
                     <BurgerConstructor />
                 </div>

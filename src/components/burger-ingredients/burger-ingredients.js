@@ -3,26 +3,24 @@ import ingredientsStyles from "./burger-ingredients.module.css";
 import IngredientsTab from "../ingredients-tab/ingredients-tab";
 import { Ingredient } from "../burger-ingredient/burger-ingredient";
 import { normilizedBuns, normilizedSauce, normilizedFillings } from "../../utils/normalized-data";
-import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 
 export const BurgerIngredients = () => {
     return (
         <section className={ingredientsStyles.ingredients}>
 
-            {/* контэйнер */}
-            <div className={ingredientsStyles.container}>
+            <h1 className="text text_type_main-large mb-5">
+                Соберите бургер
+            </h1>
+            <IngredientsTab className="mb-10" />
 
-                <h1 className="text text_type_main-large mb-5">
-                    Соберите бургер
-                </h1>
-                <IngredientsTab className="mb-10" />
-
+            {/* скролл-контэйнер */}
+            <div className={ingredientsStyles.scroll_container}>
                 {/* Булки */}
-                <div className="mb-10 pl-4 pr-4">
+                <div className="mb-10">
                     <h2 className="text text_type_main-medium mb-6">
                         Булки
                     </h2>
-                    <ul className={ingredientsStyles.bun_list}>
+                    <ul className={`${ingredientsStyles.bun_list} ${"ml-4 mr-2"}`}>
                         {normilizedBuns.map(item =>
                             <Ingredient
                                 image={item.image}
@@ -34,11 +32,11 @@ export const BurgerIngredients = () => {
                 </div>
 
                 {/* Соусы */}
-                <div className="mb-10 pl-4 pr-4">
+                <div className="mb-10">
                     <h2 className="text text_type_main-medium mb-6">
                         Соусы
                     </h2>
-                    <ul className={ingredientsStyles.bun_list}>
+                    <ul className={`${ingredientsStyles.bun_list} ${"ml-4 mr-2"}`}>
                         {normilizedSauce.map(item =>
                             <Ingredient
                                 image={item.image}
@@ -49,11 +47,11 @@ export const BurgerIngredients = () => {
                 </div>
 
                 {/* Начинки */}
-                <div className="mb-10 pl-4 pr-4">
+                <div className="mb-10">
                     <h2 className="text text_type_main-medium mb-6">
                         Начинки
                     </h2>
-                    <ul className={ingredientsStyles.bun_list}>
+                    <ul className={`${ingredientsStyles.bun_list} ${"ml-4 mr-2"}`}>
                         {normilizedFillings.map(item =>
                             <Ingredient
                                 image={item.image}

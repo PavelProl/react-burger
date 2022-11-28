@@ -2,6 +2,24 @@
     max-width: 600px;
 }
 
+.scroll_container {
+    overflow-y: scroll;
+    height: 716px;
+}
+
+.scroll_container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scroll_container::-webkit-scrollbar-track {
+	background: #2F2F37;
+}
+.scroll_container::-webkit-scrollbar-thumb {
+	background: #8585AD;
+	border: 3px solid #2F2F37;
+	border-radius: 6px;
+}
+
 .bun_list {
     display: flex;
     flex-wrap: wrap;
@@ -10,9 +28,16 @@
     column-gap: 24px;
 }
 
-/* .container {
-    max-width: 1240px;
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    /* height: 912px; */
+    /* position: relative; */
+    /* max-width: 1240px;
     margin: 0 auto;
     padding-left: 16px;
-    padding-right: 16px;
-} */
+    padding-right: 16px; */
+}
+

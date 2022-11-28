@@ -4,6 +4,27 @@
     padding-right: 16px;
 }
 
+.scroll_container {
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 400px;
+}
+
+.scroll_container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scroll_container::-webkit-scrollbar-track {
+	background: #2F2F37;
+}
+.scroll_container::-webkit-scrollbar-thumb {
+	background: #8585AD;
+	border: 3px solid #2F2F37;
+	border-radius: 6px;
+}
+
 .constructorElement_box {
     display: flex;
     align-items: center;
