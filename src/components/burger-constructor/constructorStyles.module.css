@@ -1,0 +1,21 @@
+.constructor {
+    padding-top: 60px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.constructorElement_box {
+    display: flex;
+    align-items: center;
+}
+
+.summary {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.summary_price {
+    display: flex;
+    align-items: center;
+}

@@ -1,0 +1,18 @@
+.ingredients {
+    max-width: 600px;
+}
+
+.bun_list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    row-gap: 32px;
+    column-gap: 24px;
+}
+
+/* .container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding-left: 16px;
+    padding-right: 16px;
+} */
