@@ -13,7 +13,7 @@ export const normilizedBuns = [
         "image_large":"https://code.s3.yandex.net/react/code/bun-02-large.png",
         "__v":0,
         // временный стэйт
-        "checked": "true"
+        "checked":true
     },
     {
         "_id":"60666c42cc7b410027a1a9b2",

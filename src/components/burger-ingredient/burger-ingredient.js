@@ -2,6 +2,8 @@ import React from "react";
 import ingredientStyles from "./burger-ingredient.module.css";
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import PropTypes from "prop-types";
+
 export const Ingredient = (props) => {
     return (
         <li className={ingredientStyles.list_item}>
@@ -18,3 +20,10 @@ export const Ingredient = (props) => {
         </li>
     );
 }
+
+Ingredient.propTypes = {
+    checked: PropTypes.bool,
+    image: PropTypes.string,
+    price: PropTypes.number,
+    name: PropTypes.string
+};
