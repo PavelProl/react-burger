@@ -11,7 +11,7 @@ export const Ingredient = (props) => {
             {/* временное решение с условным рендером */}
             {props.checked && <Counter count={1} size="default" extraClass="m-1" />}
 
-            <img src={props.image} />
+            <img src={props.image} alt={props.name} />
             <div className={`${ingredientStyles.price} ${"pt-1 pb-1"}`}>
                 <p className="text text_type_digits-default mr-2">{props.price}</p>
                 <CurrencyIcon type="primary" />
