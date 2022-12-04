@@ -4,17 +4,16 @@ import IngredientsTab from "../ingredients-tab/ingredients-tab";
 import { Ingredient } from "../burger-ingredient/burger-ingredient";
 import { normilizedBuns, normilizedSauce, normilizedFillings } from "../../utils/normalized-data";
 
-export const BurgerIngredients = () => {
+export const BurgerIngredients = (props) => {
 
-    // пока сделал так. Думаю, в дальнейшем логика получения названий поправится
     const ingredientsNames = [
         "Булки", "Соусы", "Начинки"
     ];
 
-    const ingredientEntities = {
-        "Булки": normilizedBuns,
-        "Соусы": normilizedSauce,
-        "Начинки": normilizedFillings
+    const ingredientTypes = {
+        "Булки": "bun",
+        "Начинки": "main",
+        "Соусы": "sauce"
     };
 
     return (
@@ -30,22 +29,27 @@ export const BurgerIngredients = () => {
 
                 {/* ИНГРЕДИЕНТЫ */}
                 {ingredientsNames.map(ingredient => {
+
+                    // получаю отфильтрованный ингредиент по названию (булки, начинки, соусы)
+                    const filtered = props.data.data.filter(item => {
+                        return item.type === ingredientTypes[ingredient]
+                    });
+                    
                     return (
-                        <div className="mb-10">
+                        <div key={ingredient} className="mb-10">
                             <h2 className="text text_type_main-medium mb-6">
                                 {ingredient}
                             </h2>
                             <ul className={`${ingredientsStyles.bun_list} ${"ml-4 mr-2"}`}>
-                                {ingredientEntities[ingredient].map(item => {
+                                {filtered.map(item => {
                                     return (
                                         <Ingredient
-                                        // проблема с данным key
-                                        // выдает ошибку
                                             key={item._id}
                                             image={item.image}
                                             price={item.price}
                                             name={item.name}
-                                            checked={item.checked} />
+                                            checked={item.checked}
+                                            onClick={(e) => props.onClick(e, item)} />
                                     )})}
                             </ul>
                         </div>

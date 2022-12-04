@@ -16,7 +16,7 @@ const selectedIds = [
     "60666c42cc7b410027a1a9bb"
 ];
 
-export const BurgerConstructor = () => {
+export const BurgerConstructor = (props) => {
     return (
         <section className={constructorStyles.constructor}>
             <div className={`${constructorStyles.constructor_container} ${"mb-10"}`}>
@@ -34,14 +34,14 @@ export const BurgerConstructor = () => {
 
                 {/* скролл-контэйнер ингредиентов */}
                 <div className={constructorStyles.scroll_container}>
-                    {selectedIds.map(id => {
+                    {selectedIds.map((id, index) => {
 
                         // находим ингредиент по id
                         const ingredient = data.find(item => item._id === id);
 
                         // рендерим найденный ингредиент между БУЛОК
                         return (
-                            <div className={constructorStyles.constructorElement_box}>
+                            <div key={index} className={constructorStyles.constructorElement_box}>
                                 <div className={`${constructorStyles.cursor} ${"mr-2"}`}>
                                     <DragIcon type="primary" />
                                 </div>
@@ -76,7 +76,7 @@ export const BurgerConstructor = () => {
                         <CurrencyIcon type="primary" />
                     </div>
                 </div>
-                <Button htmlType="button" type="primary" size="large">
+                <Button onClick={props.onClick} htmlType="button" type="primary" size="large">
                     Оформить заказ
                 </Button>
             </div>
