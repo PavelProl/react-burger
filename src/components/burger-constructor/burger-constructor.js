@@ -6,6 +6,7 @@ import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktiku
 // так и нормализованные по типу ингредиентов
 import { normilizedBuns, normilizedSauce, normilizedFillings } from "../../utils/normalized-data";
 import { data } from "../../utils/data";
+import PropTypes from "prop-types";
 
 // временное решение
 const selectedIds = [
@@ -83,4 +84,8 @@ export const BurgerConstructor = (props) => {
             
         </section>
     );
+}
+
+BurgerConstructor.propTypes = {
+    onClick: PropTypes.func
 }

@@ -23,8 +23,8 @@ export const Ingredient = (props) => {
 }
 
 Ingredient.propTypes = {
-    checked: PropTypes.bool,
-    image: PropTypes.string,
-    price: PropTypes.number,
-    name: PropTypes.string
+    checked: PropTypes.bool.isRequired,
+    image: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired
 };

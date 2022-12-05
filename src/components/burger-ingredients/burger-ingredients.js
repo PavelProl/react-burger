@@ -2,7 +2,8 @@ import React from "react";
 import ingredientsStyles from "./burger-ingredients.module.css";
 import IngredientsTab from "../ingredients-tab/ingredients-tab";
 import { Ingredient } from "../burger-ingredient/burger-ingredient";
-import { normilizedBuns, normilizedSauce, normilizedFillings } from "../../utils/normalized-data";
+
+import PropTypes from "prop-types";
 
 export const BurgerIngredients = (props) => {
 
@@ -59,3 +60,7 @@ export const BurgerIngredients = (props) => {
         </section>
     );
 }
+
+Ingredient.propTypes = {
+    onClick: PropTypes.func
+};

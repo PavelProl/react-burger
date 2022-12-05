@@ -46,8 +46,6 @@ export const AppHeader = () => {
                         <h2 className="text text_type_main-default">Личный кабинет</h2>
                     </div>
                 </nav>
-                
-                
             </div>
         </header>
     );

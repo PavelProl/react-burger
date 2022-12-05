@@ -4,19 +4,13 @@ import { AppHeader } from "../app-header/app-header";
 import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
 import { BurgerConstructor } from "../burger-constructor/burger-constructor";
 import { Modal } from "../modal/modal";
+import { ModalOverlay } from "../modal-overlay/modal-overlay";
 import { OrderDetails } from "../order-details/order-details"; 
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
-import { data } from "../../utils/data";
-
-// переключает у body overflow
-// чтобы не было прокрутки под модальным окном
-function toggleBodyOverflow(modalVisible) {
-    document.querySelector('body').classList.toggle('overflow', modalVisible);
-}
 
 export const App = () => {
     const [state, setState] = React.useState({
-        modalVisible: false,
+        modalVisible: true,
         orderModalVisible: false,
         ingredientModalVisible: false,
         isLoading: false,
@@ -26,18 +20,17 @@ export const App = () => {
     });
 
     React.useEffect(() => {
-        toggleBodyOverflow(state.modalVisible)
-    }, [state.modalVisible]);
-
-    React.useEffect(() => {
         // ПОЛУЧАЕМ ДАННЫЕ ОБ ИНГРЕДИЕНТАХ С СЕРВЕРА
         const getData = async () => {
             try {
                 setState({ ...state, isLoading: true, hasError: false});
                 const res = await fetch('https://norma.nomoreparties.space/api/ingredients');
-                const data = await res.json();
-                setState({ isLoading: false, hasError: false, data: data });
-            } catch {
+                if (res.ok) {
+                    const data = await res.json();
+                    setState({ isLoading: false, hasError: false, data: data });
+                }
+            } catch(e) {
+                console.log("error -->", e);
                 setState({ ...state, isLoading: false, hasError: true });
             }
         }
@@ -49,8 +42,15 @@ export const App = () => {
         setState({...state, modalVisible: false, ingredientModalVisible: false, orderModalVisible: false});
     }
 
+    // код handleEscCloseModal в работе...
+    const handleEscCloseModal = (e) => {
+        if (e.keyCode == 27) {
+            setState({...state, modalVisible: false, ingredientModalVisible: false, orderModalVisible: false});
+        }
+    }
+
     const handleOpenOrderModal = () => {
-        setState({...state, orderModalVisible: true, modalVisible: true});
+        setState({...state, modalVisible: true, orderModalVisible: true, modalVisible: true});
     }
 
     const handleOpenIngredientModal = (e, item) => {
@@ -62,24 +62,29 @@ export const App = () => {
 
     return (
         <>
-            {/* МОДАЛЬНОЕ ОКНО */}
-            {state.orderModalVisible && (
-                <Modal handleOverlayClick={handleCloseModal}>
-                    <OrderDetails handleClick={handleCloseModal} />
-                </Modal>
+            {/* МОДАЛЬНОЕ ОКНО C ОБЩИМ ЗАКАЗОМ */}
+            {state.orderModalVisible && state.modalVisible && (
+                <ModalOverlay closeModal={handleCloseModal}>
+                    <Modal onKeyDown={handleEscCloseModal} title="Оформление заказа" closeModal={handleCloseModal}>
+                        <OrderDetails />
+                    </Modal>
+                </ModalOverlay>
             )}
-            
+
+            {/* МОДАЛЬНОЕ ОКНО C КАРТОЧКОЙ ИНГРЕДИЕНТА */}
             {!state.isLoading && !state.hasError && state.data && state.data.data.length && state.ingredientModalVisible && (
-                <Modal handleOverlayClick={handleCloseModal}>
-                    <IngredientDetails
-                        name={state.clickedIngredient.name}
-                        image={state.clickedIngredient.image_large}
-                        calories={state.clickedIngredient.calories}
-                        proteins={state.clickedIngredient.proteins}
-                        fat={state.clickedIngredient.fat}
-                        carbohydrates={state.clickedIngredient.carbohydrates}
-                        handleClick={handleCloseModal} />
-                </Modal>
+                <ModalOverlay closeModal={handleCloseModal}>
+                    <Modal onKeyDown={handleEscCloseModal} title="Детали ингредиента" closeModal={handleCloseModal}>
+                        <IngredientDetails
+                            name={state.clickedIngredient.name}
+                            image={state.clickedIngredient.image_large}
+                            calories={state.clickedIngredient.calories}
+                            proteins={state.clickedIngredient.proteins}
+                            fat={state.clickedIngredient.fat}
+                            carbohydrates={state.clickedIngredient.carbohydrates}
+                        />
+                    </Modal>
+                </ModalOverlay>
             )}
 
             {/* КОНТЕНТ СТРАНИЦЫ */}
