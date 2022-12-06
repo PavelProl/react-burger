@@ -10,7 +10,6 @@ import { IngredientDetails } from "../ingredient-details/ingredient-details";
 
 export const App = () => {
     const [state, setState] = React.useState({
-        modalVisible: true,
         orderModalVisible: false,
         ingredientModalVisible: false,
         isLoading: false,
@@ -21,51 +20,62 @@ export const App = () => {
 
     React.useEffect(() => {
         // ПОЛУЧАЕМ ДАННЫЕ ОБ ИНГРЕДИЕНТАХ С СЕРВЕРА
-        const getData = async () => {
-            try {
-                setState({ ...state, isLoading: true, hasError: false});
-                const res = await fetch('https://norma.nomoreparties.space/api/ingredients');
+        setState({ ...state, isLoading: true, hasError: false});
+        fetch('https://norma.nomoreparties.space/api/ingredients')
+            .then(res => {
                 if (res.ok) {
-                    const data = await res.json();
-                    setState({ isLoading: false, hasError: false, data: data });
+                    return res.json();
                 }
-            } catch(e) {
-                console.log("error -->", e);
-                setState({ ...state, isLoading: false, hasError: true });
-            }
-        }
-
-        getData();
+                return Promise.reject(`Ошибка ${res.status}`);
+            })
+            .then(data => {
+                setState({...state, isLoading: false, hasError: false, data});
+            })
+            .catch(e => {
+                console.log("error from catch", e);
+                setState({...state, isLoading: false, hasError: true });
+            })
     }, []);
 
-    const handleCloseModal = () => {
-        setState({...state, modalVisible: false, ingredientModalVisible: false, orderModalVisible: false});
-    }
-
-    // код handleEscCloseModal в работе...
-    const handleEscCloseModal = (e) => {
-        if (e.keyCode == 27) {
-            setState({...state, modalVisible: false, ingredientModalVisible: false, orderModalVisible: false});
+    React.useEffect(() => {
+        function closeByEscape(evt) {
+            if(evt.key === 'Escape') {
+                closeModal();
+            }
         }
+        document.addEventListener('keydown', closeByEscape);
+    
+        return () => {
+            document.removeEventListener('keydown', closeByEscape);
+        }
+    }, []);
+
+    const closeModal = () => {
+        setState(prevState => {
+            return {...prevState, ingredientModalVisible: false, orderModalVisible: false};
+        })
     }
 
     const handleOpenOrderModal = () => {
-        setState({...state, modalVisible: true, orderModalVisible: true, modalVisible: true});
+        setState({...state, orderModalVisible: true, ingredientModalVisible: false});
     }
 
     const handleOpenIngredientModal = (e, item) => {
         const clicked = state.data.data.find(ingredient => {
             return ingredient._id === item._id;
         })
-        setState({...state, clickedIngredient: clicked, ingredientModalVisible: true, modalVisible: true});
+        setState({...state, clickedIngredient: clicked, ingredientModalVisible: true, orderModalVisible: false});
     }
+
+    console.log("stateIngredientModalVisible", state.ingredientModalVisible)
+    console.log("stateOrderModalVisible", state.orderModalVisible)
 
     return (
         <>
             {/* МОДАЛЬНОЕ ОКНО C ОБЩИМ ЗАКАЗОМ */}
-            {state.orderModalVisible && state.modalVisible && (
-                <ModalOverlay closeModal={handleCloseModal}>
-                    <Modal onKeyDown={handleEscCloseModal} title="Оформление заказа" closeModal={handleCloseModal}>
+            {state.orderModalVisible && (
+                <ModalOverlay closeModal={closeModal}>
+                    <Modal title="Оформление заказа" closeModal={closeModal}>
                         <OrderDetails />
                     </Modal>
                 </ModalOverlay>
@@ -73,32 +83,29 @@ export const App = () => {
 
             {/* МОДАЛЬНОЕ ОКНО C КАРТОЧКОЙ ИНГРЕДИЕНТА */}
             {!state.isLoading && !state.hasError && state.data && state.data.data.length && state.ingredientModalVisible && (
-                <ModalOverlay closeModal={handleCloseModal}>
-                    <Modal onKeyDown={handleEscCloseModal} title="Детали ингредиента" closeModal={handleCloseModal}>
+                <ModalOverlay closeModal={closeModal}>
+                    <Modal title="Детали ингредиента" closeModal={closeModal}>
                         <IngredientDetails
-                            name={state.clickedIngredient.name}
-                            image={state.clickedIngredient.image_large}
-                            calories={state.clickedIngredient.calories}
-                            proteins={state.clickedIngredient.proteins}
-                            fat={state.clickedIngredient.fat}
-                            carbohydrates={state.clickedIngredient.carbohydrates}
+                            ingredient={state.clickedIngredient}
                         />
                     </Modal>
                 </ModalOverlay>
             )}
 
             {/* КОНТЕНТ СТРАНИЦЫ */}
-            <AppHeader />
-            <div className={`${appStyles.constructor} ${"mb-10"}`}>
-                {state.isLoading && 'Загрузка...'}
-                {state.hasError && 'Обнаружена ошибка при загрузке данных...'}
-                {!state.isLoading && !state.hasError && state.data && state.data.data.length &&
-                    <>
-                        <BurgerIngredients data={state.data} onClick={handleOpenIngredientModal} />
-                        <BurgerConstructor onClick={handleOpenOrderModal} />
-                    </>
-                }
-            </div>
+            <main>
+                <AppHeader />
+                <div className={`${appStyles.constructor} ${"mb-10"}`}>
+                    {state.isLoading && 'Загрузка...'}
+                    {state.hasError && 'Обнаружена ошибка при загрузке данных...'}
+                    {!state.isLoading && !state.hasError && state.data && state.data.data.length &&
+                        <>
+                            <BurgerIngredients data={state.data} onClick={handleOpenIngredientModal} />
+                            <BurgerConstructor onClick={handleOpenOrderModal} />
+                        </>
+                    }
+                </div>
+            </main>
         </>
     );
 }

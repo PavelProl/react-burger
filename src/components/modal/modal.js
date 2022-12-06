@@ -24,10 +24,6 @@ export const Modal = (props) => {
                         <CloseIcon type="primary" />
                 </button>
             </div>
-
-            {/* <ModalOverlay 
-                handleOverlayClick={props.handleOverlayClick}
-            /> */}
             {children}
         </div>, modalRoot
     );
