@@ -4,7 +4,6 @@ import { AppHeader } from "../app-header/app-header";
 import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
 import { BurgerConstructor } from "../burger-constructor/burger-constructor";
 import { Modal } from "../modal/modal";
-import { ModalOverlay } from "../modal-overlay/modal-overlay";
 import { OrderDetails } from "../order-details/order-details"; 
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
 
@@ -37,19 +36,6 @@ export const App = () => {
             })
     }, []);
 
-    React.useEffect(() => {
-        function closeByEscape(evt) {
-            if(evt.key === 'Escape') {
-                closeModal();
-            }
-        }
-        document.addEventListener('keydown', closeByEscape);
-    
-        return () => {
-            document.removeEventListener('keydown', closeByEscape);
-        }
-    }, []);
-
     const closeModal = () => {
         setState(prevState => {
             return {...prevState, ingredientModalVisible: false, orderModalVisible: false};
@@ -67,29 +53,22 @@ export const App = () => {
         setState({...state, clickedIngredient: clicked, ingredientModalVisible: true, orderModalVisible: false});
     }
 
-    console.log("stateIngredientModalVisible", state.ingredientModalVisible)
-    console.log("stateOrderModalVisible", state.orderModalVisible)
-
     return (
         <>
             {/* МОДАЛЬНОЕ ОКНО C ОБЩИМ ЗАКАЗОМ */}
             {state.orderModalVisible && (
-                <ModalOverlay closeModal={closeModal}>
-                    <Modal title="Оформление заказа" closeModal={closeModal}>
-                        <OrderDetails />
-                    </Modal>
-                </ModalOverlay>
+                <Modal title="Оформление заказа" closeModal={closeModal}>
+                    <OrderDetails />
+                </Modal>
             )}
 
             {/* МОДАЛЬНОЕ ОКНО C КАРТОЧКОЙ ИНГРЕДИЕНТА */}
             {!state.isLoading && !state.hasError && state.data && state.data.data.length && state.ingredientModalVisible && (
-                <ModalOverlay closeModal={closeModal}>
-                    <Modal title="Детали ингредиента" closeModal={closeModal}>
-                        <IngredientDetails
-                            ingredient={state.clickedIngredient}
-                        />
-                    </Modal>
-                </ModalOverlay>
+                <Modal title="Детали ингредиента" closeModal={closeModal}>
+                    <IngredientDetails
+                        ingredient={state.clickedIngredient}
+                    />
+                </Modal>
             )}
 
             {/* КОНТЕНТ СТРАНИЦЫ */}
