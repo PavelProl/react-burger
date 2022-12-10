@@ -1,0 +1,21 @@
+.price {
+    display: flex;
+}
+
+.list_item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 272px;
+}
+
+.ingredient_button {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    color: #F2F2F3;
+    border: none;
+    cursor: pointer;
+}

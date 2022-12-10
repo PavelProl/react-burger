@@ -1,0 +1,16 @@
+.ingredientDetails_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.ingredientDetails_content > img {
+    width: 480px;
+}
+
+.composition {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
