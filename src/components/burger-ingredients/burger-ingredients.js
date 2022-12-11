@@ -5,12 +5,14 @@ import { Ingredient } from "../burger-ingredient/burger-ingredient";
 
 import PropTypes from "prop-types";
 
-import { DataContext } from "../../services/appContext";
+import { DataContext, IdsContext } from "../../services/appContext";
 import { useContext } from "react";
 
 export const BurgerIngredients = (props) => {
 
+    // получаю данные и функцию добавления ids в массив выбранных ids
     const data = useContext(DataContext);
+    const { setSelectedIds } = useContext(IdsContext);
 
     const ingredientsNames = [
         "Булки", "Соусы", "Начинки"
@@ -22,6 +24,11 @@ export const BurgerIngredients = (props) => {
         "Соусы": "sauce"
     };
 
+    // добавляю id в массив selectedIds
+    const onIdsClick = (id) => {
+        setSelectedIds((selectedIds) => [...selectedIds, id]);
+    };
+    
     return (
         <section className={ingredientsStyles.ingredients}>
 
@@ -55,7 +62,10 @@ export const BurgerIngredients = (props) => {
                                             price={item.price}
                                             name={item.name}
                                             checked={item.checked}
-                                            onClick={(e) => props.onClick(e, item)} />
+                                            onClick={(e) => {
+                                                props.onClick(e, item);
+                                                onIdsClick(item._id);
+                                            }} />
                                     )})}
                             </ul>
                         </div>

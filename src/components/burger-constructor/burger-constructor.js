@@ -1,23 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import constructorStyles from "./constructorStyles.module.css";
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-
-// для текущего удобства импортировал, как исходные данные,
-// так и нормализованные по типу ингредиентов
 import { normilizedBuns, normilizedSauce, normilizedFillings } from "../../utils/normalized-data";
-import { data } from "../../utils/data";
+
+import { IdsContext, DataContext } from "../../services/appContext";
+
 import PropTypes from "prop-types";
 
-// временное решение
-const selectedIds = [
-    "60666c42cc7b410027a1a9b9",
-    "60666c42cc7b410027a1a9b4",
-    "60666c42cc7b410027a1a9bc",
-    "60666c42cc7b410027a1a9bb",
-    "60666c42cc7b410027a1a9bb"
-];
-
 export const BurgerConstructor = (props) => {
+
+    // получаю массив выбранных ids и данные из контекста 
+    const { selectedIds } = useContext(IdsContext);
+    const { data } = useContext(DataContext);
+    // временный лог
+    console.log("selectedIds from constructor", selectedIds);
+
     return (
         <section className={constructorStyles.constructor}>
             <div className={`${constructorStyles.constructor_container} ${"mb-10"}`}>
@@ -38,7 +35,8 @@ export const BurgerConstructor = (props) => {
                     {selectedIds.map((id, index) => {
 
                         // находим ингредиент по id
-                        const ingredient = data.find(item => item._id === id);
+                        const ingredient = data.data.find(item => item._id === id);
+                        console.log("ingredient", ingredient);
 
                         // рендерим найденный ингредиент между БУЛОК
                         return (

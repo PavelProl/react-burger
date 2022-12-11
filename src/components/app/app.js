@@ -7,7 +7,7 @@ import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details"; 
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
 
-import { DataContext } from "../../services/appContext";
+import { DataContext, IdsContext } from "../../services/appContext";
 
 export const App = () => {
     const [state, setState] = React.useState({
@@ -58,6 +58,10 @@ export const App = () => {
         setState({...state, clickedIngredient: clicked, ingredientModalVisible: true, orderModalVisible: false});
     }
 
+    // временный лог
+    console.log("selectedIds from app.js", selectedIds);
+    console.log("state.data from app.js", state.data);
+
     return (
         <>
             {/* МОДАЛЬНОЕ ОКНО C ОБЩИМ ЗАКАЗОМ */}
@@ -84,10 +88,17 @@ export const App = () => {
                     {state.hasError && 'Обнаружена ошибка при загрузке данных...'}
                     {!state.isLoading && !state.hasError && state.data && state.data.data.length &&
                         <DataContext.Provider value={state}>
-                            <>
-                                <BurgerIngredients onClick={handleOpenIngredientModal} />
-                                <BurgerConstructor onClick={handleOpenOrderModal} />
-                            </>
+                            <IdsContext.Provider value={{
+                                ids,
+                                setIds,
+                                selectedIds,
+                                setSelectedIds
+                            }}>
+                                <>
+                                    <BurgerIngredients onClick={handleOpenIngredientModal} />
+                                    <BurgerConstructor onClick={handleOpenOrderModal} />
+                                </>
+                            </IdsContext.Provider>
                         </DataContext.Provider>
                     }
                 </div>
