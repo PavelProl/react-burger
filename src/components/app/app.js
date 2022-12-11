@@ -7,6 +7,8 @@ import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details"; 
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
 
+import { DataContext } from "../../services/appContext";
+
 export const App = () => {
     const [state, setState] = React.useState({
         orderModalVisible: false,
@@ -16,6 +18,9 @@ export const App = () => {
         data: "",
         clickedIngredient: ""
     });
+
+    const [ids, setIds] = React.useState([]);
+    const [selectedIds, setSelectedIds] = React.useState([]);
 
     React.useEffect(() => {
         // ПОЛУЧАЕМ ДАННЫЕ ОБ ИНГРЕДИЕНТАХ С СЕРВЕРА
@@ -78,10 +83,12 @@ export const App = () => {
                     {state.isLoading && 'Загрузка...'}
                     {state.hasError && 'Обнаружена ошибка при загрузке данных...'}
                     {!state.isLoading && !state.hasError && state.data && state.data.data.length &&
-                        <>
-                            <BurgerIngredients data={state.data} onClick={handleOpenIngredientModal} />
-                            <BurgerConstructor onClick={handleOpenOrderModal} />
-                        </>
+                        <DataContext.Provider value={state}>
+                            <>
+                                <BurgerIngredients onClick={handleOpenIngredientModal} />
+                                <BurgerConstructor onClick={handleOpenOrderModal} />
+                            </>
+                        </DataContext.Provider>
                     }
                 </div>
             </main>

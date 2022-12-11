@@ -5,7 +5,12 @@ import { Ingredient } from "../burger-ingredient/burger-ingredient";
 
 import PropTypes from "prop-types";
 
+import { DataContext } from "../../services/appContext";
+import { useContext } from "react";
+
 export const BurgerIngredients = (props) => {
+
+    const data = useContext(DataContext);
 
     const ingredientsNames = [
         "Булки", "Соусы", "Начинки"
@@ -32,7 +37,7 @@ export const BurgerIngredients = (props) => {
                 {ingredientsNames.map(ingredient => {
 
                     // получаю отфильтрованный ингредиент по названию (булки, начинки, соусы)
-                    const filtered = props.data.data.filter(item => {
+                    const filtered = data.data.data.filter(item => {
                         return item.type === ingredientTypes[ingredient]
                     });
                     
