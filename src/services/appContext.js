@@ -1,9 +1,17 @@
 import React from "react";
 
-const initialState = {
+const initialIdsState = {
     ids: [],
     selectedIds: []
 };
 
-export const IdsContext = React.createContext(initialState);
-export const DataContext = React.createContext(null);
+const initialDataState = {
+    data: [],
+    selectedIngredients: []
+};
+
+export const IdsContext = React.createContext(initialIdsState);
+export const DataContext = React.createContext(initialDataState);
+export const PriceContext = React.createContext();
+export const BunsContext = React.createContext();
+export const OrderContext = React.createContext();
