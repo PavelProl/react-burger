@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import appStyles from "./app.module.css";
+// COMPONENTS
 import { AppHeader } from "../app-header/app-header";
 import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
 import { BurgerConstructor } from "../burger-constructor/burger-constructor";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details"; 
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
-
-import { DataContext, IdsContext, PriceContext, BunsContext, OrderContext } from "../../services/appContext";
+// CONTEXTS
+import { DataContext, IdsContext, PriceContext, BunsContext } from "../../services/appContext";
+// CONSTANT
+import { BASE_URL, request } from "../../utils/constants";
 
 export const App = () => {
     const [state, setState] = useState({
@@ -29,15 +32,9 @@ export const App = () => {
     const [orderNumber, setOrderNumber] = useState();
 
     React.useEffect(() => {
-        // ПОЛУЧАЕМ ДАННЫЕ ОБ ИНГРЕДИЕНТАХ С СЕРВЕРА
+        // получаем данные об ингредиентах с сервера
         setState({ ...state, isLoading: true, hasError: false});
-        fetch('https://norma.nomoreparties.space/api/ingredients')
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-                return Promise.reject(`Ошибка ${res.status}`);
-            })
+        request(`${BASE_URL}ingredients`) // универсальная функция запроса с проверкой ответа
             .then(data => {
                 setState({...state, isLoading: false, hasError: false});
                 setData([...data.data])
@@ -52,25 +49,38 @@ export const App = () => {
         setState(prevState => {
             return {...prevState, ingredientModalVisible: false, orderModalVisible: false};
         })
-    }
+    };
 
+    // открываем модальное окно &&
+    // отравляем POST запрос на сервер с данными по ингредиентам
     const handleOpenOrderModal = () => {
-        setState({ ...state, isLoading: true, hasError: false});
-        fetch("https://norma.nomoreparties.space/api/orders", {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-            },
-            body: JSON.stringify({"ingredients": selectedIngredients})
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log("data from POST", data);
-            setOrderNumber(data.order.number);
-            setState({...state, orderModalVisible: true, ingredientModalVisible: false});
-        })
-        .catch(err => console.log("error from POST", err))
-    }
+        if (selectedIngredients.length === 0) {
+            // не даем оформить заказ, если нет ингредиентов
+            return;
+        } else {
+            setState({ ...state, isLoading: true, hasError: false});
+            request(`${BASE_URL}orders`, { // универсальная функция запроса с проверкой ответа
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+                body: JSON.stringify({"ingredients": selectedIngredients})
+            })
+            .then(data => {
+                setOrderNumber(data.order.number);
+                setState({...state, orderModalVisible: true, ingredientModalVisible: false}); 
+                
+                // очищаем конструктор для нового заказа
+                setSelectedIngredients([]);
+                setSelectedIds([]);
+                setBuns([]);
+            })
+            .catch(e => {
+                console.log("error from catch", e);
+                setState({...state, isLoading: false, hasError: true });
+            })
+        }
+    };
 
     const handleOpenIngredientModal = (e, item) => {
         const clicked = data.find(ingredient => {
@@ -78,7 +88,7 @@ export const App = () => {
         });
         setState({...state, clickedIngredient: clicked, ingredientModalVisible: true, orderModalVisible: false});
 
-        // кладу булки в стэйт
+        // кладем булки в стэйт
         setBuns((buns) => {
             if (clicked.type === "bun" && buns.length === 0) {
                 return [...buns, clicked];
@@ -86,23 +96,17 @@ export const App = () => {
                 return [...buns];
             }
         })
-    }
+    };
 
-    // временный лог
-    // console.log("selectedIds from app.js", selectedIds);
-    // console.log("data from app.js", data);
-    // console.log("buns from app", buns);
+    // console.log(selectedIngredients);
 
     return (
         <>
             {/* МОДАЛЬНОЕ ОКНО C ОБЩИМ ЗАКАЗОМ */}
             {state.orderModalVisible && (
-                <OrderContext.Provider value={orderNumber}>
-                    <Modal title="Оформление заказа" closeModal={closeModal}>
-                        <OrderDetails />
-                    </Modal>
-                </OrderContext.Provider>
-
+                <Modal title="Оформление заказа" closeModal={closeModal}>
+                    <OrderDetails orderNumber={orderNumber} />
+                </Modal>
             )}
 
             {/* МОДАЛЬНОЕ ОКНО C КАРТОЧКОЙ ИНГРЕДИЕНТА */}
@@ -115,12 +119,11 @@ export const App = () => {
             )}
 
             {/* КОНТЕНТ СТРАНИЦЫ */}
-            <main>
-                <AppHeader />
-                <div className={`${appStyles.constructor} ${"mb-10"}`}>
-                    {state.isLoading && 'Загрузка...'}
-                    {state.hasError && 'Обнаружена ошибка при загрузке данных...'}
-                    {!state.isLoading && !state.hasError && data && data.length &&
+            <AppHeader />
+            <main className={`${appStyles.constructor} ${"mb-10"}`}>
+                {state.isLoading && 'Загрузка...'}
+                {state.hasError && 'Обнаружена ошибка при загрузке данных...'}
+                {!state.isLoading && !state.hasError && data && data.length &&
                     <PriceContext.Provider value={{finalPrice, setFinalPrice}}>
                         <DataContext.Provider value={{
                             data,
@@ -143,10 +146,8 @@ export const App = () => {
                             </IdsContext.Provider>
                         </DataContext.Provider>
                     </PriceContext.Provider>
-                        
-                    }
-                </div>
+                }
             </main>
         </>
     );
-}
+};

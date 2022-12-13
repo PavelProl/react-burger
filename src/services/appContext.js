@@ -14,4 +14,3 @@ export const IdsContext = React.createContext(initialIdsState);
 export const DataContext = React.createContext(initialDataState);
 export const PriceContext = React.createContext();
 export const BunsContext = React.createContext();
-export const OrderContext = React.createContext();

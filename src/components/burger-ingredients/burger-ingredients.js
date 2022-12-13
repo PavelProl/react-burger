@@ -13,7 +13,7 @@ export const BurgerIngredients = (props) => {
     const { data } = useContext(DataContext);
     const { setSelectedIds } = useContext(IdsContext);
     const { selectedIngredients, setSelectedIngredients } = useContext(DataContext);
-    const { finalPrice, setFinalPrice } = useContext(PriceContext);
+    const { setFinalPrice } = useContext(PriceContext);
 
     const ingredientsNames = [
         "Булки", "Соусы", "Начинки"
@@ -44,10 +44,6 @@ export const BurgerIngredients = (props) => {
         },
         [selectedIngredients, setFinalPrice]
     );
-
-    // временный лог
-    // console.log("selectedIngredients from ingredients", selectedIngredients);
-    // console.log("finalPrice from ingredients", finalPrice);
 
     return (
         <section className={ingredientsStyles.ingredients}>

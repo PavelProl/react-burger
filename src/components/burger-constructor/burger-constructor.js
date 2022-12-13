@@ -13,10 +13,6 @@ export const BurgerConstructor = (props) => {
     const { finalPrice } = useContext(PriceContext);
     const { buns } = useContext(BunsContext);
 
-    // временные логи
-    // console.log("selectedIds from constructor", selectedIds);
-    // console.log("buns from constructor", buns);
-
     return (
         <section className={constructorStyles.constructor}>
             <div className={`${constructorStyles.constructor_container} ${"mb-10"}`}>

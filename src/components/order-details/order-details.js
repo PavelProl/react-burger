@@ -1,16 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 import orderDetailsStyles from "./order-details.module.css";
 import Img from "../../images/done.png";
-import { OrderContext } from "../../services/appContext";
 
-export const OrderDetails = () => {
+import PropTypes from "prop-types";
 
-    const orderNumber = useContext(OrderContext);
-    // console.log("orderNumber from order", orderNumber);
-
+export const OrderDetails = (props) => {
     return (
         <div className={`${orderDetailsStyles.orderDetails_content} ${"pt-4 mb-30"}`}>
-            <p className="text text_type_digits-large mb-8">{orderNumber}</p>
+            <p className="text text_type_digits-large mb-8">{props.orderNumber}</p>
             <p className="text text_type_main-medium mb-15">
                 идентификатор заказа
             </p>
@@ -23,5 +20,8 @@ export const OrderDetails = () => {
             </p>
         </div>
     );
-}
+};
 
+OrderDetails.propTypes = {
+    orderNumber: PropTypes.number
+};
