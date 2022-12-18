@@ -43,7 +43,7 @@ export const Modal = (props) => {
             </div>
 
             {/* ОВЕРЛЭЙ */}
-            <ModalOverlay closeModal={closeModal}></ModalOverlay>
+            <ModalOverlay closeModal={closeModal} />
         </>, modalRoot
     );
 }
