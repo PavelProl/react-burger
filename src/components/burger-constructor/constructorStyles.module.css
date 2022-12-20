@@ -15,7 +15,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    /* height: 400px; */
+    max-height: 465px;
 }
 
 .scroll_container::-webkit-scrollbar {

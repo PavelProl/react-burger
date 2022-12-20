@@ -1,15 +1,16 @@
 import React, { useContext } from "react";
 import constructorStyles from "./constructorStyles.module.css";
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { IdsContext, DataContext, PriceContext, BunsContext } from "../../services/appContext";
+import { IdsContext, PriceContext, BunsContext } from "../../services/appContext";
 
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 export const BurgerConstructor = (props) => {
 
     // получаю массив выбранных ids и данные из контекста 
     const { selectedIds } = useContext(IdsContext);
-    const { data } = useContext(DataContext);
+    const data = useSelector(store => store.ingredients.ingredients);
     const { finalPrice } = useContext(PriceContext);
     const { buns } = useContext(BunsContext);
 
@@ -41,7 +42,7 @@ export const BurgerConstructor = (props) => {
                         if (ingredient.type !== "bun") {
                         // рендерим найденный ингредиент между БУЛОК
                             return (
-                                <div key={index} className={constructorStyles.constructorElement_box}>
+                                <div key={index} className={`${constructorStyles.constructorElement_box} ${"mr-1"}`}>
                                     <div className={`${constructorStyles.cursor} ${"mr-2"}`}>
                                         <DragIcon type="primary" />
                                     </div>

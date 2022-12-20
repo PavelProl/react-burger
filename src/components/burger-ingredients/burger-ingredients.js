@@ -1,18 +1,28 @@
 import React, { useEffect, useContext } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import ingredientsStyles from "./burger-ingredients.module.css";
 import IngredientsTab from "../ingredients-tab/ingredients-tab";
 import { Ingredient } from "../burger-ingredient/burger-ingredient";
 
 import PropTypes from "prop-types";
 
-import { DataContext, IdsContext, PriceContext } from "../../services/appContext";
+import { PriceContext } from "../../services/appContext";
+
+import { ADD_INGREDIENT } from "../../services/actions/constructor";
+import { OPEN_INGREDIENT } from "../../services/actions/currentIngredient";
 
 export const BurgerIngredients = (props) => {
+    const dispatch = useDispatch();
 
-    // получаю данные и функцию добавления ids в массив выбранных ids
-    const { data } = useContext(DataContext);
-    const { setSelectedIds } = useContext(IdsContext);
-    const { selectedIngredients, setSelectedIngredients } = useContext(DataContext);
+    // получаю ингредиенты и выбранные в конструктор ингредиенты
+    const data = useSelector(store => store.ingredients.ingredients);
+    const selectedIngredients = useSelector(store => store.burgerConstructor.selectedIngredients);
+    const selectedIds = useSelector(store => store.burgerConstructor.selectedIds);
+    console.log("selectedIngredients", selectedIngredients);
+    console.log("selectedIds", selectedIds);
+
+    // const { setSelectedIds } = useContext(IdsContext);
+    // const { selectedIngredients, setSelectedIngredients } = useContext(DataContext);
     const { setFinalPrice } = useContext(PriceContext);
 
     const ingredientsNames = [
@@ -25,13 +35,19 @@ export const BurgerIngredients = (props) => {
         "Соусы": "sauce"
     };
         
-    // добавляю id в массив selectedIds
-    // и ингредиент в массив selectedIngredients
+    // добавляю id в selectedIds
+    // и ингредиент в selectedIngredients
     const onIdsClick = (id) => {
-        setSelectedIds((selectedIds) => [...selectedIds, id]);
-        setSelectedIngredients((selectedIngredients) => {
-            const ingredient = data.find(item => item._id === id);
-            return [...selectedIngredients, ingredient];
+        const ingredient = data.find(item => item._id === id);
+        dispatch({
+            type: ADD_INGREDIENT,
+            selectedIngredient: ingredient,
+            selectedIds: id
+        });
+        dispatch({
+            type: OPEN_INGREDIENT,
+            currentIngredient: ingredient,
+            ingredientModalVisible: true
         });
     };
 

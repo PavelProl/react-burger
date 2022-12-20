@@ -6,15 +6,38 @@ import modalStyles from "./modal.module.css";
 
 import PropTypes from "prop-types";
 
+import { CLOSE_INGREDIENT } from "../../services/actions/currentIngredient";
+import { CLOSE_ORDER } from "../../services/actions/order";
+import { useDispatch, useSelector } from "react-redux";
+
 const modalRoot = document.getElementById("react-modals");
 
 export const Modal = (props) => {
-    const {children, closeModal} = props;
+    const ingredientModalVisible = useSelector(store => store.currentIngredient.ingredientModalVisible);
+    const orderModalVisible = useSelector(store => store.order.orderModalVisible);
+
+    const {children} = props;
+    const dispatch = useDispatch();
+
+    const closeModal = () => {
+        if (ingredientModalVisible) {
+            dispatch({
+                type: CLOSE_INGREDIENT,
+            })
+        }
+        if (orderModalVisible) {
+            dispatch({
+                type: CLOSE_ORDER,
+            })
+        }
+    };
 
     React.useEffect(() => {
         function closeByEscape(evt) {
             if(evt.key === 'Escape') {
-                closeModal();
+                dispatch({
+                    type: CLOSE_INGREDIENT
+                });
             }
         }
         document.addEventListener('keydown', closeByEscape);
@@ -35,7 +58,7 @@ export const Modal = (props) => {
                     </div>
                     <button
                         className={modalStyles.button}
-                        onClick={props.closeModal}>
+                        onClick={closeModal}>
                             <CloseIcon type="primary" />
                     </button>
                 </div>

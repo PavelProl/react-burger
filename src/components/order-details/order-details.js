@@ -5,6 +5,8 @@ import Img from "../../images/done.png";
 import PropTypes from "prop-types";
 
 export const OrderDetails = (props) => {
+    // const dispatch = useDispatch();
+
     return (
         <div className={`${orderDetailsStyles.orderDetails_content} ${"pt-4 mb-30"}`}>
             <p className="text text_type_digits-large mb-8">{props.orderNumber}</p>
