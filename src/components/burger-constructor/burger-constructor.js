@@ -1,18 +1,37 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import constructorStyles from "./constructorStyles.module.css";
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { IdsContext, PriceContext, BunsContext } from "../../services/appContext";
 
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { CALCULATE_PRICE, OPEN_ORDER } from "../../services/actions/order";
 
-export const BurgerConstructor = (props) => {
-
-    // получаю массив выбранных ids и данные из контекста 
-    const { selectedIds } = useContext(IdsContext);
+export const BurgerConstructor = () => {
+    const dispatch = useDispatch();
     const data = useSelector(store => store.ingredients.ingredients);
-    const { finalPrice } = useContext(PriceContext);
-    const { buns } = useContext(BunsContext);
+    const selectedIds = useSelector(store => store.burgerConstructor.selectedIds);
+    const buns = useSelector(store => store.burgerConstructor.buns);
+
+    const selectedIngredients = useSelector(store => store.burgerConstructor.selectedIngredients);
+    const finalPrice = useSelector(store => store.order.finalPrice);
+
+    const handleOpenOrderModal = () => {
+        dispatch({
+            type: OPEN_ORDER
+        });
+    };
+
+    useEffect(
+        () => {
+          let total = 0;
+          selectedIngredients.map(item => (total += item["price"]));
+          dispatch({
+            type: CALCULATE_PRICE,
+            finalPrice: total
+          });
+        },
+        [selectedIngredients]
+    );
 
     return (
         <section className={constructorStyles.constructor}>
@@ -84,10 +103,12 @@ export const BurgerConstructor = (props) => {
                         <CurrencyIcon type="primary" />
                     </div>
                 </div>
-                <Button htmlType="button" type="primary" size="large" onClick={() => {
-                    props.onClick();
-                }}>
-                    Оформить заказ
+                <Button
+                    htmlType="button"
+                    type="primary"
+                    size="large"
+                    onClick={() => handleOpenOrderModal()}>
+                        Оформить заказ
                 </Button>
             </div>
             

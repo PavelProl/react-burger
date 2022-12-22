@@ -1,15 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import orderDetailsStyles from "./order-details.module.css";
 import Img from "../../images/done.png";
 
 import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
+import { getOrderNumber } from "../../services/actions/order";
 
-export const OrderDetails = (props) => {
-    // const dispatch = useDispatch();
+export const OrderDetails = () => {
+    const selectedIngredients = useSelector(store => store.burgerConstructor.selectedIngredients);
+    const orderNumber = useSelector(store => store.order.orderNumber);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getOrderNumber(selectedIngredients));
+    }, [dispatch]);
 
     return (
         <div className={`${orderDetailsStyles.orderDetails_content} ${"pt-4 mb-30"}`}>
-            <p className="text text_type_digits-large mb-8">{props.orderNumber}</p>
+            <p className="text text_type_digits-large mb-8">{orderNumber}</p>
             <p className="text text_type_main-medium mb-15">
                 идентификатор заказа
             </p>

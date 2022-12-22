@@ -38,6 +38,9 @@ export const Modal = (props) => {
                 dispatch({
                     type: CLOSE_INGREDIENT
                 });
+                dispatch({
+                    type: CLOSE_ORDER
+                });
             }
         }
         document.addEventListener('keydown', closeByEscape);
