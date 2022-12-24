@@ -2,9 +2,13 @@
     max-width: 600px;
 }
 
+.tabs_container {
+    display: flex;
+}
+
 .scroll_container {
     overflow-y: scroll;
-    height: 716px;
+    max-height: 716px;
 }
 
 .scroll_container::-webkit-scrollbar {
@@ -19,16 +23,6 @@
 	border: 3px solid #2F2F37;
 	border-radius: 6px;
 }
-
-.bun_list {
-    display: flex;
-    flex-wrap: wrap;
-    list-style: none;
-    row-gap: 32px;
-    column-gap: 24px;
-}
-
-
 
 .container {
     display: flex;

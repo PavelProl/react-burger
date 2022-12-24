@@ -1,32 +1,56 @@
-import React, { useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import ingredientsStyles from "./burger-ingredients.module.css";
-import IngredientsTab from "../ingredients-tab/ingredients-tab";
-import { Ingredient } from "../burger-ingredient/burger-ingredient";
-import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useInView } from "react-intersection-observer";
 
-import PropTypes from "prop-types";
+import { Ingredient } from "../burger-ingredient/burger-ingredient";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { IngredientsCategory } from "../ingredients-category/ingredients-category";
 
 import { ADD_INGREDIENT } from "../../services/actions/constructor";
 import { OPEN_INGREDIENT } from "../../services/actions/currentIngredient";
 
+import ingredientsStyles from "./burger-ingredients.module.css";
+import PropTypes from "prop-types";
+
 export const BurgerIngredients = () => {
     const dispatch = useDispatch();
-    const data = useSelector(store => store.ingredients.ingredients);
-    const burgerConstructor = useSelector(store => store.burgerConstructor);
+    const ingredients = useSelector(store => store.ingredients.ingredients);
+    const [currentTab, setCurrentTab] = useState("buns");
 
-    const ingredientsNames = [
-        "Булки", "Соусы", "Начинки"
-    ];
+    const [bunsRef, inViewBuns] = useInView({
+        threshold: 0
+    });
+    const [mainsRef, inViewFilling] = useInView({
+        threshold: 0
+    });
+    const [saucesRef, inViewSauces] = useInView({
+        threshold: 0
+    });
 
-    const ingredientTypes = {
-        "Булки": "bun",
-        "Начинки": "main",
-        "Соусы": "sauce"
+    useEffect(() => {
+        if (inViewBuns) {
+            setCurrentTab("buns")
+        } else if (inViewSauces) {
+            setCurrentTab("sauces")
+        } else if (inViewFilling) {
+            setCurrentTab("mains")
+        }
+    }, [inViewBuns, inViewFilling, inViewSauces]);
+
+    // плавная прокрутка до контейнера с ингредиентами
+    // по клику на заголовок меню
+    const onTabClick = (tab) => {
+        setCurrentTab(tab);
+        const element = document.getElementById(tab);
+        console.log("element", element)
+        if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+        }
     };
-        
+    
+    // открытие модального окна ингредиента
     const onIngredientClick = (id) => {
-        const ingredient = data.find(item => item._id === id);
+        const ingredient = ingredients.find(item => item._id === id);
             dispatch({
                 type: ADD_INGREDIENT,
                 payload: {
@@ -42,64 +66,58 @@ export const BurgerIngredients = () => {
             });
     };
 
-    const ingredientCounter = useMemo(() => {
-        const { bun, selectedIngredients } = burgerConstructor;
-        const counters = {};
-        if (selectedIngredients) {
-            selectedIngredients.forEach((ingredient) => {
-                if (!counters[ingredient._id]) {
-                    counters[ingredient._id] = 0
-                }
-                counters[ingredient._id]++
-            });
-        }
-        if (bun) {
-            counters[bun._id] = 2
-        };
-        return counters;
-    }, [burgerConstructor]);
+    const buns = useMemo(() => {
+        return ingredients.filter(ingredient => ingredient.type === "bun")
+    }, [ingredients]);
+
+    const mains = useMemo(() => {
+        return ingredients.filter(ingredient => ingredient.type === "main")
+    }, [ingredients]);
+
+    const sauces = useMemo(() => {
+        return ingredients.filter(ingredient => ingredient.type === "sauce")
+    }, [ingredients]);
 
     return (
         <section className={ingredientsStyles.ingredients}>
-
             <h1 className="text text_type_main-large mb-5">
                 Соберите бургер
             </h1>
-            <IngredientsTab names={ingredientsNames} />
+            <ul className={`${ingredientsStyles.tabs_container} ${"mb-10"}`}>
+                <Tab id="buns" value="buns" active={currentTab === 'buns'} onClick={onTabClick}>
+                    Булки
+                </Tab>
+                <Tab id="mains" value="mains" active={currentTab === 'mains'} onClick={onTabClick}>
+                    Начинки
+                </Tab>
+                <Tab id= "sauces" value="sauces" active={currentTab === 'sauces'} onClick={onTabClick}>
+                    Соусы
+                </Tab>
+            </ul>
 
             {/* СКРОЛЛ-КОНТЭЙНЕР */}
             <div className={ingredientsStyles.scroll_container}>
-
-                {/* ИНГРЕДИЕНТЫ */}
-                {ingredientsNames.map(ingredient => {
-
-                    // получаю отфильтрованный ингредиент по названию (булки, начинки, соусы)
-                    const filtered = data.filter(item => {
-                        return item.type === ingredientTypes[ingredient]
-                    });
-                    
-                    return (
-                        <div key={ingredient} className="mb-10">
-                            <h2 className="text text_type_main-medium mb-6">
-                                {ingredient}
-                            </h2>
-                            <ul className={`${ingredientsStyles.bun_list} ${"ml-4 mr-2"}`}>
-                                {filtered.map(item => {
-                                    return (
-                                        <Ingredient
-                                            key={item._id}
-                                            type={item.type}
-                                            image={item.image}
-                                            price={item.price}
-                                            name={item.name}
-                                            count={ingredientCounter[item._id]}
-                                            onClick={() => onIngredientClick(item._id)}
-                                        />
-                                    )})}
-                            </ul>
-                        </div>
-                    )
-                })}
+                <IngredientsCategory
+                    id="buns"
+                    title="Булки"
+                    ingredients={buns}
+                    onIngredientClick={onIngredientClick}
+                    ref={bunsRef}
+                />
+                <IngredientsCategory
+                    id="mains"
+                    title="Начинки"
+                    ingredients={mains}
+                    onIngredientClick={onIngredientClick}
+                    ref={mainsRef}
+                />
+                <IngredientsCategory
+                    id="sauces"
+                    title="Соусы"
+                    ingredients={sauces}
+                    onIngredientClick={onIngredientClick}
+                    ref={saucesRef}
+                />
             </div>
         </section>
     );

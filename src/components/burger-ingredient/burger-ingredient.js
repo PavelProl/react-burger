@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 export const Ingredient = (props) => {
     const { count } = props;
     return (
-        <li onClick={props.onClick} className={ingredientStyles.list_item}>
+        <li onClick={props.onIngredientClick} className={ingredientStyles.list_item}>
             
             {count && <Counter count={count} size="default" extraClass="m-1" />}
             <button className={ingredientStyles.ingredient_button}>
