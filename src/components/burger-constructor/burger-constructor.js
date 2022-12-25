@@ -1,72 +1,87 @@
-import React, { useContext } from "react";
+import React, { useMemo } from "react";
 import constructorStyles from "./constructorStyles.module.css";
-import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { IdsContext, DataContext, PriceContext, BunsContext } from "../../services/appContext";
+import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { BurgerConstructorElement } from "../burger-constructor-element/burger-constructor-element";
 
 import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
+import { OPEN_ORDER } from "../../services/actions/order";
+import { ADD_INGREDIENT } from "../../services/actions/constructor";
 
-export const BurgerConstructor = (props) => {
+export const BurgerConstructor = () => {
+    const dispatch = useDispatch();
+    const bun = useSelector(store => store.burgerConstructor.bun);
+    const selectedIngredients = useSelector(store => store.burgerConstructor.selectedIngredients);
+    const ingredients = useSelector(store => store.ingredients.ingredients);
+    console.log("bun", bun);
+    console.log("selectedIngredients", selectedIngredients);
 
-    // получаю массив выбранных ids и данные из контекста 
-    const { selectedIds } = useContext(IdsContext);
-    const { data } = useContext(DataContext);
-    const { finalPrice } = useContext(PriceContext);
-    const { buns } = useContext(BunsContext);
+    const handleDrop = (id) => {
+        const ingredient = ingredients.find(item => item._id === id);
+        dispatch({
+            type: ADD_INGREDIENT,
+            payload: {
+                type: ingredient.type,
+                bun: ingredient,
+                selectedIngredients: ingredient
+            }
+        });
+    };
+
+    const handleOpenOrderModal = () => {
+        dispatch({
+            type: OPEN_ORDER
+        });
+    };
+
+    const finalPrice = useMemo(() => {
+        return (
+            (bun ? bun.price * 2 : 0) +
+            (selectedIngredients.reduce((acc, item) => acc + item.price, 0))
+        );
+    }, [selectedIngredients, bun]);
 
     return (
         <section className={constructorStyles.constructor}>
             <div className={`${constructorStyles.constructor_container} ${"mb-10"}`}>
 
                 {/* ВЕРХНЯЯ БУЛКА */}
-                {!!buns.length && (
+                {bun && (
                     <div className={`${constructorStyles.constructorElement_box} ${"ml-8"}`}>
                         <ConstructorElement
                             isLocked={true}
-                            text={`${buns[0].name}` + 'верх'}
-                            price={buns[0].price}
+                            text={`${bun.name}` + 'верх'}
+                            price={bun.price}
                             type="top"
-                            thumbnail={buns[0].image}
+                            thumbnail={bun.image}
                         />
                     </div>
                 )}
 
 
                 {/* СКРОЛЛ-КОНТЕЙНЕР ИНГРЕДИЕНТОВ */}
-                <div className={constructorStyles.scroll_container}>
-                    {selectedIds.map((id, index) => {
-
-                        // находим ингредиент по id
-                        const ingredient = data.find(item => item._id === id);
-
-                        if (ingredient.type !== "bun") {
-                        // рендерим найденный ингредиент между БУЛОК
-                            return (
-                                <div key={index} className={constructorStyles.constructorElement_box}>
-                                    <div className={`${constructorStyles.cursor} ${"mr-2"}`}>
-                                        <DragIcon type="primary" />
-                                    </div>
-                                    <ConstructorElement
-                                        key={id}
-                                        text={ingredient.name}
-                                        price={ingredient.price}
-                                        type={ingredient.type}
-                                        thumbnail={ingredient.image}
-                                    />
-                                </div>
-                            );
-                        }
+                <ul className={constructorStyles.scroll_container}>
+                    {selectedIngredients.map((ingredient, index) => {
+                        return (
+                            <BurgerConstructorElement
+                                ingredient={ingredient}
+                                index={index}
+                                key={ingredient.id}
+                                onDropHandler={handleDrop}
+                            />
+                        );
                     })}
-                </div>
+                </ul>
 
                 {/* НИЖНЯЯ БУЛКА */}
-                {!!buns.length && (
+                {bun && (
                     <div className={`${constructorStyles.constructorElement_box} ${"ml-8"}`}>
                         <ConstructorElement
                             isLocked={true}
-                            text={`${buns[0].name}` + 'низ'}
-                            price={buns[0].price}
+                            text={`${bun.name}` + 'низ'}
+                            price={bun.price}
                             type="bottom"
-                            thumbnail={buns[0].image}
+                            thumbnail={bun.image}
                         />
                     </div>
                 )}
@@ -83,10 +98,12 @@ export const BurgerConstructor = (props) => {
                         <CurrencyIcon type="primary" />
                     </div>
                 </div>
-                <Button htmlType="button" type="primary" size="large" onClick={() => {
-                    props.onClick();
-                }}>
-                    Оформить заказ
+                <Button
+                    htmlType="button"
+                    type="primary"
+                    size="large"
+                    onClick={() => handleOpenOrderModal()}>
+                        Оформить заказ
                 </Button>
             </div>
             

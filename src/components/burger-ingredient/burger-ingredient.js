@@ -1,15 +1,23 @@
 import React from "react";
 import ingredientStyles from "./burger-ingredient.module.css";
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
-
+import { useDrag } from "react-dnd";
 import PropTypes from "prop-types";
 
 export const Ingredient = (props) => {
+    const { count, id } = props;
+    const [, dragRef] = useDrag({
+        type: "ingredient",
+        item: {id}
+    });
+    
     return (
-        <li onClick={props.onClick} className={ingredientStyles.list_item}>
-            
-            {/* временное решение с условным рендером */}
-            {props.checked && <Counter count={1} size="default" extraClass="m-1" />}
+        <li
+            className={ingredientStyles.list_item}
+            onClick={props.onIngredientClick}
+            ref={dragRef}
+        >
+            {count && <Counter count={count} size="default" extraClass="m-1" />}
             <button className={ingredientStyles.ingredient_button}>
                 <img src={props.image} alt={props.name} />
             </button>

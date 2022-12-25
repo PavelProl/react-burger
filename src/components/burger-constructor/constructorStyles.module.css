@@ -15,7 +15,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    /* height: 400px; */
+    max-height: 465px;
 }
 
 .scroll_container::-webkit-scrollbar {
@@ -31,14 +31,14 @@
 	border-radius: 6px;
 }
 
-.constructorElement_box {
+/* .constructorElement_box {
     display: flex;
     align-items: center;
 }
 
 .cursor {
     cursor: pointer;
-}
+} */
 
 .summary {
     display: flex;
