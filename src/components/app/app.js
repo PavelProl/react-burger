@@ -10,7 +10,9 @@ import { IngredientDetails } from "../ingredient-details/ingredient-details";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/ingredients";
-import { OPEN_ORDER } from "../../services/actions/order";
+
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 export const App = () => {
     const dispatch = useDispatch();
@@ -20,20 +22,6 @@ export const App = () => {
     const ingredients = useSelector(store => store.ingredients.ingredients);
     const ingredientModalVisible = useSelector(store => store.currentIngredient.ingredientModalVisible);
     const orderModalVisible = useSelector(store => store.order.orderModalVisible);
-
-    // позже удалю
-    // const closeModal = () => {
-    //     setState(prevState => {
-    //         return {...prevState, ingredientModalVisible: false, orderModalVisible: false};
-    //     })
-    // };
-
-    // открываем модальное окно
-    // const handleOpenOrderModal = () => {
-    //     dispatch({
-    //         type: OPEN_ORDER
-    //     });
-    // };
 
     // получем ингредиенты запросом к API
     useEffect(() => {
@@ -60,14 +48,16 @@ export const App = () => {
             {/* КОНТЕНТ СТРАНИЦЫ */}
             <AppHeader />
             <main className={`${appStyles.constructor} ${"mb-10"}`}>
-                {ingredientsRequest && 'Загрузка...'}
-                {ingredientsFailed && 'Обнаружена ошибка при загрузке данных...'}
-                {!ingredientsRequest && !ingredientsFailed && ingredients && ingredients.length &&
-                    <>
-                        <BurgerIngredients />
-                        <BurgerConstructor />
-                    </>
-                }
+                <DndProvider backend={HTML5Backend}>
+                    {ingredientsRequest && 'Загрузка...'}
+                    {ingredientsFailed && 'Обнаружена ошибка при загрузке данных...'}
+                    {!ingredientsRequest && !ingredientsFailed && ingredients && ingredients.length &&
+                        <>
+                            <BurgerIngredients />
+                            <BurgerConstructor />
+                        </>
+                    }
+                </DndProvider>
             </main>
         </>
     );

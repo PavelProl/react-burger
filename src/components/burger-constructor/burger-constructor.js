@@ -1,40 +1,38 @@
 import React, { useMemo } from "react";
 import constructorStyles from "./constructorStyles.module.css";
-import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { BurgerConstructorElement } from "../burger-constructor-element/burger-constructor-element";
 
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { OPEN_ORDER } from "../../services/actions/order";
+import { ADD_INGREDIENT } from "../../services/actions/constructor";
 
 export const BurgerConstructor = () => {
     const dispatch = useDispatch();
     const bun = useSelector(store => store.burgerConstructor.bun);
     const selectedIngredients = useSelector(store => store.burgerConstructor.selectedIngredients);
-    // const finalPrice = useSelector(store => store.order.finalPrice);
+    const ingredients = useSelector(store => store.ingredients.ingredients);
     console.log("bun", bun);
     console.log("selectedIngredients", selectedIngredients);
+
+    const handleDrop = (id) => {
+        const ingredient = ingredients.find(item => item._id === id);
+        dispatch({
+            type: ADD_INGREDIENT,
+            payload: {
+                type: ingredient.type,
+                bun: ingredient,
+                selectedIngredients: ingredient
+            }
+        });
+    };
 
     const handleOpenOrderModal = () => {
         dispatch({
             type: OPEN_ORDER
         });
     };
-
-    // вариант расчета с useEffect пока оставил
-    // useEffect(
-    //     () => {
-    //       let total = 0;
-    //         selectedIngredients.map(item => (total += item["price"]));
-    //         if (bun) {
-    //             total += (bun.price * 2);
-    //         }
-    //       dispatch({
-    //         type: CALCULATE_PRICE,
-    //         finalPrice: total
-    //       });
-    //     },
-    //     [selectedIngredients, bun]
-    // );
 
     const finalPrice = useMemo(() => {
         return (
@@ -62,25 +60,18 @@ export const BurgerConstructor = () => {
 
 
                 {/* СКРОЛЛ-КОНТЕЙНЕР ИНГРЕДИЕНТОВ */}
-                <div className={constructorStyles.scroll_container}>
+                <ul className={constructorStyles.scroll_container}>
                     {selectedIngredients.map((ingredient, index) => {
-                            return (
-                                <div key={index} className={`${constructorStyles.constructorElement_box} ${"mr-1"}`}>
-                                    <div className={`${constructorStyles.cursor} ${"mr-2"}`}>
-                                        <DragIcon type="primary" />
-                                    </div>
-                                    <ConstructorElement
-                                        key={ingredient._id}
-                                        text={ingredient.name}
-                                        price={ingredient.price}
-                                        type={ingredient.type}
-                                        thumbnail={ingredient.image}
-                                    />
-                                </div>
-                            );
-                        // }
+                        return (
+                            <BurgerConstructorElement
+                                ingredient={ingredient}
+                                index={index}
+                                key={ingredient.id}
+                                onDropHandler={handleDrop}
+                            />
+                        );
                     })}
-                </div>
+                </ul>
 
                 {/* НИЖНЯЯ БУЛКА */}
                 {bun && (

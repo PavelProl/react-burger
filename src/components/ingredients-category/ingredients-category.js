@@ -1,4 +1,4 @@
-import { React, useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import ingredientsCategoryStyles from "./ingredients-category.module.css";
 import { Ingredient } from "../burger-ingredient/burger-ingredient";
@@ -36,10 +36,11 @@ export const IngredientsCategory = forwardRef(({
                 {title}
             </h2>
             <ul ref={ref} className={`${ingredientsCategoryStyles.bun_list} ${"ml-4 mr-2"}`}>
-                {ingredients.map(item => {
+                {ingredients.map((item, index) => {
                     return (
                         <Ingredient
                             key={item._id}
+                            id={index}
                             type={item.type}
                             image={item.image}
                             price={item.price}

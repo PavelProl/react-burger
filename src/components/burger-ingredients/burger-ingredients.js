@@ -2,6 +2,8 @@ import React, { useState, useMemo, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useInView } from "react-intersection-observer";
 
+import { v4 as uuid } from "uuid";
+
 import { Ingredient } from "../burger-ingredient/burger-ingredient";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IngredientsCategory } from "../ingredients-category/ingredients-category";
@@ -51,6 +53,8 @@ export const BurgerIngredients = () => {
     // открытие модального окна ингредиента
     const onIngredientClick = (id) => {
         const ingredient = ingredients.find(item => item._id === id);
+        ingredient.id = uuid();
+        console.log("ingredient", ingredient);
             dispatch({
                 type: ADD_INGREDIENT,
                 payload: {

@@ -1,4 +1,4 @@
-import { ADD_INGREDIENT } from "../actions/constructor";
+import { ADD_INGREDIENT, DELETE_INGREDIENT } from "../actions/constructor";
 import { CLEAR_CONSTRUCTOR } from "../actions/order";
 
 const initialState = {
@@ -24,6 +24,15 @@ export const constructorReducer = (state = initialState, action) => {
                 ...state,
                 selectedIngredients: initialState.selectedIngredients,
                 bun: initialState.bun
+            }
+        }
+        case DELETE_INGREDIENT: {
+            const filteredSelectedIngredients = state.selectedIngredients.filter(item => {
+                return item._id !== action.payload
+            });
+            return {
+                ...state,
+                selectedIngredients: [...filteredSelectedIngredients]
             }
         }
         default: return state

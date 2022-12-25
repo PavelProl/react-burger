@@ -1,0 +1,8 @@
+.constructorElement_box {
+    display: flex;
+    align-items: center;
+}
+
+.cursor {
+    cursor: pointer;
+}

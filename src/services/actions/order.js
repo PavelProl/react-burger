@@ -29,12 +29,7 @@ export const getOrderNumber = (selectedIngredients) => {
             });
             dispatch({
                 type: CLEAR_CONSTRUCTOR
-            })
-
-            // очищаем конструктор для нового заказа
-            // setSelectedIngredients([]);
-            // setSelectedIds([]);
-            // setBuns([]);
+            });
         })
         .catch(e => {
             console.log("error from catch", e);
