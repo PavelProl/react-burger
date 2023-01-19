@@ -8,7 +8,7 @@ import { Ingredient } from "../burger-ingredient/burger-ingredient";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IngredientsCategory } from "../ingredients-category/ingredients-category";
 
-import { ADD_INGREDIENT } from "../../services/actions/constructor";
+import { ADD_INGREDIENT, addIngredientToConstructor } from "../../services/actions/constructor";
 import { OPEN_INGREDIENT } from "../../services/actions/currentIngredient";
 
 import ingredientsStyles from "./burger-ingredients.module.css";
@@ -17,6 +17,7 @@ import PropTypes from "prop-types";
 export const BurgerIngredients = () => {
     const dispatch = useDispatch();
     const ingredients = useSelector(store => store.ingredients.ingredients);
+    console.log("ingredients from burger-ingredients", ingredients);
     const [currentTab, setCurrentTab] = useState("buns");
 
     const [bunsRef, inViewBuns] = useInView({
@@ -44,7 +45,6 @@ export const BurgerIngredients = () => {
     const onTabClick = (tab) => {
         setCurrentTab(tab);
         const element = document.getElementById(tab);
-        console.log("element", element)
         if (element) {
             element.scrollIntoView({ behavior: "smooth" });
         }
@@ -53,21 +53,12 @@ export const BurgerIngredients = () => {
     // открытие модального окна ингредиента
     const onIngredientClick = (id) => {
         const ingredient = ingredients.find(item => item._id === id);
-        ingredient.id = uuid();
-        console.log("ingredient", ingredient);
-            dispatch({
-                type: ADD_INGREDIENT,
-                payload: {
-                    type: ingredient.type,
-                    bun: ingredient,
-                    selectedIngredients: ingredient
-                }
-            });
-            dispatch({
-                type: OPEN_INGREDIENT,
-                currentIngredient: ingredient,
-                ingredientModalVisible: true
-            });
+        dispatch(addIngredientToConstructor(ingredient));
+        // dispatch({
+        //     type: OPEN_INGREDIENT,
+        //     currentIngredient: ingredient,
+        //     ingredientModalVisible: true
+        // });
     };
 
     const buns = useMemo(() => {

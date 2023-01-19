@@ -39,8 +39,9 @@ export const IngredientsCategory = forwardRef(({
                 {ingredients.map((item, index) => {
                     return (
                         <Ingredient
+                            item={item}
                             key={item._id}
-                            id={index}
+                            id={item._id}
                             type={item.type}
                             image={item.image}
                             price={item.price}

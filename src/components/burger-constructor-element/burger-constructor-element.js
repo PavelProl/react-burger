@@ -6,12 +6,12 @@ import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burg
 
 export const BurgerConstructorElement = ({ onDropHandler, ingredient, index }) => {
     const dispatch = useDispatch();
-    const [, dropTarget] = useDrop({
-        accept: "ingredient",
-        drop(ingredientId) {
-            onDropHandler(ingredientId);
-        }
-    });
+    // const [, dropTarget] = useDrop({
+    //     accept: "ingredient",
+    //     drop(ingredientId) {
+    //         onDropHandler(ingredientId);
+    //     }
+    // });
 
     return (
         <li className={`${burgerConstructorElementStyles.constructorElement_box} ${"mr-1"}`}>
@@ -19,7 +19,7 @@ export const BurgerConstructorElement = ({ onDropHandler, ingredient, index }) =
                 <DragIcon type="primary" />
             </div>
             <ConstructorElement
-                ref={dropTarget}
+                // ref={dropTarget}
                 text={ingredient.name}
                 price={ingredient.price}
                 type={ingredient.type}
@@ -27,7 +27,7 @@ export const BurgerConstructorElement = ({ onDropHandler, ingredient, index }) =
                 handleClose={() =>
                     dispatch({
                         type: "DELETE_INGREDIENT",
-                        payload: ingredient._id
+                        payload: ingredient.id
                     })
                 }
             />

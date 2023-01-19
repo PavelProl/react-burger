@@ -12,12 +12,12 @@ export const constructorReducer = (state = initialState, action) => {
             if (action.payload.type === "bun") {
                 return {
                     ...state,
-                    bun: action.payload.bun
+                    bun: action.payload
                 }
             }
             return {
                 ...state,
-                selectedIngredients: [...state.selectedIngredients, action.payload.selectedIngredients]
+                selectedIngredients: [...state.selectedIngredients, action.payload]
             }
         case CLEAR_CONSTRUCTOR: {
             return {
@@ -28,7 +28,7 @@ export const constructorReducer = (state = initialState, action) => {
         }
         case DELETE_INGREDIENT: {
             const filteredSelectedIngredients = state.selectedIngredients.filter(item => {
-                return item._id !== action.payload
+                return item.id !== action.payload
             });
             return {
                 ...state,

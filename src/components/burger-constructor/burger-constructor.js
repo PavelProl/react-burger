@@ -6,27 +6,42 @@ import { BurgerConstructorElement } from "../burger-constructor-element/burger-c
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { OPEN_ORDER } from "../../services/actions/order";
-import { ADD_INGREDIENT } from "../../services/actions/constructor";
+import { ADD_INGREDIENT, addIngredientToConstructor } from "../../services/actions/constructor";
+import { useDrop } from "react-dnd";
 
 export const BurgerConstructor = () => {
     const dispatch = useDispatch();
     const bun = useSelector(store => store.burgerConstructor.bun);
     const selectedIngredients = useSelector(store => store.burgerConstructor.selectedIngredients);
     const ingredients = useSelector(store => store.ingredients.ingredients);
-    console.log("bun", bun);
-    console.log("selectedIngredients", selectedIngredients);
+    console.log("bun from BurgerConstructor", bun);
+    console.log("selectedIngredients from BurgerConstructor", selectedIngredients);
 
-    const handleDrop = (id) => {
-        const ingredient = ingredients.find(item => item._id === id);
-        dispatch({
-            type: ADD_INGREDIENT,
-            payload: {
-                type: ingredient.type,
-                bun: ingredient,
-                selectedIngredients: ingredient
-            }
-        });
-    };
+    const [{ isHover }, dropTarget] = useDrop({
+        accept: "ingredient",
+        drop: item => {
+            console.log("item from useDrop", item);
+            return dispatch(addIngredientToConstructor(item))
+        },
+        // collect: monitor => ({
+        //     isHover: monitor.isOver()
+        // })
+    });
+
+    // const borderColor = isHover ? 'lightgreen' : 'transparent';
+
+
+    // const handleDrop = (id) => {
+    //     const ingredient = ingredients.find(item => item._id === id);
+    //     dispatch({
+    //         type: ADD_INGREDIENT,
+    //         payload: {
+    //             type: ingredient.type,
+    //             bun: ingredient,
+    //             selectedIngredients: ingredient
+    //         }
+    //     });
+    // };
 
     const handleOpenOrderModal = () => {
         dispatch({
@@ -42,11 +57,11 @@ export const BurgerConstructor = () => {
     }, [selectedIngredients, bun]);
 
     return (
-        <section className={constructorStyles.constructor}>
+        <section ref={dropTarget} className={constructorStyles.constructor}>
             <div className={`${constructorStyles.constructor_container} ${"mb-10"}`}>
 
                 {/* ВЕРХНЯЯ БУЛКА */}
-                {bun && (
+                {bun ? (
                     <div className={`${constructorStyles.constructorElement_box} ${"ml-8"}`}>
                         <ConstructorElement
                             isLocked={true}
@@ -56,18 +71,24 @@ export const BurgerConstructor = () => {
                             thumbnail={bun.image}
                         />
                     </div>
+                ) : (
+                    <div>
+                        <h2>
+                            Выберите булки
+                        </h2>
+                    </div>
                 )}
 
 
                 {/* СКРОЛЛ-КОНТЕЙНЕР ИНГРЕДИЕНТОВ */}
                 <ul className={constructorStyles.scroll_container}>
-                    {selectedIngredients.map((ingredient, index) => {
+                    {selectedIngredients.length > 0 && selectedIngredients.map((ingredient, index) => {
                         return (
                             <BurgerConstructorElement
                                 ingredient={ingredient}
                                 index={index}
                                 key={ingredient.id}
-                                onDropHandler={handleDrop}
+                                // onDropHandler={handleDrop}
                             />
                         );
                     })}
