@@ -1,25 +1,47 @@
-import React from "react";
+import React, {useRef} from "react";
 import { useDispatch } from "react-redux";
-import { useDrop } from "react-dnd";
 import burgerConstructorElementStyles from "./burger-constructor-element.module.css";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDrop, useDrag } from "react-dnd";
+import { REORDER_INGREDIENTS } from "../../services/actions/constructor";
 
-export const BurgerConstructorElement = ({ onDropHandler, ingredient, index }) => {
+export const BurgerConstructorElement = ({ ingredient, index }) => {
     const dispatch = useDispatch();
-    // const [, dropTarget] = useDrop({
-    //     accept: "ingredient",
-    //     drop(ingredientId) {
-    //         onDropHandler(ingredientId);
-    //     }
-    // });
+    const ref = useRef(null);
+
+    const [, drop] = useDrop({
+        accept: "sort_ingredient",
+        hover(item, monitor) {
+            const dragIndex = item.index;
+            const hoverIndex = index;
+            if (hoverIndex === dragIndex) return;
+
+            dispatch({
+                type: REORDER_INGREDIENTS,
+                payload: {
+                    insertFrom: dragIndex,
+                    insertTo: hoverIndex
+                }
+            });
+            item.index = hoverIndex;
+        }
+    });
+
+    const [, drag] = useDrag({
+        type: "sort_ingredient",
+        item: () => {
+            return {ingredient, index}
+        }
+    });
+
+    drag(drop(ref));
 
     return (
-        <li className={`${burgerConstructorElementStyles.constructorElement_box} ${"mr-1"}`}>
+        <li ref={ref} className={`${burgerConstructorElementStyles.constructorElement_box} ${"mr-1"}`}>
             <div className={`${burgerConstructorElementStyles.cursor} ${"mr-2"}`}>
                 <DragIcon type="primary" />
             </div>
             <ConstructorElement
-                // ref={dropTarget}
                 text={ingredient.name}
                 price={ingredient.price}
                 type={ingredient.type}

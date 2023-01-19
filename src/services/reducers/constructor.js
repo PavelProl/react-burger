@@ -1,4 +1,4 @@
-import { ADD_INGREDIENT, DELETE_INGREDIENT } from "../actions/constructor";
+import { ADD_INGREDIENT, DELETE_INGREDIENT, REORDER_INGREDIENTS } from "../actions/constructor";
 import { CLEAR_CONSTRUCTOR } from "../actions/order";
 
 const initialState = {
@@ -18,6 +18,18 @@ export const constructorReducer = (state = initialState, action) => {
             return {
                 ...state,
                 selectedIngredients: [...state.selectedIngredients, action.payload]
+            }
+        case REORDER_INGREDIENTS:
+            const reorderedIngredients = [...state.selectedIngredients];
+            reorderedIngredients.splice(
+                action.payload.insertTo,
+                0,
+                reorderedIngredients.splice(action.payload.insertFrom, 1)[0]
+            );
+            console.log("reorderedIngredients", reorderedIngredients)
+            return {
+                ...state,
+                reorderedIngredients
             }
         case CLEAR_CONSTRUCTOR: {
             return {

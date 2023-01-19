@@ -5,9 +5,7 @@ import { useDrag } from "react-dnd";
 import PropTypes from "prop-types";
 
 export const Ingredient = (props) => {
-    const { count, id, item } = props;
-    console.log("id", id);
-    console.log("item", item);
+    const { count, item } = props;
     const [, dragRef] = useDrag({
         type: "ingredient",
         item: () => item

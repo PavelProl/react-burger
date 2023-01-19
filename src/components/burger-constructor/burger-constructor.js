@@ -6,7 +6,7 @@ import { BurgerConstructorElement } from "../burger-constructor-element/burger-c
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { OPEN_ORDER } from "../../services/actions/order";
-import { ADD_INGREDIENT, addIngredientToConstructor } from "../../services/actions/constructor";
+import { addIngredientToConstructor } from "../../services/actions/constructor";
 import { useDrop } from "react-dnd";
 
 export const BurgerConstructor = () => {
@@ -17,31 +17,14 @@ export const BurgerConstructor = () => {
     console.log("bun from BurgerConstructor", bun);
     console.log("selectedIngredients from BurgerConstructor", selectedIngredients);
 
-    const [{ isHover }, dropTarget] = useDrop({
+    const [, dropTarget] = useDrop({
         accept: "ingredient",
         drop: item => {
-            console.log("item from useDrop", item);
             return dispatch(addIngredientToConstructor(item))
-        },
-        // collect: monitor => ({
-        //     isHover: monitor.isOver()
-        // })
+        }
     });
 
-    // const borderColor = isHover ? 'lightgreen' : 'transparent';
-
-
-    // const handleDrop = (id) => {
-    //     const ingredient = ingredients.find(item => item._id === id);
-    //     dispatch({
-    //         type: ADD_INGREDIENT,
-    //         payload: {
-    //             type: ingredient.type,
-    //             bun: ingredient,
-    //             selectedIngredients: ingredient
-    //         }
-    //     });
-    // };
+    // const borderColor = isHover ? 'blue' : 'transparent';
 
     const handleOpenOrderModal = () => {
         dispatch({
