@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import ReactDOM from "react-dom";
 import modalStyles from "./modal.module.css";
 import PropTypes from "prop-types";
@@ -10,6 +11,19 @@ const modalRoot = document.getElementById("react-modals");
 
 export const Modal = (props) => {
     const {children, closeModal} = props;
+
+    React.useEffect(() => {
+        function closeByEscape(evt) {
+            if(evt.key === 'Escape') {
+                closeModal();
+            }
+        }
+        document.addEventListener('keydown', closeByEscape);
+    
+        return () => {
+            document.removeEventListener('keydown', closeByEscape);
+        }
+    }, []);
 
     return ReactDOM.createPortal(
         <>

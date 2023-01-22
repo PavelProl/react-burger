@@ -38,20 +38,6 @@ export const App = () => {
         }
     };
 
-    React.useEffect(() => {
-        function closeByEscape(evt) {
-            if(evt.key === 'Escape') {
-                dispatch(closeIngredient())
-                dispatch(closeOrder())
-            }
-        }
-        document.addEventListener('keydown', closeByEscape);
-    
-        return () => {
-            document.removeEventListener('keydown', closeByEscape);
-        }
-    }, []);
-
     return (
         <>
         
