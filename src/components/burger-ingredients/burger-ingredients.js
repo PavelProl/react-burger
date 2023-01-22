@@ -1,18 +1,12 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useInView } from "react-intersection-observer";
+import { OPEN_INGREDIENT } from "../../services/actions/currentIngredient";
+import { openIngredient } from "../../services/actions/currentIngredient";
+import ingredientsStyles from "./burger-ingredients.module.css";
 
-import { v4 as uuid } from "uuid";
-
-import { Ingredient } from "../burger-ingredient/burger-ingredient";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IngredientsCategory } from "../ingredients-category/ingredients-category";
-
-import { ADD_INGREDIENT, addIngredientToConstructor } from "../../services/actions/constructor";
-import { OPEN_INGREDIENT } from "../../services/actions/currentIngredient";
-
-import ingredientsStyles from "./burger-ingredients.module.css";
-import PropTypes from "prop-types";
 
 export const BurgerIngredients = () => {
     const dispatch = useDispatch();
@@ -54,11 +48,12 @@ export const BurgerIngredients = () => {
     const onIngredientClick = (id) => {
         const ingredient = ingredients.find(item => item._id === id);
         // dispatch(addIngredientToConstructor(ingredient));
-        dispatch({
-            type: OPEN_INGREDIENT,
-            currentIngredient: ingredient,
-            ingredientModalVisible: true
-        });
+        // dispatch({
+        //     type: OPEN_INGREDIENT,
+        //     currentIngredient: ingredient,
+        //     ingredientModalVisible: true
+        // });
+        dispatch(openIngredient(ingredient));
     };
 
     const buns = useMemo(() => {
@@ -118,6 +113,6 @@ export const BurgerIngredients = () => {
     );
 }
 
-Ingredient.propTypes = {
-    onClick: PropTypes.func
-};
+// Ingredient.propTypes = {
+//     onClick: PropTypes.func
+// };

@@ -39,3 +39,16 @@ export const getOrderNumber = (selectedIngredients) => {
         })
     }
 };
+
+export function closeOrder() {
+    return {
+        type: CLOSE_ORDER
+    }
+};
+
+export function openOrder() {
+    return {
+        type: OPEN_ORDER
+    }
+};
+

@@ -19,20 +19,18 @@ export const Ingredient = (props) => {
         >
             {count && <Counter count={count} size="default" extraClass="m-1" />}
             <button className={ingredientStyles.ingredient_button}>
-                <img src={props.image} alt={props.name} />
+                <img src={item.image} alt={item.name} />
             </button>
             <div className={`${ingredientStyles.price} ${"pt-1 pb-1"}`}>
-                <p className="text text_type_digits-default mr-2">{props.price}</p>
+                <p className="text text_type_digits-default mr-2">{item.price}</p>
                 <CurrencyIcon type="primary" />
             </div>
-            <p className="text text_type_main-default pb-8">{props.name}</p>
+            <p className="text text_type_main-default pb-8">{item.name}</p>
         </li>
     );
 }
 
 Ingredient.propTypes = {
-    checked: PropTypes.bool.isRequired,
-    image: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired
+    count: PropTypes.number,
+    item: PropTypes.object.isRequired
 };

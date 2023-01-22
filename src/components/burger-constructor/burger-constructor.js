@@ -1,19 +1,17 @@
 import React, { useMemo } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useDrop } from "react-dnd";
+import { addIngredientToConstructor } from "../../services/actions/constructor";
+import { openOrder } from "../../services/actions/order";
 import constructorStyles from "./constructorStyles.module.css";
+
 import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerConstructorElement } from "../burger-constructor-element/burger-constructor-element";
-
-import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
-import { OPEN_ORDER } from "../../services/actions/order";
-import { addIngredientToConstructor } from "../../services/actions/constructor";
-import { useDrop } from "react-dnd";
 
 export const BurgerConstructor = () => {
     const dispatch = useDispatch();
     const bun = useSelector(store => store.burgerConstructor.bun);
     const selectedIngredients = useSelector(store => store.burgerConstructor.selectedIngredients);
-    const ingredients = useSelector(store => store.ingredients.ingredients);
     console.log("bun from BurgerConstructor", bun);
     console.log("selectedIngredients from BurgerConstructor", selectedIngredients);
 
@@ -24,12 +22,11 @@ export const BurgerConstructor = () => {
         }
     });
 
-    // const borderColor = isHover ? 'blue' : 'transparent';
-
     const handleOpenOrderModal = () => {
-        dispatch({
-            type: OPEN_ORDER
-        });
+        if (!bun) {
+            return;
+        };
+        dispatch(openOrder());
     };
 
     const finalPrice = useMemo(() => {
@@ -56,9 +53,7 @@ export const BurgerConstructor = () => {
                     </div>
                 ) : (
                     <div>
-                        <h2>
-                            Выберите булки
-                        </h2>
+                        <h2>Выберите булки</h2>
                     </div>
                 )}
 
@@ -71,7 +66,7 @@ export const BurgerConstructor = () => {
                                 ingredient={ingredient}
                                 index={index}
                                 key={ingredient.id}
-                                // onDropHandler={handleDrop}
+                                id={ingredient.id}
                             />
                         );
                     })}
@@ -115,6 +110,6 @@ export const BurgerConstructor = () => {
     );
 }
 
-BurgerConstructor.propTypes = {
-    onClick: PropTypes.func
-}
+// BurgerConstructor.propTypes = {
+//     onClick: PropTypes.func
+// }

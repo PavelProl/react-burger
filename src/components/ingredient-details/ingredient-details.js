@@ -1,8 +1,6 @@
 import React from "react";
-import ingredientDetailsStyles from "./ingredient-details.module.css";
-
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import ingredientDetailsStyles from "./ingredient-details.module.css";
 
 export const IngredientDetails = () => {
     const ingredient = useSelector(store => store.currentIngredient.currentIngredient);
@@ -33,14 +31,3 @@ export const IngredientDetails = () => {
         </div>
     );
 }
-
-IngredientDetails.propTypes = {
-    ingredient: PropTypes.shape({
-        image: PropTypes.string,
-        name: PropTypes.string,
-        calories: PropTypes.number,
-        proteins: PropTypes.number,
-        fat: PropTypes.number,
-        carbohydrates: PropTypes.number
-      }),
-};

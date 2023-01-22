@@ -1,18 +1,19 @@
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { getIngredients } from "../../services/actions/ingredients";
 import appStyles from "./app.module.css";
-// COMPONENTS
+
+import { closeIngredient } from "../../services/actions/currentIngredient";
+import { closeOrder } from "../../services/actions/order";
+
 import { AppHeader } from "../app-header/app-header";
 import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
 import { BurgerConstructor } from "../burger-constructor/burger-constructor";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details"; 
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
-
-import { useDispatch, useSelector } from "react-redux";
-import { getIngredients } from "../../services/actions/ingredients";
-
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 
 export const App = () => {
     const dispatch = useDispatch();
@@ -28,19 +29,42 @@ export const App = () => {
         dispatch(getIngredients());
     }, [dispatch]);
 
+    const closeModal = () => {
+        if (ingredientModalVisible) {
+            dispatch(closeIngredient())
+        }
+        if (orderModalVisible) {
+            dispatch(closeOrder())
+        }
+    };
+
+    React.useEffect(() => {
+        function closeByEscape(evt) {
+            if(evt.key === 'Escape') {
+                dispatch(closeIngredient())
+                dispatch(closeOrder())
+            }
+        }
+        document.addEventListener('keydown', closeByEscape);
+    
+        return () => {
+            document.removeEventListener('keydown', closeByEscape);
+        }
+    }, []);
+
     return (
         <>
         
             {/* МОДАЛЬНОЕ ОКНО C ОБЩИМ ЗАКАЗОМ */}
             {orderModalVisible && (
-                <Modal title="Оформление заказа">
+                <Modal title="Оформление заказа" closeModal={closeModal}>
                     <OrderDetails />
                 </Modal>
             )}
 
             {/* МОДАЛЬНОЕ ОКНО C КАРТОЧКОЙ ИНГРЕДИЕНТА */}
             {!ingredientsRequest && !ingredientsFailed && ingredients && ingredients.length && ingredientModalVisible && (
-                <Modal title="Детали ингредиента">
+                <Modal title="Детали ингредиента" closeModal={closeModal}>
                     <IngredientDetails />
                 </Modal>
             )}

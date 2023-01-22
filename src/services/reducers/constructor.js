@@ -20,16 +20,16 @@ export const constructorReducer = (state = initialState, action) => {
                 selectedIngredients: [...state.selectedIngredients, action.payload]
             }
         case REORDER_INGREDIENTS:
-            const reorderedIngredients = [...state.selectedIngredients];
-            reorderedIngredients.splice(
+            const selectedIngredients = [...state.selectedIngredients];
+            selectedIngredients.splice(
                 action.payload.insertTo,
                 0,
-                reorderedIngredients.splice(action.payload.insertFrom, 1)[0]
+                selectedIngredients.splice(action.payload.insertFrom, 1)[0]
             );
-            console.log("reorderedIngredients", reorderedIngredients)
+            console.log("reorderedIngredients", selectedIngredients)
             return {
                 ...state,
-                reorderedIngredients
+                selectedIngredients
             }
         case CLEAR_CONSTRUCTOR: {
             return {

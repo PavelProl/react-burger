@@ -1,15 +1,11 @@
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import ingredientsCategoryStyles from "./ingredients-category.module.css";
-import { Ingredient } from "../burger-ingredient/burger-ingredient";
 import { forwardRef } from 'react';
+import PropTypes from "prop-types";
+import { Ingredient } from "../burger-ingredient/burger-ingredient";
 
-export const IngredientsCategory = forwardRef(({
-    id,
-    title,
-    ingredients,
-    onIngredientClick
-}, ref) => {
+export const IngredientsCategory = forwardRef((props, ref) => {
     
     const burgerConstructor = useSelector(store => store.burgerConstructor);
 
@@ -32,22 +28,17 @@ export const IngredientsCategory = forwardRef(({
 
     return (
         <div className="mb-10">
-            <h2 id={id} className="text text_type_main-medium mb-6">
-                {title}
+            <h2 id={props.id} className="text text_type_main-medium mb-6">
+                {props.title}
             </h2>
             <ul ref={ref} className={`${ingredientsCategoryStyles.bun_list} ${"ml-4 mr-2"}`}>
-                {ingredients.map((item, index) => {
+                {props.ingredients.map((item, index) => {
                     return (
                         <Ingredient
                             item={item}
                             key={item._id}
-                            id={item._id}
-                            type={item.type}
-                            image={item.image}
-                            price={item.price}
-                            name={item.name}
                             count={ingredientCounter[item._id]}
-                            onIngredientClick={() => onIngredientClick(item._id)}
+                            onIngredientClick={() => props.onIngredientClick(item._id)}
                         />
                     );
                 })}
@@ -55,3 +46,10 @@ export const IngredientsCategory = forwardRef(({
         </div>
     );
 });
+
+IngredientsCategory.propTypes = {
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    ingredients: PropTypes.array.isRequired,
+    onIngredientClick: PropTypes.func.isRequired
+};
