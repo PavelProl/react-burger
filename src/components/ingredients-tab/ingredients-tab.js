@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingredientsTabStyles from "./ingredients-tab.module.css";
 
 const IngredientsTab = () => {
-    const [current, setCurrent] = React.useState('one');
+    const [current, setCurrent] = useState('one');
     return (
         <div className={`${ingredientsTabStyles.tabs_container} ${"mb-10"}`}>
 

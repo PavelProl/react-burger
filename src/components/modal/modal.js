@@ -1,10 +1,11 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import ReactDOM from "react-dom";
+import modalStyles from "./modal.module.css";
+import PropTypes from "prop-types";
+
 import { ModalOverlay } from "../modal-overlay/modal-overlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import modalStyles from "./modal.module.css";
-
-import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById("react-modals");
 
@@ -35,7 +36,7 @@ export const Modal = (props) => {
                     </div>
                     <button
                         className={modalStyles.button}
-                        onClick={props.closeModal}>
+                        onClick={closeModal}>
                             <CloseIcon type="primary" />
                     </button>
                 </div>

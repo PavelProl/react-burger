@@ -1,98 +1,118 @@
-import React, { useEffect, useContext } from "react";
+import React, { useState, useMemo, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useInView } from "react-intersection-observer";
+import { OPEN_INGREDIENT } from "../../services/actions/currentIngredient";
+import { openIngredient } from "../../services/actions/currentIngredient";
 import ingredientsStyles from "./burger-ingredients.module.css";
-import IngredientsTab from "../ingredients-tab/ingredients-tab";
-import { Ingredient } from "../burger-ingredient/burger-ingredient";
 
-import PropTypes from "prop-types";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { IngredientsCategory } from "../ingredients-category/ingredients-category";
 
-import { DataContext, IdsContext, PriceContext } from "../../services/appContext";
+export const BurgerIngredients = () => {
+    const dispatch = useDispatch();
+    const ingredients = useSelector(store => store.ingredients.ingredients);
+    console.log("ingredients from burger-ingredients", ingredients);
+    const [currentTab, setCurrentTab] = useState("buns");
 
-export const BurgerIngredients = (props) => {
+    const [bunsRef, inViewBuns] = useInView({
+        threshold: 0
+    });
+    const [mainsRef, inViewFilling] = useInView({
+        threshold: 0
+    });
+    const [saucesRef, inViewSauces] = useInView({
+        threshold: 0
+    });
 
-    // получаю данные и функцию добавления ids в массив выбранных ids
-    const { data } = useContext(DataContext);
-    const { setSelectedIds } = useContext(IdsContext);
-    const { selectedIngredients, setSelectedIngredients } = useContext(DataContext);
-    const { setFinalPrice } = useContext(PriceContext);
+    useEffect(() => {
+        if (inViewBuns) {
+            setCurrentTab("buns")
+        } else if (inViewSauces) {
+            setCurrentTab("sauces")
+        } else if (inViewFilling) {
+            setCurrentTab("mains")
+        }
+    }, [inViewBuns, inViewFilling, inViewSauces]);
 
-    const ingredientsNames = [
-        "Булки", "Соусы", "Начинки"
-    ];
-
-    const ingredientTypes = {
-        "Булки": "bun",
-        "Начинки": "main",
-        "Соусы": "sauce"
+    // плавная прокрутка до контейнера с ингредиентами
+    // по клику на заголовок меню
+    const onTabClick = (tab) => {
+        setCurrentTab(tab);
+        const element = document.getElementById(tab);
+        if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+        }
     };
-        
-    // добавляю id в массив selectedIds
-    // и ингредиент в массив selectedIngredients
-    const onIdsClick = (id) => {
-        setSelectedIds((selectedIds) => [...selectedIds, id]);
-        setSelectedIngredients((selectedIngredients) => {
-            const ingredient = data.find(item => item._id === id);
-            return [...selectedIngredients, ingredient];
-        });
+    
+    // открытие модального окна ингредиента
+    const onIngredientClick = (id) => {
+        const ingredient = ingredients.find(item => item._id === id);
+        // dispatch(addIngredientToConstructor(ingredient));
+        // dispatch({
+        //     type: OPEN_INGREDIENT,
+        //     currentIngredient: ingredient,
+        //     ingredientModalVisible: true
+        // });
+        dispatch(openIngredient(ingredient));
     };
 
-    // рассчитываю итоговую стоимость
-    useEffect(
-        () => {
-          let total = 0;
-          selectedIngredients.map(item => (total += item["price"]));
-          setFinalPrice(total);
-        },
-        [selectedIngredients, setFinalPrice]
-    );
+    const buns = useMemo(() => {
+        return ingredients.filter(ingredient => ingredient.type === "bun")
+    }, [ingredients]);
+
+    const mains = useMemo(() => {
+        return ingredients.filter(ingredient => ingredient.type === "main")
+    }, [ingredients]);
+
+    const sauces = useMemo(() => {
+        return ingredients.filter(ingredient => ingredient.type === "sauce")
+    }, [ingredients]);
 
     return (
         <section className={ingredientsStyles.ingredients}>
-
             <h1 className="text text_type_main-large mb-5">
                 Соберите бургер
             </h1>
-            <IngredientsTab names={ingredientsNames} />
+            <ul className={`${ingredientsStyles.tabs_container} ${"mb-10"}`}>
+                <Tab id="buns" value="buns" active={currentTab === 'buns'} onClick={onTabClick}>
+                    Булки
+                </Tab>
+                <Tab id="mains" value="mains" active={currentTab === 'mains'} onClick={onTabClick}>
+                    Начинки
+                </Tab>
+                <Tab id= "sauces" value="sauces" active={currentTab === 'sauces'} onClick={onTabClick}>
+                    Соусы
+                </Tab>
+            </ul>
 
             {/* СКРОЛЛ-КОНТЭЙНЕР */}
             <div className={ingredientsStyles.scroll_container}>
-
-                {/* ИНГРЕДИЕНТЫ */}
-                {ingredientsNames.map(ingredient => {
-
-                    // получаю отфильтрованный ингредиент по названию (булки, начинки, соусы)
-                    const filtered = data.filter(item => {
-                        return item.type === ingredientTypes[ingredient]
-                    });
-                    
-                    return (
-                        <div key={ingredient} className="mb-10">
-                            <h2 className="text text_type_main-medium mb-6">
-                                {ingredient}
-                            </h2>
-                            <ul className={`${ingredientsStyles.bun_list} ${"ml-4 mr-2"}`}>
-                                {filtered.map(item => {
-                                    return (
-                                        <Ingredient
-                                            key={item._id}
-                                            type={item.type}
-                                            image={item.image}
-                                            price={item.price}
-                                            name={item.name}
-                                            checked={item.checked}
-                                            onClick={(e) => {
-                                                props.onClick(e, item);
-                                                onIdsClick(item._id)
-                                            }} />
-                                    )})}
-                            </ul>
-                        </div>
-                    )
-                })}
+                <IngredientsCategory
+                    id="buns"
+                    title="Булки"
+                    ingredients={buns}
+                    onIngredientClick={onIngredientClick}
+                    ref={bunsRef}
+                />
+                <IngredientsCategory
+                    id="mains"
+                    title="Начинки"
+                    ingredients={mains}
+                    onIngredientClick={onIngredientClick}
+                    ref={mainsRef}
+                />
+                <IngredientsCategory
+                    id="sauces"
+                    title="Соусы"
+                    ingredients={sauces}
+                    onIngredientClick={onIngredientClick}
+                    ref={saucesRef}
+                />
             </div>
         </section>
     );
 }
 
-Ingredient.propTypes = {
-    onClick: PropTypes.func
-};
+// Ingredient.propTypes = {
+//     onClick: PropTypes.func
+// };
