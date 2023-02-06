@@ -14,6 +14,10 @@ import { BurgerConstructor } from "../burger-constructor/burger-constructor";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details"; 
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
+import { Login } from "../../pages/login";
+import { Register } from "../../pages/register";
+import { ForgotPassword } from "../../pages/forgot-password";
+import { ResetPassword } from "../../pages/reset-password";
 
 export const App = () => {
     const dispatch = useDispatch();
@@ -58,7 +62,11 @@ export const App = () => {
             {/* КОНТЕНТ СТРАНИЦЫ */}
             <AppHeader />
             <main className={`${appStyles.constructor} ${"mb-10"}`}>
-                <DndProvider backend={HTML5Backend}>
+                <Login />
+                {/* <Register /> */}
+                {/* <ForgotPassword /> */}
+                {/* <ResetPassword /> */}
+                {/* <DndProvider backend={HTML5Backend}>
                     {ingredientsRequest && 'Загрузка...'}
                     {ingredientsFailed && 'Обнаружена ошибка при загрузке данных...'}
                     {!ingredientsRequest && !ingredientsFailed && ingredients && ingredients.length &&
@@ -67,7 +75,7 @@ export const App = () => {
                             <BurgerConstructor />
                         </>
                     }
-                </DndProvider>
+                </DndProvider> */}
             </main>
         </>
     );
