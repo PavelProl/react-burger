@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./pages-main-container.module.css";
+import styles from "./pages-content-container.module.css";
 
 export const PagesMainContainer = ({children}) => {
     return (
