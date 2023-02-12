@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FormContainer } from "../components/form-container/form-container";
-import { PagesMainContainer } from "../components/pages-content-container/pages-content-container";
+import { PagesCenterContainer } from "../components/pages-center-container/pages-center-container";
 import { PagesFooterContainer } from "../components/pages-footer-container/pages-footer-container";
 import { FormHeader } from "../components/form-header/form-header";
-import { InputEmail } from "../components/input-email/input-email";
-import { InputPassword } from "../components/input-password/input-password";
-import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
+// import { InputEmail } from "../components/input-email/input-email";
+// import { InputPassword } from "../components/input-password/input-password";
+import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FooterString } from "../components/footer-string/footer-string";
 
 export const LoginPage = () => {
@@ -14,16 +14,40 @@ export const LoginPage = () => {
     // const onClick = () => {
     //     navigate("/", {replace: true} )
     // }
+    const [form, setValue] = useState({ email: "", password: "" });
+
+    const onChange = (e) => {
+        setValue({ ...form, [e.target.name]: e.target.value });
+    };
+
+    const login = () => {
+
+    };
 
     return (
-        <PagesMainContainer>
+        <PagesCenterContainer>
             {/* ФОРМА */}
             <FormContainer classname={"mb-20"}>
                 <FormHeader title="Вход" />
-                <InputEmail />
-                <InputPassword />
+                <EmailInput
+                    onChange={onChange}
+                    value={form.email}
+                    name={"email"}
+                    isIcon={false}
+                    placeholder="E-mail"
+                />
+                 <PasswordInput
+                    onChange={onChange}
+                    value={form.password}
+                    name={'password'}
+                />
                 <Link to="/">
-                    <Button htmlType="button" type="primary" size="medium">
+                    <Button
+                        htmlType="button"
+                        type="primary"
+                        size="medium"
+                        onClick={login}
+                    >
                             Войти
                     </Button>
                 </Link>
@@ -43,6 +67,6 @@ export const LoginPage = () => {
                     link="/forgot-password"
                 />
             </PagesFooterContainer>
-        </PagesMainContainer>
+        </PagesCenterContainer>
     );
 }

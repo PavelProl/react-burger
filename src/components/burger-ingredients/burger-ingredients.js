@@ -47,12 +47,6 @@ export const BurgerIngredients = () => {
     // открытие модального окна ингредиента
     const onIngredientClick = (id) => {
         const ingredient = ingredients.find(item => item._id === id);
-        // dispatch(addIngredientToConstructor(ingredient));
-        // dispatch({
-        //     type: OPEN_INGREDIENT,
-        //     currentIngredient: ingredient,
-        //     ingredientModalVisible: true
-        // });
         dispatch(openIngredient(ingredient));
     };
 

@@ -1,29 +1,67 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
 import { FormContainer } from "../components/form-container/form-container";
-import { PagesMainContainer } from "../components/pages-content-container/pages-content-container";
+import { PagesCenterContainer } from "../components/pages-center-container/pages-center-container";
 import { PagesFooterContainer } from "../components/pages-footer-container/pages-footer-container";
 import { FormHeader } from "../components/form-header/form-header";
-import { InputEmail } from "../components/input-email/input-email";
-import { InputPassword } from "../components/input-password/input-password";
-import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
+// import { InputEmail } from "../components/input-email/input-email";
+// import { InputPassword } from "../components/input-password/input-password";
+import { Button, Input, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FooterString } from "../components/footer-string/footer-string";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { registerUser } from "../services/actions/user";
+
+// import { loginRequest } from "../services/api";
+// import { setCookie } from "../services/utils";
 
 export const RegisterPage = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const [form, setUser] = useState({ email: "", name: "", password: "" });
+
+    const register = useCallback(
+        (e) => {
+            e.preventDefault();
+            dispatch(registerUser(form))
+        }
+    );
+
+    const onChange = (e) => {
+        setUser({ ...form, [e.target.name]: e.target.value });
+    };
+
     return (
-        <PagesMainContainer>
+        <PagesCenterContainer>
             {/* ФОРМА */}
             <FormContainer classname={"mb-20"}>
                 <FormHeader title="Регистрация" />
                 <Input
+                    onChange={onChange}
+                    value={form.name}
                     type={'text'}
-                    placeholder={'Имя'}
                     name={'name'}
+                    placeholder={'Имя'}
                 />
-                <InputEmail />
-                <InputPassword />
-                <Link to="/">
-                    <Button htmlType="button" type="primary" size="medium">
+                <EmailInput
+                    onChange={onChange}
+                    value={form.email}
+                    name={"email"}
+                    isIcon={false}
+                    placeholder="E-mail"
+                />
+                 <PasswordInput
+                    onChange={onChange}
+                    value={form.password}
+                    name={'password'}
+                />
+                <Link to="/register">
+                    <Button
+                        htmlType="button"
+                        type="primary"
+                        size="medium"
+                        onClick={register}
+                    >
                         Зарегистрироваться
                     </Button>
                 </Link>
@@ -38,6 +76,6 @@ export const RegisterPage = () => {
                     link="/"
                 />
             </PagesFooterContainer>
-        </PagesMainContainer>
+        </PagesCenterContainer>
     );
 }

@@ -1,4 +1,11 @@
-.constructor {
+.wrapper {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.ingredientsConstructorContainer {
     display: flex;
     gap: 40px;
     justify-content: center;

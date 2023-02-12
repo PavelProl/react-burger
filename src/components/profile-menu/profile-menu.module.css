@@ -1,0 +1,12 @@
+.nav {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+};
+
+.nav_link {
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+}

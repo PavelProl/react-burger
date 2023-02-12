@@ -6,13 +6,13 @@ export const InputEmail = (props) => {
     const onChange = e => {
         setValue(e.target.value)
     };
-
     return (
         <EmailInput
             onChange={onChange}
             value={value}
-            name={'email'}
+            name={"email"}
             isIcon={false}
+            placeholder="E-mail"
         />
     );
 };

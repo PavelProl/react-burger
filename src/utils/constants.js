@@ -3,9 +3,11 @@ export const BASE_URL = "https://norma.nomoreparties.space/api/";
 // функция проверки ответа от сервера
 export const checkResponse = (res) => {
     if (res.ok) {
+        console.log("res", res)
         return res.json();
     }
     return Promise.reject(`Ошибка ${res.status}`);
+    
 }
 
 // универсальная функция запроса с проверкой ответа

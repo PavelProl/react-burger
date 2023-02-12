@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "./pages-content-container.module.css";
+import styles from "./pages-center-container.module.css";
 
-export const PagesMainContainer = ({children}) => {
+export const PagesCenterContainer = ({children}) => {
     return (
         <div className={styles.container}>
             {children}
