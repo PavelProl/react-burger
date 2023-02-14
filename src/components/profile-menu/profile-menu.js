@@ -16,21 +16,17 @@ export const ProfileMenu = () => {
 
     return (
         <nav className={styles.nav}>
-            <Link to="/" className={`${styles.nav_link} ${"text text_type_main-medium"}`}>
+            <Link to="/" className={`${"text text_type_main-medium"} ${styles.nav_link}`}>
                 Профиль
             </Link>
-            <Link to="/" className={`${styles.nav_link} ${"text text_type_main-medium text_color_inactive"}`}>
+            <Link to="/" className={`${styles.nav_link} ${"ttext text_type_main-medium text_color_inactive"}`}>
                 История заказов
             </Link>
-            <Link to="/" className={`${styles.nav_link} ${"text text_type_main-medium text_color_inactive"}`}>
-                <Button
-                    htmlType="button"
-                    type="secondary"
-                    size="medium"
-                    onClick={logout}
-                >
-                        Выйти
-                </Button>
+            <Link
+                to="/"
+                onClick={logout}
+                className={`${styles.nav_link} ${"text text_type_main-medium text_color_inactive"}`}>
+                Выход
             </Link>
         </nav>
     );

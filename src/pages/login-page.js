@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { FormContainer } from "../components/form-container/form-container";
 import { PagesCenterContainer } from "../components/pages-center-container/pages-center-container";
@@ -8,21 +9,22 @@ import { FormHeader } from "../components/form-header/form-header";
 // import { InputPassword } from "../components/input-password/input-password";
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FooterString } from "../components/footer-string/footer-string";
+import { loginUser } from "../services/actions/user";
 
 export const LoginPage = () => {
-    // const navigate = useNavigate();
-    // const onClick = () => {
-    //     navigate("/", {replace: true} )
-    // }
+    const dispatch = useDispatch();
     const [form, setValue] = useState({ email: "", password: "" });
 
     const onChange = (e) => {
         setValue({ ...form, [e.target.name]: e.target.value });
     };
 
-    const login = () => {
-
-    };
+    const login = useCallback(
+        (e) => {
+            e.preventDefault();
+            dispatch(loginUser(form));
+        }, [form]
+    );
 
     return (
         <PagesCenterContainer>

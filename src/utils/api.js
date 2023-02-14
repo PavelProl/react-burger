@@ -1,6 +1,29 @@
 import { setCookie, getCookie } from "../utils/cookies";
 import { BASE_URL, request, checkResponse } from "../utils/constants";
 
+export const getUserApi = () => {
+    console.log("start getUserApi");
+    return fetch(`${BASE_URL}auth/user`, {
+        method: "GET",
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+        'Content-Type': 'application/json',
+        Authorization: getCookie('accessToken')
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer'
+    }).then(res => {
+        console.log("res from getUserApi", res);
+        if (res.ok) return res.json()
+    })
+        .then(data => {
+            console.log("data from getUserApi", data);
+            if (data?.success) return data;
+            return Promise.reject(data);
+        });
+};
 
 export const registerUserApi = (data) => {
     console.log("data from registerUserApi", data)
@@ -11,11 +34,10 @@ export const registerUserApi = (data) => {
         },
         body: JSON.stringify(data)
     }).then(res => {
-        console.log("res", res);
-        if (res.ok) return res.json()
+        console.log("RES", res);
+        if (res.ok) return res.json();
     })
     .then(data => {
-        console.log("data", data);
         if (data?.success) return data;
         return Promise.reject(data)
     });
@@ -30,6 +52,7 @@ export const loginUserApi = (data) => {
         body: JSON.stringify(data)
     }).then(checkResponse)
         .then(data => {
+            console.log("DATA FROM LOGIN", data);
             if (data?.success) return data;
             return Promise.reject(data)
         })
