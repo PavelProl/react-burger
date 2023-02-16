@@ -33,6 +33,7 @@ export const IngredientsCategory = forwardRef((props, ref) => {
             </h2>
             <ul ref={ref} className={`${ingredientsCategoryStyles.bun_list} ${"ml-4 mr-2"}`}>
                 {props.ingredients.map((item, index) => {
+                    // console.log("INGREDIENT", item)
                     return (
                         <Ingredient
                             item={item}

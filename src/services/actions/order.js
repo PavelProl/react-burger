@@ -1,4 +1,4 @@
-import { BASE_URL, request } from "../../utils/constants";
+import { BASE_URL, request } from "../../utils/api";
 
 export const OPEN_ORDER = "OPEN_ORDER";
 export const CLOSE_ORDER = "CLOSE_ORDER";

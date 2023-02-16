@@ -1,4 +1,4 @@
-import { BASE_URL, request } from "../../utils/constants";
+import { BASE_URL, request } from "../../utils/api";
 
 export const GET_INGREDIENTS_REQUEST = "GET_INGREDIENTS_REQUEST";
 export const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCESS";

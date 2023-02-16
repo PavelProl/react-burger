@@ -1,23 +1,27 @@
 import {
-    // AUTH
+    // ---- AUTH
     AUTH_CHECK,
-    // REGISTER
+    // ---- REGISTER
     REGISTER_USER_SUCCESS,
     REGISTER_USER_REQUEST,
     REGISTER_USER_FAILED,
-    // GET USER
+    // ---- GET USER
     GET_USER_REQUEST,
     GET_USER_SUCCESS,
     GET_USER_FAILED,
-    // LOGIN
+    // ---- LOGIN
     LOGIN_USER_REQUEST,
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAILED,
-    // FORGOT PASS
+    // ---- FORGOT PASS
     FORGOT_PASSWORD_REQUEST,
     FORGOT_PASSWORD_SUCCESS,
     FORGOT_PASSWORD_FAILED,
-    //LOGOUT
+    // ---- UPDATE USER
+    UPDATE_USER_REQUEST,
+    UPDATE_USER_SUCCESS,
+    UPDATE_USER_ERROR,
+    // ---- LOGOUT
     LOGOUT_USER
 } from "../actions/user";
 
@@ -36,6 +40,9 @@ const initialState = {
 
     forgotPasswordRequest: false,
     resetMessageSuccess: false,
+
+    updateUserRequest: false,
+    updateUserError: null
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -49,7 +56,8 @@ export const userReducer = (state = initialState, action) => {
         case REGISTER_USER_REQUEST: {
             return {
                 ...state,
-                registerUserRequest: true
+                registerUserRequest: true,
+                registerUserError: null
             }
         }
         case REGISTER_USER_SUCCESS: {
@@ -89,6 +97,7 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loginUserRequest: true,
+                loginUserError: null
             }
         }
         case LOGIN_USER_SUCCESS: {
@@ -107,6 +116,7 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loginUserRequest: true,
+                loginUserError: null
             }
         }
         case FORGOT_PASSWORD_REQUEST: {
@@ -125,6 +135,21 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 resetMessageSuccess: false
+            }
+        }
+        case UPDATE_USER_REQUEST: {
+            return {
+                state
+            }
+        }
+        case UPDATE_USER_SUCCESS: {
+            return {
+                state
+            }
+        }
+        case UPDATE_USER_ERROR: {
+            return {
+                state
             }
         }
         case LOGOUT_USER: {

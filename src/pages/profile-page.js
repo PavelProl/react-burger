@@ -11,8 +11,7 @@ export const ProfilePage = () => {
     // const dispatch = useDispatch();
 
     const { data: user } = useSelector(store => store.user);
-    console.log("USER FROM ProfilePage", user);
-    const [formValue, setFormValue] = useState({ email: "", name: "", password: "" }); 
+    const [formValue, setFormValue] = useState({ email: user.email, name: user.name, password: "" }); 
 
     const handleInputChange = (e) => {
         setFormValue((prevState) => ({

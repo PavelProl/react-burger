@@ -1,8 +1,23 @@
 import { setCookie, getCookie } from "../utils/cookies";
-import { BASE_URL, request, checkResponse } from "../utils/constants";
+
+export const BASE_URL = "https://norma.nomoreparties.space/api/";
+
+// функция проверки ответа от сервера
+const checkResponse = (res) => {
+    if (res.ok) {
+        return res.json();
+    } else {
+    // return Promise.reject(`Ошибка ${res.status}`);
+        return res.json().then(err => Promise.reject(err));
+    }
+}
+
+// универсальная функция запроса с проверкой ответа
+export const request = (url, options) => {
+    return fetch(url, options).then(checkResponse);
+}
 
 export const getUserApi = () => {
-    console.log("start getUserApi");
     return fetch(`${BASE_URL}auth/user`, {
         method: "GET",
         mode: 'cors',
@@ -15,18 +30,15 @@ export const getUserApi = () => {
         redirect: 'follow',
         referrerPolicy: 'no-referrer'
     }).then(res => {
-        console.log("res from getUserApi", res);
         if (res.ok) return res.json()
     })
         .then(data => {
-            console.log("data from getUserApi", data);
             if (data?.success) return data;
             return Promise.reject(data);
         });
 };
 
 export const registerUserApi = (data) => {
-    console.log("data from registerUserApi", data)
     return fetch(`${BASE_URL}auth/register`, {
         method: "POST",
         headers: {
@@ -34,7 +46,6 @@ export const registerUserApi = (data) => {
         },
         body: JSON.stringify(data)
     }).then(res => {
-        console.log("RES", res);
         if (res.ok) return res.json();
     })
     .then(data => {
@@ -52,7 +63,6 @@ export const loginUserApi = (data) => {
         body: JSON.stringify(data)
     }).then(checkResponse)
         .then(data => {
-            console.log("DATA FROM LOGIN", data);
             if (data?.success) return data;
             return Promise.reject(data)
         })
@@ -78,11 +88,45 @@ export const logoutApi = () => {
         headers: {
             "Content-type": "application/json; charset=utf-8",
         },
-        body: JSON.stringify({ "token":  getCookie("refreshToken") })
+        body: JSON.stringify({
+            "token":  getCookie("refreshToken")
+        })
     }).then(checkResponse)
         .then(data => {
-            console.log("data from logout", data)
             if (data?.success) return data;
             return Promise.reject(data)
         })
+};
+
+export const refreshToken = () => {
+    return fetch(`${BASE_URL}auth/token`, {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify({
+            "token":  getCookie("refreshToken")
+        }),
+    }).then(checkResponse);
+};
+
+export const fetchWithRefresh = async (url, options) => {
+    try {
+        const res = await fetch(url, options);
+        return await checkResponse(res);
+    } catch (err) {
+        if (err.message === "jwt expired") {
+            const refreshData = await refreshToken();
+            if (!refreshData.success) {
+                Promise.reject(refreshData);
+            }
+            setCookie("refreshToken", refreshData.refreshToken);
+            setCookie("accessToken", refreshData.accessToken);
+            options.headers.authorization = refreshData.accessToken;
+            const res = await fetch(url, options);
+            return await checkResponse(res);
+        } else {
+            return Promise.reject(err);
+        }
+    }
 };
