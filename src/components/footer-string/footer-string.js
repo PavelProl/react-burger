@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import styles from "./footer-string.module.css";
+import PropTypes from "prop-types";
 
 export const FooterString = (props) => {
     return (
@@ -17,3 +18,8 @@ export const FooterString = (props) => {
         </div>
     );
 };
+
+FooterString.propTypes = {
+    question: PropTypes.string,
+    link_text: PropTypes.string
+}

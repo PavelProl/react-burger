@@ -17,7 +17,7 @@ export const Ingredient = (props) => {
     return (
         <li className={ingredientStyles.list_item}>
             <Link
-                // onClick={props.onIngredientClick}
+                onClick={props.onIngredientClick}
                 ref={dragRef}
                 to={`/ingredients/${item._id}`}
                 state={{ background: location }}

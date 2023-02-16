@@ -3,10 +3,9 @@ import { FormContainer } from "../components/form-container/form-container";
 import { PagesCenterContainer } from "../components/pages-center-container/pages-center-container";
 import { PagesFooterContainer } from "../components/pages-footer-container/pages-footer-container";
 import { FormHeader } from "../components/form-header/form-header";
-// import { InputEmail } from "../components/input-email/input-email";
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FooterString } from "../components/footer-string/footer-string";
-import { InputPassword } from "../components/input-password/input-password";
+import { PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 
 export const ResetPasswordPage = () => {
     return (
@@ -14,7 +13,11 @@ export const ResetPasswordPage = () => {
             {/* ФОРМА */}
             <FormContainer classname={"mb-20"}>
                 <FormHeader title="Восстановление пароля" />
-                <InputPassword />
+                <PasswordInput
+                    // onChange={onChange}
+                    // value={form.password}
+                    name={'password'}
+                />
                 <Input
                     type={'text'}
                     placeholder={'Введите код из письма'}

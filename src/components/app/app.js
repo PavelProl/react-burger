@@ -38,8 +38,6 @@ export const App = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const background = location.state && location.state.background;
-    console.log("BACKGROUND", background);
-    console.log("LOCATION", location);
 
     const ingredientsRequest = useSelector(store => store.ingredients.ingredientsRequest);
     const ingredientsFailed = useSelector(store => store.ingredients.ingredientsFailed);
@@ -161,23 +159,16 @@ export const App = () => {
                     {/* МОДАЛЬНОЕ ОКНО C КАРТОЧКОЙ ИНГРЕДИЕНТА */}
                     {background && (
                         <Routes>
-                            <Route path="/ingredients/:id">
-                                {ingredientModalVisible && (
-                                // <>
-                                <Modal title="Детали ингредиента" closeModal={closeModal}>
-                                    <IngredientDetails />
-                                </Modal>
-                                // </>
-                                )}
-                            </Route>
+                            <Route
+                                path="/ingredients/:id"
+                                element={
+                                    <Modal title="Детали ингредиента" closeModal={closeModal}>
+                                        <IngredientDetails />
+                                    </Modal>
+                                }
+                                />
                       </Routes>
                     )}
-                    
-                    {/* {!ingredientsRequest && !ingredientsFailed && ingredients && ingredients.length && ingredientModalVisible && (
-                        <Modal title="Детали ингредиента" closeModal={closeModal}>
-                            <IngredientDetails />
-                        </Modal>
-                    )} */}
 
                 </div>
             </main>  

@@ -16,8 +16,6 @@ export default function ProtectedRoute({ onlyUnAuth = false, children }) {
     // либо на страницу, которая записана в location.state.from
 
     if (onlyUnAuth && user) {
-        const { from } = location.state || { from: { pathname: '/' } };
-
         return <Navigate to="/" state={{ from: location }} />;
     }
 

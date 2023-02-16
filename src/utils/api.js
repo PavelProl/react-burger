@@ -30,11 +30,9 @@ export const getUserApi = () => {
         redirect: 'follow',
         referrerPolicy: 'no-referrer'
     }).then(res => {
-        console.log("RES from getUserApi", res)
         if (res.ok) return res.json()
     })
         .then(data => {
-            console.log("DATA from getUserApi", data)
             if (data?.success) return data;
             return Promise.reject(data);
         });
@@ -48,11 +46,9 @@ export const registerUserApi = (data) => {
         },
         body: JSON.stringify(data)
     }).then(res => {
-        console.log("RES from registerUserApi", res)
         if (res.ok) return res.json();
     })
     .then(data => {
-        console.log("DATA from registerUserApi", data)
         if (data?.success) return data;
         return Promise.reject(data)
     });
@@ -67,11 +63,9 @@ export const updateUserApi = (data) => {
         },
         body: JSON.stringify(data)
     }).then(res => {
-        // console.log("RES from updateUserApi", res)
         if (res.ok) return res.json();
     })
     .then(data => {
-        // console.log("DATA from updateUserApi", data)
         if (data?.success) return data;
         return Promise.reject(data)
     });

@@ -1,6 +1,5 @@
 import React from "react";
 import { PagesCenterContainer } from "../components/pages-center-container/pages-center-container";
-import { ProfilePageContainer } from "../components/profile-page-container/profile-page-container";
 
 export const NotFound404 = () => {
     return (

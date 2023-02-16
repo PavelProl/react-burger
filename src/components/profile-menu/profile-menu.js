@@ -1,6 +1,5 @@
 import React, { useCallback } from "react";
 import { NavLink } from "react-router-dom";
-import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile-menu.module.css";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../services/actions/user";

@@ -4,7 +4,6 @@ import { FormContainer } from "../components/form-container/form-container";
 import { PagesCenterContainer } from "../components/pages-center-container/pages-center-container";
 import { PagesFooterContainer } from "../components/pages-footer-container/pages-footer-container";
 import { FormHeader } from "../components/form-header/form-header";
-// import { InputEmail } from "../components/input-email/input-email";
 import { Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FooterString } from "../components/footer-string/footer-string";
 import { Link } from "react-router-dom";
@@ -18,8 +17,7 @@ export const ForgotPasswordPage = () => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const forgotPassword = useCallback((e) => {
-        // e.preventDefault();
+    const forgotPassword = useCallback(() => {
         dispatch(forgotUserPassword(form));
     });
 

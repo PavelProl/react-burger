@@ -4,15 +4,10 @@ import { FormContainer } from "../components/form-container/form-container";
 import { PagesCenterContainer } from "../components/pages-center-container/pages-center-container";
 import { PagesFooterContainer } from "../components/pages-footer-container/pages-footer-container";
 import { FormHeader } from "../components/form-header/form-header";
-// import { InputEmail } from "../components/input-email/input-email";
-// import { InputPassword } from "../components/input-password/input-password";
 import { Button, Input, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FooterString } from "../components/footer-string/footer-string";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../services/actions/user";
-
-// import { loginRequest } from "../services/api";
-// import { setCookie } from "../services/utils";
 
 export const RegisterPage = () => {
     const navigate = useNavigate();

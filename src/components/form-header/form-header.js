@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./form-header.module.css";
+import PropTypes from "prop-types";
 
 export const FormHeader = (props) => {
     return (
@@ -7,4 +8,8 @@ export const FormHeader = (props) => {
             {props.title}
         </p>
     );
+}
+
+FormHeader.propTypes = {
+    title: PropTypes.string
 }
