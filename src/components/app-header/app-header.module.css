@@ -26,11 +26,20 @@
     justify-content: center;
 }
 
-.nav_item {
+.link {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     cursor: pointer;
     text-decoration: none;
-    color: inherit;
+    color: #8585AD;
 }
+
+/* .link_active {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    cursor: pointer;
+    text-decoration: none;
+    color: #F2F2F3;
+} */

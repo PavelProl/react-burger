@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
 import { FormContainer } from "../components/form-container/form-container";
 import { PagesCenterContainer } from "../components/pages-center-container/pages-center-container";
 import { PagesFooterContainer } from "../components/pages-footer-container/pages-footer-container";
@@ -25,6 +25,15 @@ export const LoginPage = () => {
             dispatch(loginUser(form));
         }, [form]
     );
+
+    // const user = useSelector(store => store.user.data.user);
+    // console.log("USER FROM LOGIN PAGE", user);
+
+    // if (user) {
+    //     return (
+    //         <Navigate to="/" />
+    //     );
+    // }
 
     return (
         <PagesCenterContainer>

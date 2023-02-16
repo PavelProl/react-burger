@@ -26,6 +26,7 @@ import { RegisterPage } from "../../pages/register-page";
 import { ForgotPasswordPage } from "../../pages/forgot-password-page";
 import { ResetPasswordPage } from "../../pages/reset-password-page";
 import { ProfilePage } from "../../pages/profile-page";
+import { FeedPage } from "../../pages/feed-page";
 import ProtectedRoute from "../protected-route/protected-route";
 
 import appStyles from "./app.module.css";
@@ -44,7 +45,7 @@ export const App = () => {
     useEffect(() => {
         dispatch(getIngredients());
 
-    // проверяем, авторизован ли пользователь (делаем запрос на сервер и проверяем, есть ли токен в хранилище)
+    // проверяем, авторизован ли пользователь
         dispatch(checkUserAuth());
     }, [dispatch]);
 
@@ -59,7 +60,7 @@ export const App = () => {
 
     // тестовый лог
     const user = useSelector(store => store.user);
-    console.log("user from app", user);
+    console.log("USER FROM APP", user);
 
     return (
         <>
@@ -100,7 +101,14 @@ export const App = () => {
                                 </ProtectedRoute>
                             }
                         />
-                        <Route path="/profile" element={<ProfilePage />} />
+                        <Route
+                            path="/profile"
+                            element={
+                                <ProtectedRoute redirectTo={"/"}>
+                                    <ProfilePage />
+                                </ProtectedRoute>
+                            }
+                        />
                         <Route path="/" element={
                             <ProtectedRoute redirectTo={"/login"}>
                                 <DndProvider backend={HTML5Backend}>
@@ -114,8 +122,15 @@ export const App = () => {
                                     }
                                 </DndProvider>
                             </ProtectedRoute>
-
                         } />
+                        <Route
+                            path="/feed"
+                            element={
+                                <ProtectedRoute redirectTo={"/"}>
+                                    <FeedPage />
+                                </ProtectedRoute>
+                            }
+                        />
                     </Routes>
                 </div>
             </main>  

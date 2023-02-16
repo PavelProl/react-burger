@@ -8,7 +8,7 @@ export default function ProtectedRoute({ redirectTo, children }) {
     const user = useSelector(store => store.user.data);
     const location = useLocation();
 
-    console.log("user from protectedRoute", user);
+    console.log("USER FROM PROTECTED ROUTE", user);
     console.log("resetMessageSuccess from protectedRoute", resetMessageSuccess);
 
     // if (!isAuthChecked) {
@@ -45,7 +45,7 @@ export default function ProtectedRoute({ redirectTo, children }) {
     //     return;
     // };
     
-    if (user) {
+    if (!user) {
         return <Navigate to={redirectTo} state={{ from: location }} />;
     };
     
