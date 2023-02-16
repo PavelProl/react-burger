@@ -17,12 +17,10 @@ export const Ingredient = (props) => {
     return (
         <li className={ingredientStyles.list_item}>
             <Link
-                onClick={props.onIngredientClick}
+                // onClick={props.onIngredientClick}
                 ref={dragRef}
-                to={{
-                    pathname: `/ingredients/${item._id}`,
-                    state: { background: location }
-                }}
+                to={`/ingredients/${item._id}`}
+                state={{ background: location }}
             >
                 {count && <Counter count={count} size="default" extraClass="m-1" />}
                 <button className={ingredientStyles.ingredient_button}>

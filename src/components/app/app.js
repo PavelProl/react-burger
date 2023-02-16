@@ -65,6 +65,14 @@ export const App = () => {
         }
     };
 
+    if (ingredientsRequest) {
+        return <p>Загрузка...</p>;
+    }
+    
+    if (ingredientsFailed || ingredients.length === 0) {
+        return <p>Обнаружена ошибка при загрузке данных...</p>;
+    }
+
     return (
         <>
             {/* МОДАЛЬНОЕ ОКНО C ОБЩИМ ЗАКАЗОМ */}
@@ -129,30 +137,19 @@ export const App = () => {
                         />
 
                         // --- MAIN
-                        <Route path="/" element={
-                            <ProtectedRoute>
+                        <Route
+                            path="/"
+                            element={
                                 <DndProvider backend={HTML5Backend}>
-                                {ingredientsRequest && 'Загрузка...'}
-                                {ingredientsFailed && 'Обнаружена ошибка при загрузке данных...'}
-                                {!ingredientsRequest && !ingredientsFailed && ingredients && ingredients.length &&
-                                    <div className={appStyles.ingredientsConstructorContainer}>
-                                        <BurgerIngredients />
-                                        <BurgerConstructor />
-                                    </div>
-                                }
-                                </DndProvider>
-                            </ProtectedRoute>
+                                <div className={appStyles.ingredientsConstructorContainer}>
+                                  <BurgerIngredients />
+                                  <BurgerConstructor />
+                                </div>
+                              </DndProvider>
                         } />
 
                         // --- FEED
-                        <Route
-                            path="/feed"
-                            element={
-                                <ProtectedRoute>
-                                    <FeedPage />
-                                </ProtectedRoute>
-                            }
-                        />
+                        <Route path="/feed" element={<FeedPage />} />
 
                         // ---- INGREDIENT DETAILS
                         <Route path="/ingredients/:id" element={<IngredientDetails />} />
@@ -162,18 +159,19 @@ export const App = () => {
                     </Routes>
 
                     {/* МОДАЛЬНОЕ ОКНО C КАРТОЧКОЙ ИНГРЕДИЕНТА */}
-                    {background && (<Routes>
-                        <Route path="/ingredients/:id">
-                            {ingredientModalVisible && (
+                    {background && (
+                        <Routes>
+                            <Route path="/ingredients/:id">
+                                {ingredientModalVisible && (
                                 // <>
                                 <Modal title="Детали ингредиента" closeModal={closeModal}>
                                     <IngredientDetails />
                                 </Modal>
                                 // </>
-                            )}
-                        </Route>
-                    </Routes>)
-                    }
+                                )}
+                            </Route>
+                      </Routes>
+                    )}
                     
                     {/* {!ingredientsRequest && !ingredientsFailed && ingredients && ingredients.length && ingredientModalVisible && (
                         <Modal title="Детали ингредиента" closeModal={closeModal}>
