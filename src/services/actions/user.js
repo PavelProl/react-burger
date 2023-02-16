@@ -4,7 +4,8 @@ import {
     forgotPasswordApi,
     logoutApi,
     getUserApi,
-    loginUserApi } from "../../utils/api";
+    loginUserApi,
+    updateUserApi } from "../../utils/api";
 
 export const AUTH_CHECK = "AUTH_CHECK";
 export const REGISTER_USER_REQUEST = "REGISTER_USER_REQUEST";
@@ -21,7 +22,7 @@ export const FORGOT_PASSWORD_SUCCESS = "FORGOT_PASSWORD_SUCCESS";
 export const FORGOT_PASSWORD_FAILED = "FORGOT_PASSWORD_FAILED";
 export const UPDATE_USER_REQUEST = "UPDATE_USER_REQUEST";
 export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
-export const UPDATE_USER_ERROR = "UPDATE_USER_ERROR";
+export const UPDATE_USER_FAILED = "UPDATE_USER_FAILED";
 export const LOGOUT_USER = "LOGOUT_USER";
 
 export const checkUserAuth = () => (dispatch) => {
@@ -75,11 +76,12 @@ export const registerUser = ({email, name, password}) => (dispatch) => {
     );
     return registerUserApi({ email, name, password })
         .then((res) => {
+                console.log("IN registerUserApi", res)
                 setCookie("accessToken", res.accessToken);
                 setCookie("refreshToken", res.refreshToken);
             dispatch({
                 type: REGISTER_USER_SUCCESS,
-                payload: res.user
+                payload: res
             });
         })
         .catch(() => {
@@ -100,6 +102,25 @@ export const loginUser = ({ email, password }) => (dispatch) => {
                 payload: res
             });
         });
+};
+
+export const updateUser = ({email, name, password}) => (dispatch) => {
+    dispatch(
+        {type: UPDATE_USER_REQUEST }
+    );
+    return updateUserApi({ email, name, password })
+        .then((res) => {
+                setCookie("accessToken", res.accessToken);
+                setCookie("refreshToken", res.refreshToken);
+            dispatch({
+                type: UPDATE_USER_SUCCESS,
+                payload: res
+            });
+        })
+        .catch(() => {
+            alert("Ошибка изменения пользователя");
+            dispatch({ type: UPDATE_USER_FAILED });
+        })
 };
 
 export const forgotUserPassword = ({ email }) => (dispatch) => {

@@ -14,7 +14,7 @@ export const AppHeader = () => {
     const isFeed = !!useMatch("/feed");
     const isProfile = !!useMatch("/profile");
 
-    const userName = useSelector(store => store.user.data?.name);
+    const userName = useSelector(store => store.user.data?.user?.name);
 
     let activeStyle = {
         color: "#F2F2F3",

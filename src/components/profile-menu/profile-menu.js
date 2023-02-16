@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile-menu.module.css";
 import { useDispatch } from "react-redux";
@@ -14,20 +14,47 @@ export const ProfileMenu = () => {
         }
     );
 
+    let activeStyle = {
+        color: "#F2F2F3",
+    };
+    let inactiveStyle = {
+        color: "#8585AD",
+    };
+
     return (
-        <nav className={styles.nav}>
-            <Link to="/" className={`${"text text_type_main-medium"} ${styles.nav_link}`}>
-                Профиль
-            </Link>
-            <Link to="/" className={`${styles.nav_link} ${"ttext text_type_main-medium text_color_inactive"}`}>
-                История заказов
-            </Link>
-            <Link
-                to="/"
-                onClick={logout}
-                className={`${styles.nav_link} ${"text text_type_main-medium text_color_inactive"}`}>
-                Выход
-            </Link>
-        </nav>
+        <ul className={styles.list}>
+            <li className={`${styles.list_item} ${"text text_type_main-medium"}`}>
+                <NavLink
+                    to="/profile"
+                    style={({ isActive }) =>
+                        isActive ? activeStyle : inactiveStyle
+                    }
+                >
+                    Профиль
+                </NavLink>
+            </li>
+            <li className={`${styles.list_item} ${"text text_type_main-medium"}`}>
+                <NavLink
+                    to="/feed"
+                    style={({ isActive }) =>
+                        isActive ? activeStyle : inactiveStyle
+                    }
+                >
+                    История заказов
+                </NavLink>
+            </li>
+            <li className={`${styles.list_item} ${"text text_type_main-medium"}`}>
+                <NavLink
+                    to="/"
+                    onClick={logout}
+                    style={({ isActive }) =>
+                        isActive ? activeStyle : inactiveStyle
+                    }
+                >
+                    Выход
+                </NavLink>
+            </li>
+
+        </ul>
     );
 };

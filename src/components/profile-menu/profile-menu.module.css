@@ -1,12 +1,16 @@
-.nav {
+.list {
     width: 320px;
     display: flex;
     flex-direction: column;
     gap: 30px;
-};
+    list-style: none;
+}
 
-.nav_link {
+.list_item {
     cursor: pointer;
+}
+
+.list_item a {
     text-decoration: none;
-    color: inherit;
+    color: #8585AD;
 }

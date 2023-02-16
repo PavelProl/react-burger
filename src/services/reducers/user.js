@@ -20,7 +20,7 @@ import {
     // ---- UPDATE USER
     UPDATE_USER_REQUEST,
     UPDATE_USER_SUCCESS,
-    UPDATE_USER_ERROR,
+    UPDATE_USER_FAILED,
     // ---- LOGOUT
     LOGOUT_USER
 } from "../actions/user";
@@ -70,6 +70,25 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 registerUserError: true 
+            }
+        }
+        case UPDATE_USER_REQUEST: {
+            return {
+                ...state,
+                updateUserRequest: true,
+                updateUserError: null
+            }
+        }
+        case UPDATE_USER_SUCCESS: {
+            return {
+                ...state,
+                data: action.payload
+            }
+        }
+        case UPDATE_USER_FAILED: {
+            return {
+                ...state,
+                updateUserError: false
             }
         }
         case GET_USER_REQUEST: {
@@ -135,21 +154,6 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 resetMessageSuccess: false
-            }
-        }
-        case UPDATE_USER_REQUEST: {
-            return {
-                state
-            }
-        }
-        case UPDATE_USER_SUCCESS: {
-            return {
-                state
-            }
-        }
-        case UPDATE_USER_ERROR: {
-            return {
-                state
             }
         }
         case LOGOUT_USER: {

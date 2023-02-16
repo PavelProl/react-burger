@@ -1,4 +1,4 @@
-import { BASE_URL, request } from "../../utils/api";
+import { BASE_URL, fetchWithRefresh } from "../../utils/api";
 
 export const OPEN_ORDER = "OPEN_ORDER";
 export const CLOSE_ORDER = "CLOSE_ORDER";
@@ -15,7 +15,7 @@ export const getOrderNumber = (selectedIngredients) => {
         dispatch({
             type: GET_ORDER_REQUEST
         });
-        request(`${BASE_URL}orders`, {
+        return fetchWithRefresh(`${BASE_URL}orders`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8",

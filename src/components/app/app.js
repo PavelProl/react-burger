@@ -145,7 +145,14 @@ export const App = () => {
                         } />
 
                         // --- FEED
-                        <Route path="/feed" element={<FeedPage />} />
+                        <Route
+                            path="/feed"
+                            element={
+                                <ProtectedRoute>
+                                    <FeedPage />
+                                </ProtectedRoute>
+                            }
+                        />
 
                         // ---- INGREDIENT DETAILS
                         <Route path="/ingredients/:id" element={<IngredientDetails />} />
