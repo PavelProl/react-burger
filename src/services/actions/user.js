@@ -76,7 +76,6 @@ export const registerUser = ({email, name, password}) => (dispatch) => {
     );
     return registerUserApi({ email, name, password })
         .then((res) => {
-                console.log("IN registerUserApi", res)
                 setCookie("accessToken", res.accessToken);
                 setCookie("refreshToken", res.refreshToken);
             dispatch({

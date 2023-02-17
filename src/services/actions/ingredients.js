@@ -1,4 +1,4 @@
-import { BASE_URL, request } from "../../utils/api";
+import { request } from "../../utils/api";
 
 export const GET_INGREDIENTS_REQUEST = "GET_INGREDIENTS_REQUEST";
 export const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCESS";
@@ -9,7 +9,7 @@ export const getIngredients = () => {
         dispatch({
             type: GET_INGREDIENTS_REQUEST
         });
-        request(`${BASE_URL}ingredients`)
+        request("ingredients")
             .then(res => {
                 dispatch({
                     type: GET_INGREDIENTS_SUCCESS,
