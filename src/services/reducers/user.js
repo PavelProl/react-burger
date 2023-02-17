@@ -159,8 +159,7 @@ export const userReducer = (state = initialState, action) => {
         case LOGOUT_USER: {
             return {
                 ...state,
-                data: null,
-                isAuthChecked: false
+                data: null
             }
         }
         default: {

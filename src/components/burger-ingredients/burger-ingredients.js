@@ -10,7 +10,7 @@ import { IngredientsCategory } from "../ingredients-category/ingredients-categor
 export const BurgerIngredients = () => {
     const dispatch = useDispatch();
     const ingredients = useSelector(store => store.ingredients.ingredients);
-    console.log("ingredients from burger-ingredients", ingredients);
+    // console.log("ingredients from burger-ingredients", ingredients);
     const [currentTab, setCurrentTab] = useState("buns");
 
     const [bunsRef, inViewBuns] = useInView({

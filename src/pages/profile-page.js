@@ -7,30 +7,35 @@ import { ProfilePageContainer } from "../components/profile-page-container/profi
 import { Input, EmailInput, PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import {updateUser} from "../services/actions/user";
 import styles from "./profile-page.module.css";
+import { useForm } from "../hooks/useForm";
 
 export const ProfilePage = () => {
     const dispatch = useDispatch();
 
-    const user = useSelector(store => store.user.data.user);
-    console.log("USER FROM PROFILE PAGE", user)
-    const [formValue, setFormValue] = useState({ email: user?.email, name: user?.name, password: "" }); 
+    const user = useSelector(store => store.user.data);
+    // console.log("USER FROM PROFILE", user);
+    const { values, handleChange, setValues } = useForm({ email: user?.email, name: user?.name, password: "" });
+    
+    // временно оставлю тут закомментированный код
+    // const [formValue, setFormValue] = useState({ email: user?.email, name: user?.name, password: "" }); 
 
-    const handleInputChange = (e) => {
-        setFormValue((prevState) => ({
-        ...prevState,
-        [e.target.name]: e.target.value,
-        }));
-    };
+    // временно оставлю тут закомментированный код
+    // const handleInputChange = (e) => {
+    //     setFormValue((prevState) => ({
+    //     ...prevState,
+    //     [e.target.name]: e.target.value,
+    //     }));
+    // };
 
     const update = useCallback(
         (e) => {
             e.preventDefault();
-            dispatch(updateUser(formValue))
+            dispatch(updateUser(values))
         }
     );
     
     const clearForm = () => {
-        setFormValue({ email: user.email, name: user.name, password: "" })
+        setValues({ email: user?.email, name: user?.name, password: "" })
     };
 
     return (
@@ -38,26 +43,26 @@ export const ProfilePage = () => {
             <ProfileMenu />
             <PagesCenterContainer>
                 {/* ФОРМА */}
-                <FormContainer>
+                <FormContainer onFormClick={update}>
                     <Input
-                        onChange={handleInputChange}
-                        value={formValue.name}
+                        onChange={handleChange}
+                        value={values.name}
                         type={'text'}
                         name={'name'}
                         placeholder={'Имя'}
                         icon="EditIcon"
                     />
                     <EmailInput
-                        onChange={handleInputChange}
-                        value={formValue.email}
+                        onChange={handleChange}
+                        value={values.email}
                         name={"email"}
                         isIcon={false}
                         placeholder="Email"
                         icon="EditIcon"
                     />
                     <PasswordInput
-                        onChange={handleInputChange}
-                        value={formValue.password}
+                        onChange={handleChange}
+                        value={values.password}
                         name={'password'}
                         placeholder="Пароль"
                         icon="EditIcon"

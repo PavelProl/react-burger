@@ -98,7 +98,7 @@ export const loginUser = ({ email, password }) => (dispatch) => {
             console.log("RES FROM LOGIN USER", res)
             dispatch({
                 type: LOGIN_USER_SUCCESS,
-                payload: res
+                payload: res.user
             });
         });
 };
@@ -109,11 +109,12 @@ export const updateUser = ({email, name, password}) => (dispatch) => {
     );
     return updateUserApi({ email, name, password })
         .then((res) => {
-                setCookie("accessToken", res.accessToken);
-                setCookie("refreshToken", res.refreshToken);
+                // setCookie("accessToken", res.accessToken);
+                // setCookie("refreshToken", res.refreshToken);
+                console.log("RES FROM UPDATE", res)
             dispatch({
                 type: UPDATE_USER_SUCCESS,
-                payload: res
+                payload: res.user
             });
         })
         .catch(() => {

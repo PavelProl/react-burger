@@ -10,7 +10,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../services/actions/user";
 
 export const RegisterPage = () => {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const [form, setUser] = useState({ email: "", name: "", password: "" });
@@ -29,7 +28,7 @@ export const RegisterPage = () => {
     return (
         <PagesCenterContainer>
             {/* ФОРМА */}
-            <FormContainer classname={"mb-20"}>
+            <FormContainer onFormClick={register} classname={"mb-20"}>
                 <FormHeader title="Регистрация" />
                 <Input
                     onChange={onChange}

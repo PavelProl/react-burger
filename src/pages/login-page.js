@@ -8,37 +8,35 @@ import { FormHeader } from "../components/form-header/form-header";
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FooterString } from "../components/footer-string/footer-string";
 import { loginUser } from "../services/actions/user";
+import { useForm } from "../hooks/useForm";
 
 export const LoginPage = () => {
     const dispatch = useDispatch();
-    const [form, setValue] = useState({ email: "", password: "" });
 
-    const onChange = (e) => {
-        setValue({ ...form, [e.target.name]: e.target.value });
-    };
+    const {values, handleChange} = useForm({ email: "", password: "" });
 
     const login = useCallback(
         (e) => {
             e.preventDefault();
-            dispatch(loginUser(form));
-        }, [form]
+            dispatch(loginUser(values));
+        }, [values]
     );
 
     return (
         <PagesCenterContainer>
             {/* ФОРМА */}
-            <FormContainer classname={"mb-20"}>
+            <FormContainer onFormClick={login} classname={"mb-20"}>
                 <FormHeader title="Вход" />
                 <EmailInput
-                    onChange={onChange}
-                    value={form.email}
+                    onChange={handleChange}
+                    value={values.email}
                     name={"email"}
                     isIcon={false}
                     placeholder="E-mail"
                 />
                  <PasswordInput
-                    onChange={onChange}
-                    value={form.password}
+                    onChange={handleChange}
+                    value={values.password}
                     name={'password'}
                 />
                 <Link to="/">
@@ -46,7 +44,7 @@ export const LoginPage = () => {
                         htmlType="button"
                         type="primary"
                         size="medium"
-                        onClick={login}
+                        // onClick={login}
                     >
                             Войти
                     </Button>

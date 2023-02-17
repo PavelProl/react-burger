@@ -12,8 +12,6 @@ export const BurgerConstructor = () => {
     const dispatch = useDispatch();
     const bun = useSelector(store => store.burgerConstructor.bun);
     const selectedIngredients = useSelector(store => store.burgerConstructor.selectedIngredients);
-    console.log("bun from BurgerConstructor", bun);
-    console.log("selectedIngredients from BurgerConstructor", selectedIngredients);
 
     const [, dropTarget] = useDrop({
         accept: "ingredient",

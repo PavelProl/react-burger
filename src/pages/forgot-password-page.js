@@ -8,17 +8,15 @@ import { Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-comp
 import { FooterString } from "../components/footer-string/footer-string";
 import { Link } from "react-router-dom";
 import { forgotUserPassword } from "../services/actions/user";
+import { useForm } from "../hooks/useForm";
 
 export const ForgotPasswordPage = () => {
     const dispatch = useDispatch();
-    const [form, setForm] = useState({ email: '' });
 
-    const onChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
+    const {values, handleChange } = useForm({ email: "" });
 
     const forgotPassword = useCallback(() => {
-        dispatch(forgotUserPassword(form));
+        dispatch(forgotUserPassword(values));
     });
 
     return (
@@ -27,8 +25,8 @@ export const ForgotPasswordPage = () => {
             <FormContainer classname={"mb-20"}>
                 <FormHeader title="Восстановление пароля" />
                 <EmailInput
-                    onChange={onChange}
-                    value={form.email}
+                    onChange={handleChange}
+                    value={values.email}
                     name={"email"}
                     isIcon={false}
                     placeholder="E-mail"
