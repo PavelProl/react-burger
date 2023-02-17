@@ -1,15 +1,19 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useLocation, Navigate } from "react-router-dom";
+import { getCookie } from "../../utils/cookies";
 
 export default function ProtectedRoute({ onlyUnAuth = false, children }) {
-    const isAuthChecked = useSelector(store => store.user.isAuthChecked);
     const user = useSelector(store => store.user.data);
     const location = useLocation();
 
+    const isAuthChecked = useSelector(store => store.user.isAuthChecked);
     if (!isAuthChecked) {
         return "Loaded...";
     }
+
+    // альтернативный способ проверки авторизованности пользователя
+    // if (!getCookie("refreshToken")) return "Loaded...";
 
     // если страница для неавторизованных пользователей,
     // причем данные пользователя получены, то редирект на главную страницу,

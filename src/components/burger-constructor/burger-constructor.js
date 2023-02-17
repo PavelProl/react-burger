@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useDrop } from "react-dnd";
 import { addIngredientToConstructor } from "../../services/actions/constructor";
 import { openOrder } from "../../services/actions/order";
@@ -10,8 +11,11 @@ import { BurgerConstructorElement } from "../burger-constructor-element/burger-c
 
 export const BurgerConstructor = () => {
     const dispatch = useDispatch();
+    // const location = useLocation();
+    const navigate = useNavigate();
     const bun = useSelector(store => store.burgerConstructor.bun);
     const selectedIngredients = useSelector(store => store.burgerConstructor.selectedIngredients);
+    const user = useSelector(store => store.user.data);
 
     const [, dropTarget] = useDrop({
         accept: "ingredient",
@@ -21,6 +25,10 @@ export const BurgerConstructor = () => {
     });
 
     const handleOpenOrderModal = () => {
+        if (!user) {
+            navigate("/login");
+            return;
+        }
         if (!bun) {
             return;
         };
@@ -95,13 +103,16 @@ export const BurgerConstructor = () => {
                         <CurrencyIcon type="primary" />
                     </div>
                 </div>
-                <Button
-                    htmlType="button"
-                    type="primary"
-                    size="large"
-                    onClick={() => handleOpenOrderModal()}>
-                        Оформить заказ
-                </Button>
+                <Link to="/login">
+                    <Button
+                        htmlType="button"
+                        type="primary"
+                        size="large"
+                        onClick={() => handleOpenOrderModal()}>
+                            Оформить заказ
+                    </Button>
+                </Link>
+                
             </div>
             
         </section>

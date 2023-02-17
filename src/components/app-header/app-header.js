@@ -56,7 +56,9 @@ export const AppHeader = () => {
 
                     {/* логотип в хэдере */}
                     <div className={`${headerStyles.logo} ${"pt-6 pb-6 mr-30"}`}>
-                        <Logo />
+                        <NavLink to="/">
+                            <Logo />
+                        </NavLink>
                     </div>
 
                     {/* иконка профиля справа от логотипа */}
