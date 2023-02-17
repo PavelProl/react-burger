@@ -115,6 +115,8 @@ export const App = () => {
                                 </ProtectedRoute>
                             }
                         />
+
+                        // --- RESET-PASSWORD
                         <Route
                             path="/reset-password"
                             element={

@@ -44,7 +44,7 @@ export const LoginPage = () => {
                         htmlType="button"
                         type="primary"
                         size="medium"
-                        // onClick={login}
+                        onClick={login}
                     >
                             Войти
                     </Button>
