@@ -37,7 +37,7 @@ export const ResetPasswordPage = () => {
                     type={'text'}
                     placeholder={'Введите код из письма'}
                 />
-                <Button htmlType="button" type="primary" size="medium">
+                <Button htmlType="submit" type="primary" size="medium">
                     Сохранить
                 </Button>
             </FormContainer>

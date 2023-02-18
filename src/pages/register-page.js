@@ -6,7 +6,6 @@ import { PagesFooterContainer } from "../components/pages-footer-container/pages
 import { FormHeader } from "../components/form-header/form-header";
 import { Button, Input, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FooterString } from "../components/footer-string/footer-string";
-import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../services/actions/user";
 
 export const RegisterPage = () => {
@@ -49,16 +48,13 @@ export const RegisterPage = () => {
                     value={form.password}
                     name={'password'}
                 />
-                <Link to="/register">
                     <Button
-                        htmlType="button"
+                        htmlType="submit"
                         type="primary"
                         size="medium"
-                        onClick={register}
                     >
                         Зарегистрироваться
                     </Button>
-                </Link>
 
             </FormContainer>
 

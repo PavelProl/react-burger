@@ -1,6 +1,5 @@
-import React, { useState, useCallback } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import React, { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { FormContainer } from "../components/form-container/form-container";
 import { PagesCenterContainer } from "../components/pages-center-container/pages-center-container";
 import { PagesFooterContainer } from "../components/pages-footer-container/pages-footer-container";
@@ -12,14 +11,14 @@ import { useForm } from "../hooks/useForm";
 
 export const LoginPage = () => {
     const dispatch = useDispatch();
-
-    const {values, handleChange} = useForm({ email: "", password: "" });
+    const user = useSelector(store => store.user.data);
+    const { values, handleChange } = useForm({ email: "", password: "" });
 
     const login = useCallback(
         (e) => {
             e.preventDefault();
             dispatch(loginUser(values));
-        }, [values]
+        }
     );
 
     return (
@@ -28,6 +27,7 @@ export const LoginPage = () => {
             <FormContainer onFormClick={login} classname={"mb-20"}>
                 <FormHeader title="Вход" />
                 <EmailInput
+                    autoFocus
                     onChange={handleChange}
                     value={values.email}
                     name={"email"}
@@ -38,17 +38,18 @@ export const LoginPage = () => {
                     onChange={handleChange}
                     value={values.password}
                     name={'password'}
+                    placeholder="Пароль"
                 />
-                <Link to="/">
+                {/* <Link to="/"> */}
                     <Button
-                        htmlType="button"
+                        htmlType="submit"
                         type="primary"
                         size="medium"
-                        onClick={login}
+                        // onClick={login}
                     >
                             Войти
                     </Button>
-                </Link>
+                {/* </Link> */}
 
             </FormContainer>
 

@@ -109,8 +109,6 @@ export const updateUser = ({email, name, password}) => (dispatch) => {
     );
     return updateUserApi({ email, name, password })
         .then((res) => {
-                // setCookie("accessToken", res.accessToken);
-                // setCookie("refreshToken", res.refreshToken);
                 console.log("RES FROM UPDATE", res)
             dispatch({
                 type: UPDATE_USER_SUCCESS,

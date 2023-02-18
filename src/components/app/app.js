@@ -7,7 +7,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 // Router
-import { Route, Routes, useLocation, useNavigate, useMatch } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 // Services
 import { getIngredients } from "../../services/actions/ingredients";

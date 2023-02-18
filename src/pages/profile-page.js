@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FormContainer } from "../components/form-container/form-container";
 import { PagesCenterContainer } from "../components/pages-center-container/pages-center-container";
@@ -13,7 +13,6 @@ export const ProfilePage = () => {
     const dispatch = useDispatch();
 
     const user = useSelector(store => store.user.data);
-    // console.log("USER FROM PROFILE", user);
     const { values, handleChange, setValues } = useForm({ email: user?.email, name: user?.name, password: "" });
     
     // временно оставлю тут закомментированный код
@@ -77,11 +76,10 @@ export const ProfilePage = () => {
                             Отмена
                         </Button>
                         <Button
-                            htmlType="button"
+                            htmlType="submit"
                             type="primary"
                             size="small"
                             extraClass="ml-2"
-                            onClick={update}
                         >
                             Сохранить
                         </Button>

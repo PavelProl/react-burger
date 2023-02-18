@@ -37,6 +37,7 @@ const initialState = {
 
     loginUserRequest: false,
     loginUserError: null,
+    isLoggedIn: false,
 
     forgotPasswordRequest: false,
     resetMessageSuccess: false,
@@ -123,6 +124,7 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 data: action.payload,
+                isLoggedIn: true
             }
         }
         case LOGIN_USER_FAILED: {

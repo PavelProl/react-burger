@@ -1,13 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useLocation, Navigate } from "react-router-dom";
-import { getCookie } from "../../utils/cookies";
 
 export default function ProtectedRoute({ onlyUnAuth = false, children }) {
     const user = useSelector(store => store.user.data);
+    const isAuthChecked = useSelector(store => store.user.isAuthChecked);
     const location = useLocation();
 
-    const isAuthChecked = useSelector(store => store.user.isAuthChecked);
     if (!isAuthChecked) {
         return "Loaded...";
     }
@@ -20,17 +19,16 @@ export default function ProtectedRoute({ onlyUnAuth = false, children }) {
     // либо на страницу, которая записана в location.state.from
 
     if (onlyUnAuth && user) {
-        return <Navigate to="/" state={{ from: location }} />;
+        const from = location.state?.from || '/';
+
+        // отправляем его на предыдущую страницу
+        return <Navigate to={ from } />;
     }
 
     if (!onlyUnAuth && !user) {
         // Сервер не ответил
         return <Navigate to="/login" state={{ from: location }} />;
     }
-    
-    // if (user) {
-    //     return <Navigate to={redirectTo} state={{ from: location }} />;
-    // };
     
     return (
         <>
