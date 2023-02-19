@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useInView } from "react-intersection-observer";
-import { OPEN_INGREDIENT } from "../../services/actions/currentIngredient";
 import { openIngredient } from "../../services/actions/currentIngredient";
 import ingredientsStyles from "./burger-ingredients.module.css";
 
@@ -11,7 +10,7 @@ import { IngredientsCategory } from "../ingredients-category/ingredients-categor
 export const BurgerIngredients = () => {
     const dispatch = useDispatch();
     const ingredients = useSelector(store => store.ingredients.ingredients);
-    console.log("ingredients from burger-ingredients", ingredients);
+    // console.log("ingredients from burger-ingredients", ingredients);
     const [currentTab, setCurrentTab] = useState("buns");
 
     const [bunsRef, inViewBuns] = useInView({
@@ -47,12 +46,6 @@ export const BurgerIngredients = () => {
     // открытие модального окна ингредиента
     const onIngredientClick = (id) => {
         const ingredient = ingredients.find(item => item._id === id);
-        // dispatch(addIngredientToConstructor(ingredient));
-        // dispatch({
-        //     type: OPEN_INGREDIENT,
-        //     currentIngredient: ingredient,
-        //     ingredientModalVisible: true
-        // });
         dispatch(openIngredient(ingredient));
     };
 

@@ -27,11 +27,5 @@
 .container {
     display: flex;
     flex-direction: column;
-    /* height: 912px; */
-    /* position: relative; */
-    /* max-width: 1240px;
-    margin: 0 auto;
-    padding-left: 16px;
-    padding-right: 16px; */
 }
 

@@ -1,0 +1,16 @@
+.list {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    list-style: none;
+}
+
+.list_item {
+    cursor: pointer;
+}
+
+.list_item a {
+    text-decoration: none;
+    color: #8585AD;
+}
