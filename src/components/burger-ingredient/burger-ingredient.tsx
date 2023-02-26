@@ -1,13 +1,34 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import ingredientStyles from "./burger-ingredient.module.css";
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
-import PropTypes from "prop-types";
 
-export const Ingredient = (props) => {
+export interface IIngredient {
+    _id: string;
+    name: string;
+    type: string;
+    proteins: number;
+    fat: number;
+    carbohydrates: number;
+    calories: number;
+    price: number;
+    image: string;
+    image_mobile: string;
+    image_large: string;
+    __v: number;
+    id: string;
+}
+
+type TIngredientProps = {
+    count: number;
+    item: IIngredient;
+    onIngredientClick: any
+};
+
+export const Ingredient: FunctionComponent<TIngredientProps> = (props) => {
     const location = useLocation();
-    const { count, item } = props;
+    const { count, item, onIngredientClick } = props;
     
     const [, dragRef] = useDrag({
         type: "ingredient",
@@ -17,7 +38,7 @@ export const Ingredient = (props) => {
     return (
         <li className={ingredientStyles.list_item}>
             <Link
-                onClick={props.onIngredientClick}
+                onClick={onIngredientClick}
                 ref={dragRef}
                 to={`/ingredients/${item._id}`}
                 state={{ background: location }}
@@ -35,8 +56,3 @@ export const Ingredient = (props) => {
         </li>
     );
 }
-
-Ingredient.propTypes = {
-    count: PropTypes.number,
-    item: PropTypes.object.isRequired
-};

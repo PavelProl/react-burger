@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FormContainer } from "../components/form-container/form-container";
 import { PagesCenterContainer } from "../components/pages-center-container/pages-center-container";
 import { PagesFooterContainer } from "../components/pages-footer-container/pages-footer-container";
@@ -23,8 +23,8 @@ export const ForgotPasswordPage = () => {
             state: { resetPassword: true }
         });
 
-        dispatch(forgotUserPassword(values));
-    });
+        dispatch<any>(forgotUserPassword(values));
+    }, [forgotUserPassword]);
 
     return (
         <PagesCenterContainer>

@@ -3,7 +3,7 @@ import { PagesCenterContainer } from "../components/pages-center-container/pages
 import { ProfileMenu } from "../components/profile-menu/profile-menu";
 import { ProfilePageContainer } from "../components/profile-page-container/profile-page-container";
 
-export const  FeedPage = () => {
+export const FeedPage = () => {
     return (
         <ProfilePageContainer>
             <ProfileMenu />

@@ -1,14 +1,19 @@
-import React from "react";
+import React, { ReactNode, FunctionComponent } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, Navigate } from "react-router-dom";
 
-export default function ProtectedRoute({ onlyUnAuth = false, children }) {
-    const user = useSelector(store => store.user.data);
-    const isAuthChecked = useSelector(store => store.user.isAuthChecked);
+type TProtectedRouteProps = {
+    children?: ReactNode;
+    onlyUnAuth?: boolean;
+};
+
+export const ProtectedRoute: FunctionComponent<TProtectedRouteProps> = ({ onlyUnAuth, children }) => {
+    const user = useSelector((store: any) => store.user.data);
+    const isAuthChecked: boolean = useSelector((store: any) => store.user.isAuthChecked);
     const location = useLocation();
 
     if (!isAuthChecked) {
-        return "Loaded...";
+        return <h2>"Loaded..."</h2>;
     }
 
     // альтернативный способ проверки авторизованности пользователя

@@ -11,14 +11,15 @@ import { useForm } from "../hooks/useForm";
 
 export const LoginPage = () => {
     const dispatch = useDispatch();
-    const user = useSelector(store => store.user.data);
+    // const user = useSelector(store => store.user.data);
     const { values, handleChange } = useForm({ email: "", password: "" });
 
     const login = useCallback(
-        (e) => {
+        (e: any) => {
             e.preventDefault();
-            dispatch(loginUser(values));
-        }
+            dispatch<any>(loginUser(values));
+        },
+        [loginUser]
     );
 
     return (

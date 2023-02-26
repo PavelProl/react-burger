@@ -1,19 +1,22 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { FunctionComponent, ReactNode } from "react";
 import ReactDOM from "react-dom";
 import modalStyles from "./modal.module.css";
-import PropTypes from "prop-types";
-
 import { ModalOverlay } from "../modal-overlay/modal-overlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const modalRoot = document.getElementById("react-modals");
 
-export const Modal = (props) => {
+type TModalProps = {
+    children?: ReactNode,
+    closeModal: () => void;
+    title: string;
+};
+
+export const Modal: FunctionComponent<TModalProps> = (props) => {
     const {children, closeModal} = props;
 
     React.useEffect(() => {
-        function closeByEscape(evt) {
+        function closeByEscape(evt: any) {
             if(evt.key === 'Escape') {
                 closeModal();
             }
@@ -45,11 +48,7 @@ export const Modal = (props) => {
 
             {/* ОВЕРЛЭЙ */}
             <ModalOverlay closeModal={closeModal} />
-        </>, modalRoot
+            {/* утверждаю ненулевое значение modalRoot */}
+        </>, modalRoot!
     );
 }
-
-Modal.propTypes = {
-    handleClick: PropTypes.func,
-    children: PropTypes.element.isRequired
-};

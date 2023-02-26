@@ -9,7 +9,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 
 const container = document.getElementById("root");
-const root = ReactDOM.createRoot(container);
+const root = ReactDOM.createRoot(container!);
 
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

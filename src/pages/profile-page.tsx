@@ -12,7 +12,7 @@ import { useForm } from "../hooks/useForm";
 export const ProfilePage = () => {
     const dispatch = useDispatch();
 
-    const user = useSelector(store => store.user.data);
+    const user = useSelector((store: any) => store.user.data);
     const { values, handleChange, setValues } = useForm({ email: user?.email, name: user?.name, password: "" });
     
     // временно оставлю тут закомментированный код
@@ -27,10 +27,11 @@ export const ProfilePage = () => {
     // };
 
     const update = useCallback(
-        (e) => {
+        (e: any) => {
             e.preventDefault();
-            dispatch(updateUser(values))
-        }
+            dispatch<any>(updateUser(values))
+        },
+        [updateUser]
     );
     
     const clearForm = () => {
@@ -57,7 +58,7 @@ export const ProfilePage = () => {
                         name={"email"}
                         isIcon={false}
                         placeholder="Email"
-                        icon="EditIcon"
+                        // icon="EditIcon"
                     />
                     <PasswordInput
                         onChange={handleChange}

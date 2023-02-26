@@ -6,14 +6,6 @@ const IngredientsTab = () => {
     const [current, setCurrent] = useState('one');
     return (
         <div className={`${ingredientsTabStyles.tabs_container} ${"mb-10"}`}>
-
-            {/* здесь пытался через map получить, но пока не вышло */}
-            {/* {props.names.map(name => {
-                return <Tab value="one" active={current === 'one'} onClick={setCurrent}>
-                    {name}
-                </Tab>
-            })} */}
-
             <Tab value="one" active={current === 'one'} onClick={setCurrent}>
                 Булки
             </Tab>

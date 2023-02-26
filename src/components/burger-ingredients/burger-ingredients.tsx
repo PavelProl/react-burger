@@ -7,10 +7,11 @@ import ingredientsStyles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IngredientsCategory } from "../ingredients-category/ingredients-category";
 
+import { IIngredient } from "../burger-ingredient/burger-ingredient";
+
 export const BurgerIngredients = () => {
     const dispatch = useDispatch();
-    const ingredients = useSelector(store => store.ingredients.ingredients);
-    // console.log("ingredients from burger-ingredients", ingredients);
+    const ingredients = useSelector((store: any) => store.ingredients.ingredients);
     const [currentTab, setCurrentTab] = useState("buns");
 
     const [bunsRef, inViewBuns] = useInView({
@@ -35,7 +36,7 @@ export const BurgerIngredients = () => {
 
     // плавная прокрутка до контейнера с ингредиентами
     // по клику на заголовок меню
-    const onTabClick = (tab) => {
+    const onTabClick = (tab: any) => {
         setCurrentTab(tab);
         const element = document.getElementById(tab);
         if (element) {
@@ -44,21 +45,21 @@ export const BurgerIngredients = () => {
     };
     
     // открытие модального окна ингредиента
-    const onIngredientClick = (id) => {
-        const ingredient = ingredients.find(item => item._id === id);
+    const onIngredientClick = (id: string) => {
+        const ingredient = ingredients.find((item: IIngredient) => item._id === id);
         dispatch(openIngredient(ingredient));
     };
 
     const buns = useMemo(() => {
-        return ingredients.filter(ingredient => ingredient.type === "bun")
+        return ingredients.filter((ingredient: IIngredient) => ingredient.type === "bun")
     }, [ingredients]);
 
     const mains = useMemo(() => {
-        return ingredients.filter(ingredient => ingredient.type === "main")
+        return ingredients.filter((ingredient: IIngredient) => ingredient.type === "main")
     }, [ingredients]);
 
     const sauces = useMemo(() => {
-        return ingredients.filter(ingredient => ingredient.type === "sauce")
+        return ingredients.filter((ingredient: IIngredient) => ingredient.type === "sauce")
     }, [ingredients]);
 
     return (
@@ -105,7 +106,3 @@ export const BurgerIngredients = () => {
         </section>
     );
 }
-
-// Ingredient.propTypes = {
-//     onClick: PropTypes.func
-// };

@@ -14,13 +14,14 @@ export const RegisterPage = () => {
     const [form, setUser] = useState({ email: "", name: "", password: "" });
 
     const register = useCallback(
-        (e) => {
+        (e: any) => {
             e.preventDefault();
-            dispatch(registerUser(form))
-        }
+            dispatch<any>(registerUser(form))
+        },
+        [registerUser]
     );
 
-    const onChange = (e) => {
+    const onChange = (e: any) => {
         setUser({ ...form, [e.target.name]: e.target.value });
     };
 

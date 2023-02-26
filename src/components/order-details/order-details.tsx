@@ -5,14 +5,14 @@ import orderDetailsStyles from "./order-details.module.css";
 import Img from "../../images/done.png";
 
 export const OrderDetails = () => {
-    const selectedIngredients = useSelector(store => store.burgerConstructor.selectedIngredients);
-    const orderNumber = useSelector(store => store.order.orderNumber);
-    const orderRequest = useSelector(store => store.order.orderRequest);
+    const selectedIngredients = useSelector((store: any) => store.burgerConstructor.selectedIngredients);
+    const orderNumber = useSelector((store: any) => store.order.orderNumber);
+    const orderRequest = useSelector((store: any) => store.order.orderRequest);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getOrderNumber(selectedIngredients));
+        dispatch<any>(getOrderNumber(selectedIngredients));
     }, [dispatch]);
 
     return (

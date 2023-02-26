@@ -10,11 +10,11 @@ import {
 import { NavLink, useMatch } from "react-router-dom";
 
 export const AppHeader = () => {
-    const isConstructor = !!useMatch({ path: "/", exact: true });
+    const isConstructor = !!useMatch({ path: "/", end: true });
     const isFeed = !!useMatch("/feed");
     const isProfile = !!useMatch("/profile");
 
-    const userName = useSelector(store => store.user.data?.name);
+    const userName = useSelector((store: any) => store.user?.data?.name);
 
     let activeStyle = {
         color: "#F2F2F3",
@@ -35,8 +35,9 @@ export const AppHeader = () => {
                                 isActive ? activeStyle : undefined
                             }
                         >
-                            <div className="mr-2">
-                                <BurgerIcon type={isConstructor ? "primary" : "secondary"} className={headerStyles.burger} alt="иконка бургера."/>
+                            {/* убрал headerStyles.burger с BurgerIcon на div */}
+                            <div className={`${headerStyles.burger} ${"mr-2"}`}>
+                                <BurgerIcon type={isConstructor ? "primary" : "secondary"} />
                             </div>
                             <h2 className="text text_type_main-default">Конструктор</h2>
                         </NavLink>
@@ -48,7 +49,7 @@ export const AppHeader = () => {
                             }
                         >
                             <div className="mr-2">
-                                <ListIcon type={isFeed ? "primary" : "secondary"} className="mr-2" alt="иконка списка." />
+                                <ListIcon type={isFeed ? "primary" : "secondary"} />
                             </div>
                             <h2 className="text text_type_main-default">Лента заказов</h2>
                         </NavLink>

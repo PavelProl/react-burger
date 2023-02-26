@@ -1,15 +1,15 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import styles from "./form-header.module.css";
-import PropTypes from "prop-types";
 
-export const FormHeader = (props) => {
+type TFormHeaderProps = {
+    title: string;
+    classname?: string;
+};
+
+export const FormHeader: FunctionComponent<TFormHeaderProps> = (props) => {
     return (
         <p className={`${styles.form_header} ${"text text_type_main-medium"} ${props.classname}`}>
             {props.title}
         </p>
     );
-}
-
-FormHeader.propTypes = {
-    title: PropTypes.string
 }

@@ -9,8 +9,9 @@ export const ProfileMenu = () => {
 
     const logout = useCallback(
         () => {
-            dispatch(logoutUser());
-        }
+            dispatch<any>(logoutUser());
+        },
+        [logoutUser]
     );
 
     let activeStyle = {

@@ -1,19 +1,28 @@
-import React, { useMemo } from "react";
+import React, { useMemo, FunctionComponent, ForwardedRef } from "react";
 import { useSelector } from "react-redux";
 import ingredientsCategoryStyles from "./ingredients-category.module.css";
 import { forwardRef } from 'react';
-import PropTypes from "prop-types";
 import { Ingredient } from "../burger-ingredient/burger-ingredient";
 
-export const IngredientsCategory = forwardRef((props, ref) => {
+import { IIngredient } from "../burger-ingredient/burger-ingredient";
+
+type TIngredientsCategoryProps = {
+    id: string;
+    title: string;
+    ingredients: Array<IIngredient>;
+    onIngredientClick: any;
+    ref: ForwardedRef<HTMLUListElement>;
+};
+
+export const IngredientsCategory: FunctionComponent<TIngredientsCategoryProps> = forwardRef((props, ref) => {
     
-    const burgerConstructor = useSelector(store => store.burgerConstructor);
+    const burgerConstructor = useSelector((store: any) => store.burgerConstructor);
 
     const ingredientCounter = useMemo(() => {
         const { bun, selectedIngredients } = burgerConstructor;
-        const counters = {};
+        const counters: any = {};
         if (selectedIngredients) {
-            selectedIngredients.forEach((ingredient) => {
+            selectedIngredients.forEach((ingredient: IIngredient) => {
                 if (!counters[ingredient._id]) {
                     counters[ingredient._id] = 0
                 }
@@ -33,7 +42,6 @@ export const IngredientsCategory = forwardRef((props, ref) => {
             </h2>
             <ul ref={ref} className={`${ingredientsCategoryStyles.bun_list} ${"ml-4 mr-2"}`}>
                 {props.ingredients.map((item, index) => {
-                    // console.log("INGREDIENT", item)
                     return (
                         <Ingredient
                             item={item}
@@ -47,10 +55,3 @@ export const IngredientsCategory = forwardRef((props, ref) => {
         </div>
     );
 });
-
-IngredientsCategory.propTypes = {
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    ingredients: PropTypes.array.isRequired,
-    onIngredientClick: PropTypes.func.isRequired
-};

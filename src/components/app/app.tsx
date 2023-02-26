@@ -28,7 +28,7 @@ import { ResetPasswordPage } from "../../pages/reset-password-page";
 import { ProfilePage } from "../../pages/profile-page";
 import { FeedPage } from "../../pages/feed-page";
 import { NotFound404 } from "../../pages/not-found-404";
-import ProtectedRoute from "../protected-route/protected-route";
+import { ProtectedRoute } from "../protected-route/protected-route";
 
 import appStyles from "./app.module.css";
 import { checkUserAuth } from "../../services/actions/user";
@@ -39,18 +39,18 @@ export const App = () => {
     const location = useLocation();
     const background = location.state && location.state.background;
 
-    const ingredientsRequest = useSelector(store => store.ingredients.ingredientsRequest);
-    const ingredientsFailed = useSelector(store => store.ingredients.ingredientsFailed);
-    const ingredients = useSelector(store => store.ingredients.ingredients);
-    const ingredientModalVisible = useSelector(store => store.currentIngredient.ingredientModalVisible);
-    const orderModalVisible = useSelector(store => store.order.orderModalVisible);
+    const ingredientsRequest = useSelector((store: any) => store.ingredients.ingredientsRequest);
+    const ingredientsFailed = useSelector((store: any) => store.ingredients.ingredientsFailed);
+    const ingredients = useSelector((store: any) => store.ingredients.ingredients);
+    const ingredientModalVisible = useSelector((store: any) => store.currentIngredient.ingredientModalVisible);
+    const orderModalVisible = useSelector((store: any) => store.order.orderModalVisible);
 
     // получем ингредиенты запросом к API
     useEffect(() => {
-        dispatch(getIngredients());
+        dispatch<any>(getIngredients());
 
     // проверяем, авторизован ли пользователь
-        dispatch(checkUserAuth());
+        dispatch<any>(checkUserAuth());
     }, [dispatch]);
 
     const closeModal = () => {
