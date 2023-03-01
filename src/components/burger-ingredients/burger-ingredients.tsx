@@ -67,14 +67,15 @@ export const BurgerIngredients = () => {
             <h1 className="text text_type_main-large mb-5">
                 Соберите бургер
             </h1>
+            {/* временно убрал из Tab id="buns", "mains", "sauces" */}
             <ul className={`${ingredientsStyles.tabs_container} ${"mb-10"}`}>
-                <Tab id="buns" value="buns" active={currentTab === 'buns'} onClick={onTabClick}>
+                <Tab value="buns" active={currentTab === 'buns'} onClick={onTabClick}>
                     Булки
                 </Tab>
-                <Tab id="mains" value="mains" active={currentTab === 'mains'} onClick={onTabClick}>
+                <Tab value="mains" active={currentTab === 'mains'} onClick={onTabClick}>
                     Начинки
                 </Tab>
-                <Tab id= "sauces" value="sauces" active={currentTab === 'sauces'} onClick={onTabClick}>
+                <Tab value="sauces" active={currentTab === 'sauces'} onClick={onTabClick}>
                     Соусы
                 </Tab>
             </ul>

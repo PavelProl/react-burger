@@ -11,12 +11,26 @@ import thunk from "redux-thunk";
 const container = document.getElementById("root");
 const root = ReactDOM.createRoot(container!);
 
-const composeEnhancers =
-  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-    : compose;
+// временно закомментировал старый вариант
+// const composeEnhancers =
+//   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+//     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+//     : compose;
 
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
+// const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
+
+declare global {
+    interface Window {
+      __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose
+    }
+}
+
+const composeWithDevTools = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  
+const store = createStore(
+    rootReducer,
+    composeWithDevTools(applyMiddleware(thunk)),
+);
 
 root.render((
     <React.StrictMode>

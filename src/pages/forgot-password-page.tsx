@@ -13,7 +13,6 @@ import { useForm } from "../hooks/useForm";
 export const ForgotPasswordPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    console.log("LOCATION FROM FORGOTPasswordPage", location);
     const dispatch = useDispatch();
 
     const {values, handleChange } = useForm({ email: "" });

@@ -6,7 +6,6 @@ export const DELETE_INGREDIENT = "DELETE_INGREDIENT";
 export const REORDER_INGREDIENTS = "REORDER_INGREDIENTS";
 
 export const addIngredientToConstructor = (ingredient) => {
-    console.log("ingredient from addIngredientToConstructor", ingredient);
     return {
         type: ADD_INGREDIENT,
         payload: {

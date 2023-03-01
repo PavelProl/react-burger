@@ -67,7 +67,7 @@ export const App = () => {
         return <p>Загрузка...</p>;
     }
     
-    if (ingredientsFailed || ingredients.length === 0) {
+    if (ingredientsFailed || ingredients?.length === 0) {
         return <p>Обнаружена ошибка при загрузке данных...</p>;
     }
 

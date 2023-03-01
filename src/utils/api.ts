@@ -2,52 +2,35 @@ import { setCookie, getCookie } from "./cookies";
 
 export const BASE_URL: string = "https://norma.nomoreparties.space/api/";
 
-type TRequestHeaders = {
+interface IRequestHeaders {
     'Content-Type': string;
     Accept?: string;
     Authorization?: string;
 };
 
-type TRequestOption = {
+interface IRequestOption {
     method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-    headers: TRequestHeaders;
+    headers: Headers;
     body?: string;
-    mode?: string;
-    cache?: string;
-    credentials?: string;
-    redirect?: string;
-    referrerPolicy?: string;
+}
+
+type TUser = {
+    id?: number;
+    password?: string;
+    email?: string;
+    name?: string;
 };
 
-// временно оставлю закомментированный код
-// type TUser = {
-//     // readonly id: number;
-//     readonly password: string;
-//     readonly email: string;
-//     readonly name: string;
-// };
+type TServerResponse<T> = {
+    success: boolean;
+    // user?: TUser;
+    // message?: string;
+    // headers?: Headers;
+} & T;
 
-// временно оставлю закомментированный код
-// type TResponseBody = {
-//     success: boolean;
-//     user?: any;
-//     message?: string;
-//     headers?: Headers;
-// };
-
-// временно оставлю закомментированный код
-// interface CustomResponse<T> extends Body {
-//     readonly headers: Headers;
-//     readonly ok: boolean;
-//     readonly redirected: boolean;
-//     readonly status: number;
-//     readonly statusText: string;
-//     readonly trailer: Promise<Headers>;
-//     readonly type: ResponseType;
-//     readonly url: string;
-//     clone(): Response;
-//     json(): Promise<T>;
-// }
+type TUserResponse = TServerResponse<{
+    data: TUser
+}>;
 
 // функция проверки ответа на `ok`
 const checkResponse = <T>(res: Response): Promise<T> => {
@@ -59,21 +42,17 @@ const checkResponse = <T>(res: Response): Promise<T> => {
   return res.json().then(err => Promise.reject(`Ошибка: ${err.status}`))
 };
 
-// функция проверки ответа на `success`
-const checkSuccess = <T>(res: Response): Promise<T> => {
-  if (res && res.success) {
-    return res;
-  }
-  // выкидываем ошибку, чтобы она попала в `catch`
-  return Promise.reject(`Ответ не success: ${res}`);
-};
-
 // универсальная фукнция запроса с проверкой ответа на `ok` и `success`
 // В вызов приходят `endpoint`(часть урла, которая идет после базового) и options
-export const request = <T>(endpoint: string, options: TRequestOption): Promise<T> => {
+export const request = <T>(endpoint: string, options: RequestInit): Promise<T> => {
     return fetch(`${BASE_URL}${endpoint}`, options)
-        .then((res: Response) => checkResponse<T>(res))
-        .then((res: Response) => checkSuccess<T>(res));
+        .then((res) => checkResponse<TServerResponse<T>>(res))
+        // .then((res) => checkSuccess(res));
+        .then((data) => {
+            console.log("data", data)
+            if (data?.success) return data;
+            return Promise.reject(data)
+        });
 };
 
 export const getUserApi = () => {
@@ -84,7 +63,7 @@ export const getUserApi = () => {
         credentials: 'same-origin',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: getCookie('accessToken')
+            Authorization: getCookie('accessToken') || ""
         },
         redirect: 'follow',
         referrerPolicy: 'no-referrer'
@@ -114,7 +93,7 @@ export const updateUserApi = (data: {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json;charset=utf-8",
-            Authorization: getCookie('accessToken')
+            Authorization: getCookie('accessToken') || ""
         },
         body: JSON.stringify(data)
     });
@@ -164,16 +143,17 @@ export const refreshToken = () => {
             "Content-Type": "application/json; charset=utf-8",
         },
         body: JSON.stringify({
-            "token":  getCookie("refreshToken")
+            "token":  getCookie("refreshToken") || ""
         }),
     });
 };
 
-export const fetchWithRefresh = async <T>(url: string, options: TRequestOption): Promise<T> => {
+// здесь временно не типизировал
+export const fetchWithRefresh = async <T>(url: string, options: any): Promise<T> => {
     try {
         const res = await fetch(url, options);
         return await checkResponse(res);
-    } catch (err) {
+    } catch (err: any) {
         if (err.message === "jwt expired") {
             const refreshData: any = await refreshToken();
             if (!refreshData.success) {
