@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FormContainer } from "../components/form-container/form-container";
 import { PagesCenterContainer } from "../components/pages-center-container/pages-center-container";
 import { PagesFooterContainer } from "../components/pages-footer-container/pages-footer-container";
@@ -11,13 +11,12 @@ import { forgotUserPassword } from "../services/actions/user";
 import { useForm } from "../hooks/useForm";
 
 export const ForgotPasswordPage = () => {
-    const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const {values, handleChange } = useForm({ email: "" });
+    const { values, handleChange } = useForm({ email: "", password: "", name: "", key: "" });
 
-    const forgotPassword = useCallback(() => {
+    const forgotPassword: React.FormEventHandler<HTMLFontElement> = useCallback(() => {
         navigate("/reset-password", {
             state: { resetPassword: true }
         });
@@ -28,7 +27,7 @@ export const ForgotPasswordPage = () => {
     return (
         <PagesCenterContainer>
             {/* ФОРМА */}
-            <FormContainer classname={"mb-20"}>
+            <FormContainer onFormClick={forgotPassword} classname={"mb-20"}>
                 <FormHeader title="Восстановление пароля" />
                 <EmailInput
                     onChange={handleChange}
@@ -41,7 +40,6 @@ export const ForgotPasswordPage = () => {
                         htmlType="button"
                         type="primary"
                         size="medium"
-                        onClick={forgotPassword}
                     >
                         Восстановить
                     </Button>

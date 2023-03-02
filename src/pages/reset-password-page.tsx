@@ -18,7 +18,7 @@ export const ResetPasswordPage = () => {
         !location?.state?.resetPassword && navigate("/forgot-password");
     }, [location.state, navigate]);
 
-    const {values, handleChange} = useForm({ password: "", key: "" });
+    const {values, handleChange} = useForm({ password: "", key: "", name: "", email: ""});
 
     return (
         <PagesCenterContainer>

@@ -13,7 +13,7 @@ export const ProfilePage = () => {
     const dispatch = useDispatch();
 
     const user = useSelector((store: any) => store.user.data);
-    const { values, handleChange, setValues } = useForm({ email: user?.email, name: user?.name, password: "" });
+    const { values, handleChange, setValues } = useForm({ email: user?.email, name: user?.name, password: "", key: ""});
     
     // временно оставлю тут закомментированный код
     // const [formValue, setFormValue] = useState({ email: user?.email, name: user?.name, password: "" }); 
@@ -26,16 +26,16 @@ export const ProfilePage = () => {
     //     }));
     // };
 
-    const update = useCallback(
-        (e: any) => {
+    const update: React.FormEventHandler<HTMLFontElement> = useCallback(
+        (e: React.FormEvent) => {
             e.preventDefault();
             dispatch<any>(updateUser(values))
         },
-        [updateUser]
+        [updateUser, values]
     );
     
     const clearForm = () => {
-        setValues({ email: user?.email, name: user?.name, password: "" })
+        setValues({ email: user?.email, name: user?.name, password: "", key: "" })
     };
 
     return (
@@ -58,7 +58,6 @@ export const ProfilePage = () => {
                         name={"email"}
                         isIcon={false}
                         placeholder="Email"
-                        // icon="EditIcon"
                     />
                     <PasswordInput
                         onChange={handleChange}

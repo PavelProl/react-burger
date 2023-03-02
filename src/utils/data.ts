@@ -1,4 +1,8 @@
-export const data = [
+import { IIngredient } from "../components/burger-ingredient/burger-ingredient";
+
+type IData = Omit<IIngredient, "id">;
+
+export const data: IData[] = [
     {
         "_id":"60666c42cc7b410027a1a9b1",
         "name":"Краторная булка N-200i",

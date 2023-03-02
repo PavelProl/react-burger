@@ -2,35 +2,18 @@ import { setCookie, getCookie } from "./cookies";
 
 export const BASE_URL: string = "https://norma.nomoreparties.space/api/";
 
-interface IRequestHeaders {
-    'Content-Type': string;
-    Accept?: string;
-    Authorization?: string;
-};
-
-interface IRequestOption {
-    method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-    headers: Headers;
-    body?: string;
-}
-
+type TServerResponse<T> = {
+    success: boolean;
+} & T;
+  
 type TUser = {
-    id?: number;
+    // id?: number;
     password?: string;
     email?: string;
     name?: string;
 };
 
-type TServerResponse<T> = {
-    success: boolean;
-    // user?: TUser;
-    // message?: string;
-    // headers?: Headers;
-} & T;
-
-type TUserResponse = TServerResponse<{
-    data: TUser
-}>;
+type TCreateUserResponse = TServerResponse<TUser>;
 
 // функция проверки ответа на `ok`
 const checkResponse = <T>(res: Response): Promise<T> => {
@@ -70,12 +53,8 @@ export const getUserApi = () => {
     });
 };
 
-export const registerUserApi = (data: {
-    name: string;
-    email: string;
-    password: string;
-}) => {
-    return request("auth/register", {
+export const registerUserApi = (data: TUser) => {
+    return request<TCreateUserResponse>("auth/register", {
         method: "POST",
         headers: {
             "Content-Type": "application/json;charset=utf-8"
@@ -84,38 +63,8 @@ export const registerUserApi = (data: {
     });
 };
 
-export const updateUserApi = (data: {
-    name: string;
-    email: string;
-    password: string;
-}) => {
-    return request("auth/user", {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json;charset=utf-8",
-            Authorization: getCookie('accessToken') || ""
-        },
-        body: JSON.stringify(data)
-    });
-};
-
-export const loginUserApi = (data: {
-    email: string;
-    password: string;
-}) => {
-    return request("auth/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json; charset=utf-8",
-        },
-        body: JSON.stringify(data)
-    });
-};
-
-export const forgotPasswordApi = (data: {
-    password: string;
-}) => {
-    return request("password-reset", {
+export const loginUserApi = (data: TUser) => {
+    return request<TCreateUserResponse>("auth/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json; charset=utf-8",
@@ -136,8 +85,36 @@ export const logoutApi = () => {
     });
 };
 
+export const updateUserApi = (data: TUser) => {
+    return request<TCreateUserResponse>("auth/user", {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json;charset=utf-8",
+            Authorization: getCookie('accessToken') || ""
+        },
+        body: JSON.stringify(data)
+    });
+};
+
+export const forgotPasswordApi = (data: {
+    password: string;
+}) => {
+    return request("password-reset", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify(data)
+    });
+};
+
+type TRefreshResponse = TServerResponse<{
+    refreshToken: string;
+    accessToken: string;
+}>;
+
 export const refreshToken = () => {
-    return request("auth/token", {
+    return fetch(`${BASE_URL}/auth/token`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json; charset=utf-8",
@@ -145,27 +122,61 @@ export const refreshToken = () => {
         body: JSON.stringify({
             "token":  getCookie("refreshToken") || ""
         }),
+        // body: JSON.stringify({
+        //     token: localStorage.getItem("refreshToken"),
+        // }),
+    })
+    .then((res) => checkResponse<TRefreshResponse>(res))
+    .then((refreshData) => {
+        if (!refreshData.success) {
+            return Promise.reject(refreshData);
+        }
+        setCookie("refreshToken", refreshData.refreshToken);
+        // localStorage.setItem("refreshToken", refreshData.refreshToken);
+        setCookie("accessToken", refreshData.accessToken);
+        return refreshData;
     });
 };
 
-// здесь временно не типизировал
-export const fetchWithRefresh = async <T>(url: string, options: any): Promise<T> => {
+export const fetchWithRefresh = async <T>(
+    url: RequestInfo,
+    options: RequestInit
+) => {
     try {
-        const res = await fetch(url, options);
-        return await checkResponse(res);
-    } catch (err: any) {
-        if (err.message === "jwt expired") {
-            const refreshData: any = await refreshToken();
-            if (!refreshData.success) {
-                Promise.reject(refreshData);
-            }
-            setCookie("refreshToken", refreshData.refreshToken);
-            setCookie("accessToken", refreshData.accessToken);
-            options.headers.Authorization = refreshData.accessToken;
-            const res = await fetch(url, options);
-            return await checkResponse(res);
-        } else {
-            return Promise.reject(err);
+      const res = await fetch(url, options);
+      return await checkResponse<T>(res);
+    } catch (err) {
+      if ((err as { message: string }).message === "jwt expired") {
+        const refreshData = await refreshToken();
+        if (options.headers) {
+          (options.headers as { [key: string]: string }).Authorization =
+            refreshData.accessToken;
         }
+        const res = await fetch(url, options);
+        return await checkResponse<T>(res);
+      } else {
+        return Promise.reject(err);
+      }
     }
 };
+
+// export const fetchWithRefresh = async <T>(url: string, options: any): Promise<T> => {
+//     try {
+//         const res = await fetch(url, options);
+//         return await checkResponse(res);
+//     } catch (err: any) {
+//         if (err.message === "jwt expired") {
+//             const refreshData: any = await refreshToken();
+//             if (!refreshData.success) {
+//                 Promise.reject(refreshData);
+//             }
+//             setCookie("refreshToken", refreshData.refreshToken);
+//             setCookie("accessToken", refreshData.accessToken);
+//             options.headers.Authorization = refreshData.accessToken;
+//             const res = await fetch(url, options);
+//             return await checkResponse(res);
+//         } else {
+//             return Promise.reject(err);
+//         }
+//     }
+// };

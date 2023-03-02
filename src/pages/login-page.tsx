@@ -1,5 +1,5 @@
-import React, { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useCallback, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import { FormContainer } from "../components/form-container/form-container";
 import { PagesCenterContainer } from "../components/pages-center-container/pages-center-container";
 import { PagesFooterContainer } from "../components/pages-footer-container/pages-footer-container";
@@ -11,15 +11,21 @@ import { useForm } from "../hooks/useForm";
 
 export const LoginPage = () => {
     const dispatch = useDispatch();
-    // const user = useSelector(store => store.user.data);
-    const { values, handleChange } = useForm({ email: "", password: "" });
+    // const emailRef = useRef<HTMLInputElement>(null);
 
-    const login = useCallback(
-        (e: any) => {
+    const { values, handleChange } = useForm({ email: "", password: "", name: "", key: "" });
+    console.log(values)
+
+    // useEffect(() => {
+    //     emailRef.current?.focus();
+    // }, []);
+
+    const login: React.FormEventHandler<HTMLFontElement> = useCallback(
+        (e: React.FormEvent) => {
             e.preventDefault();
             dispatch<any>(loginUser(values));
         },
-        [loginUser]
+        [loginUser, values]
     );
 
     return (
@@ -28,6 +34,7 @@ export const LoginPage = () => {
             <FormContainer onFormClick={login} classname={"mb-20"}>
                 <FormHeader title="Вход" />
                 <EmailInput
+                    // ref={emailRef}
                     autoFocus
                     onChange={handleChange}
                     value={values.email}
@@ -41,16 +48,13 @@ export const LoginPage = () => {
                     name={'password'}
                     placeholder="Пароль"
                 />
-                {/* <Link to="/"> */}
-                    <Button
-                        htmlType="submit"
-                        type="primary"
-                        size="medium"
-                        // onClick={login}
-                    >
-                            Войти
-                    </Button>
-                {/* </Link> */}
+                <Button
+                    htmlType="submit"
+                    type="primary"
+                    size="medium"
+                >
+                        Войти
+                </Button>
 
             </FormContainer>
 

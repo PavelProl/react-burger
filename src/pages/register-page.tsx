@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { FormContainer } from "../components/form-container/form-container";
 import { PagesCenterContainer } from "../components/pages-center-container/pages-center-container";
@@ -8,20 +8,31 @@ import { Button, Input, EmailInput, PasswordInput } from "@ya.praktikum/react-de
 import { FooterString } from "../components/footer-string/footer-string";
 import { registerUser } from "../services/actions/user";
 
+type TRegisterForm = {
+    email: string;
+    name: string;
+    password: string;
+};
+
 export const RegisterPage = () => {
     const dispatch = useDispatch();
+    const nameRef = useRef<HTMLInputElement>(null);
 
-    const [form, setUser] = useState({ email: "", name: "", password: "" });
+    const [form, setUser] = useState<TRegisterForm>({ email: "", name: "", password: "" });
 
-    const register = useCallback(
-        (e: any) => {
+    useEffect(() => {
+        nameRef.current?.focus();
+    }, []);
+
+    const register: React.FormEventHandler<HTMLFormElement> = useCallback(
+        (e: React.FormEvent) => {
             e.preventDefault();
             dispatch<any>(registerUser(form))
         },
-        [registerUser]
+        [registerUser, form]
     );
 
-    const onChange = (e: any) => {
+    const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         setUser({ ...form, [e.target.name]: e.target.value });
     };
 
@@ -31,21 +42,22 @@ export const RegisterPage = () => {
             <FormContainer onFormClick={register} classname={"mb-20"}>
                 <FormHeader title="Регистрация" />
                 <Input
-                    onChange={onChange}
+                    ref={nameRef}
+                    onChange={handleChange}
                     value={form.name}
                     type={'text'}
                     name={'name'}
                     placeholder={'Имя'}
                 />
                 <EmailInput
-                    onChange={onChange}
+                    onChange={handleChange}
                     value={form.email}
                     name={"email"}
                     isIcon={false}
                     placeholder="E-mail"
                 />
                  <PasswordInput
-                    onChange={onChange}
+                    onChange={handleChange}
                     value={form.password}
                     name={'password'}
                 />
