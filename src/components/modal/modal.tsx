@@ -16,7 +16,7 @@ export const Modal: FunctionComponent<TModalProps> = (props) => {
     const {children, closeModal} = props;
 
     React.useEffect(() => {
-        function closeByEscape(evt: any) {
+        function closeByEscape(evt: KeyboardEvent) {
             if(evt.key === 'Escape') {
                 closeModal();
             }

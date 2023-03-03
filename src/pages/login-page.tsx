@@ -13,15 +13,15 @@ export const LoginPage = () => {
     const dispatch = useDispatch();
     // const emailRef = useRef<HTMLInputElement>(null);
 
-    const { values, handleChange } = useForm({ email: "", password: "", name: "", key: "" });
+    const { values, handleChange } = useForm({ email: "", password: "", name: "" });
     console.log(values)
 
     // useEffect(() => {
     //     emailRef.current?.focus();
     // }, []);
 
-    const login: React.FormEventHandler<HTMLFontElement> = useCallback(
-        (e: React.FormEvent) => {
+    const login: React.FormEventHandler<HTMLFormElement> = useCallback(
+        (e) => {
             e.preventDefault();
             dispatch<any>(loginUser(values));
         },

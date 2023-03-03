@@ -13,7 +13,7 @@ export const ProfilePage = () => {
     const dispatch = useDispatch();
 
     const user = useSelector((store: any) => store.user.data);
-    const { values, handleChange, setValues } = useForm({ email: user?.email, name: user?.name, password: "", key: ""});
+    const { values, handleChange, setValues } = useForm({ email: user?.email, name: user?.name, password: ""});
     
     // временно оставлю тут закомментированный код
     // const [formValue, setFormValue] = useState({ email: user?.email, name: user?.name, password: "" }); 
@@ -26,7 +26,7 @@ export const ProfilePage = () => {
     //     }));
     // };
 
-    const update: React.FormEventHandler<HTMLFontElement> = useCallback(
+    const update: React.FormEventHandler<HTMLFormElement> = useCallback(
         (e: React.FormEvent) => {
             e.preventDefault();
             dispatch<any>(updateUser(values))
@@ -35,7 +35,7 @@ export const ProfilePage = () => {
     );
     
     const clearForm = () => {
-        setValues({ email: user?.email, name: user?.name, password: "", key: "" })
+        setValues({ email: user?.email, name: user?.name, password: "" })
     };
 
     return (

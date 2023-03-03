@@ -14,9 +14,9 @@ export const ForgotPasswordPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const { values, handleChange } = useForm({ email: "", password: "", name: "", key: "" });
+    const { values, handleChange } = useForm({ email: "", password: "", name: "" });
 
-    const forgotPassword: React.FormEventHandler<HTMLFontElement> = useCallback(() => {
+    const forgotPassword: React.FormEventHandler<HTMLFormElement> = useCallback(() => {
         navigate("/reset-password", {
             state: { resetPassword: true }
         });

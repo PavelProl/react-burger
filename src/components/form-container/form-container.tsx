@@ -2,7 +2,7 @@ import React, { FunctionComponent, ReactNode } from "react";
 import styles from "./form-container.styles.module.css";
 
 type TFormContainerProps = {
-    onFormClick?: (e: any) => void;
+    onFormClick?: React.FormEventHandler<HTMLFormElement>;
     children: ReactNode;
     classname?: string;
 };
