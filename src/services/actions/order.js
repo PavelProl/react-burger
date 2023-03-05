@@ -18,7 +18,7 @@ export const getOrderNumber = (selectedIngredients) => {
         return fetchWithRefresh(`${BASE_URL}orders`, {
             method: "POST",
             headers: {
-                "Content-type": "application/json; charset=UTF-8",
+                "Content-Type": "application/json; charset=UTF-8",
             },
             body: JSON.stringify({"ingredients": selectedIngredients})
         })
