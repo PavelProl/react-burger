@@ -11,7 +11,7 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 // Services
 import { getIngredients } from "../../services/actions/ingredients";
-import { closeIngredient } from "../../services/actions/currentIngredient";
+import { closeIngredient } from "../../services/actions/constructor";
 import { closeOrder } from "../../services/actions/order";
 
 // // Компоненты
@@ -42,7 +42,7 @@ export const App = () => {
     const ingredientsRequest = useSelector((store: any) => store.ingredients.ingredientsRequest);
     const ingredientsFailed = useSelector((store: any) => store.ingredients.ingredientsFailed);
     const ingredients = useSelector((store: any) => store.ingredients.ingredients);
-    const ingredientModalVisible = useSelector((store: any) => store.currentIngredient.ingredientModalVisible);
+    const ingredientModalVisible = useSelector((store: any) => store.constructor.ingredientModalVisible);
     const orderModalVisible = useSelector((store: any) => store.order.orderModalVisible);
 
     // получем ингредиенты запросом к API

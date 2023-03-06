@@ -9,7 +9,8 @@ import constructorStyles from "./constructorStyles.module.css";
 import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerConstructorElement } from "../burger-constructor-element/burger-constructor-element";
 
-import { IIngredient } from "../burger-ingredient/burger-ingredient";
+// import { IIngredient } from "../burger-ingredient/burger-ingredient";
+import { TIngredient } from "../../services/types/data";
 
 export const BurgerConstructor = () => {
     const dispatch = useDispatch();
@@ -21,7 +22,7 @@ export const BurgerConstructor = () => {
 
     const [, dropTarget] = useDrop({
         accept: "ingredient",
-        drop: item => {
+        drop: (item: TIngredient) => {
             return dispatch(addIngredientToConstructor(item))
         }
     });
@@ -40,7 +41,7 @@ export const BurgerConstructor = () => {
     const finalPrice = useMemo(() => {
         return (
             (bun ? bun.price * 2 : 0) +
-            (selectedIngredients.reduce((acc: number, item: IIngredient) => acc + item.price, 0))
+            (selectedIngredients.reduce((acc: number, item: TIngredient) => acc + item.price, 0))
         );
     }, [selectedIngredients, bun]);
 
@@ -69,7 +70,7 @@ export const BurgerConstructor = () => {
 
                 {/* СКРОЛЛ-КОНТЕЙНЕР ИНГРЕДИЕНТОВ */}
                 <ul className={constructorStyles.scroll_container}>
-                    {selectedIngredients.length > 0 && selectedIngredients.map((ingredient: IIngredient, index: number) => {
+                    {selectedIngredients.length > 0 && selectedIngredients.map((ingredient: TIngredient, index: number) => {
                         return (
                             <BurgerConstructorElement
                                 ingredient={ingredient}

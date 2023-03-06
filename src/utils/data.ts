@@ -1,8 +1,9 @@
-import { IIngredient } from "../components/burger-ingredient/burger-ingredient";
+// import { IIngredient } from "../components/burger-ingredient/burger-ingredient";
+import { TData } from "../services/types/data";
 
-type IData = Omit<IIngredient, "id">;
+// type TData = Omit<TIngredient, "id">;
 
-export const data: IData[] = [
+export const data: TData[] = [
     {
         "_id":"60666c42cc7b410027a1a9b1",
         "name":"Краторная булка N-200i",

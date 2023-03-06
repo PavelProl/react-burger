@@ -27,7 +27,7 @@ const checkResponse = <T>(res: Response): Promise<T> => {
 
 // универсальная фукнция запроса с проверкой ответа на `ok` и `success`
 // В вызов приходят `endpoint`(часть урла, которая идет после базового) и options
-export const request = <T>(endpoint: string, options: RequestInit): Promise<T> => {
+export const request = <T>(endpoint: string, options?: RequestInit): Promise<T> => {
     return fetch(`${BASE_URL}${endpoint}`, options)
         .then((res) => checkResponse<TServerResponse<T>>(res))
         // .then((res) => checkSuccess(res));

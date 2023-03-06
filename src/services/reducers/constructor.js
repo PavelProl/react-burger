@@ -1,9 +1,18 @@
-import { ADD_INGREDIENT, DELETE_INGREDIENT, REORDER_INGREDIENTS } from "../actions/constructor";
+import {
+    ADD_INGREDIENT,
+    DELETE_INGREDIENT,
+    REORDER_INGREDIENTS,
+    OPEN_INGREDIENT,
+    CLOSE_INGREDIENT
+} from "../constants/constructor";
 import { CLEAR_CONSTRUCTOR } from "../actions/order";
 
 const initialState = {
     selectedIngredients: [],
-    bun: null
+    bun: null,
+
+    currentIngredient: "",
+    ingredientModalVisible: false
 };
 
 export const constructorReducer = (state = initialState, action) => {
@@ -47,6 +56,17 @@ export const constructorReducer = (state = initialState, action) => {
                 selectedIngredients: [...filteredSelectedIngredients]
             }
         }
+        case OPEN_INGREDIENT:
+            return {
+                ...state,
+                currentIngredient: action.currentIngredient,
+                ingredientModalVisible: true
+            }
+        case CLOSE_INGREDIENT:
+            return {
+                ...state,
+                ingredientModalVisible: false
+            }
         default: return state
     }
 };

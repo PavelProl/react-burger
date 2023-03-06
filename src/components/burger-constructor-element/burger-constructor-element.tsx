@@ -1,7 +1,7 @@
 import React, {useRef, FunctionComponent } from "react";
 import { useDispatch } from "react-redux";
 import { useDrop, useDrag } from "react-dnd";
-import { REORDER_INGREDIENTS, DELETE_INGREDIENT } from "../../services/actions/constructor";
+import { REORDER_INGREDIENTS, DELETE_INGREDIENT } from "../../services/constants/constructor";
 import burgerConstructorElementStyles from "./burger-constructor-element.module.css";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
