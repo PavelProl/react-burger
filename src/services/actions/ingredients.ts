@@ -5,6 +5,7 @@ import {
     GET_INGREDIENTS_FAILED
 } from "../constants/constructor";
 import { TData } from "../types/data";
+import { getIngredientsApi } from "../../utils/api";
 
 export interface IGetIngredientsAction {
     readonly type: typeof GET_INGREDIENTS_REQUEST;
@@ -29,32 +30,30 @@ export const getIngredientsAction = (): IGetIngredientsAction => {
     return {
         type: GET_INGREDIENTS_REQUEST
     }
-}
+};
 
 export const getIngredientsSuccessAction = (ingredients: TData[]): IGetIngredientsSuccessAction => {
     return {
         type: GET_INGREDIENTS_SUCCESS,
         ingredients
     }
-}
+};
 
-// исправить функцию
+export const getIngredientsFailedAction = (): IGetIngredientsFailedAction => {
+    return {
+        type: GET_INGREDIENTS_FAILED
+    }
+};
+
 export const getIngredients = () => {
     return function(dispatch: any) {
-        dispatch({
-            type: GET_INGREDIENTS_REQUEST
-        });
-        request("ingredients")
+        dispatch(getIngredientsAction());
+        getIngredientsApi()
             .then((res: any) => {
-                dispatch({
-                    type: GET_INGREDIENTS_SUCCESS,
-                    ingredients: res.data
-                });
+                dispatch(getIngredientsSuccessAction(res.data))
             })
-            .catch(e => {
-                dispatch({
-                    type: GET_INGREDIENTS_FAILED
-                });
+            .catch((e) => {
+                dispatch(getIngredientsFailedAction())
             })
     }
 };

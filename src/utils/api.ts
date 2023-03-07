@@ -32,10 +32,13 @@ export const request = <T>(endpoint: string, options?: RequestInit): Promise<T> 
         .then((res) => checkResponse<TServerResponse<T>>(res))
         // .then((res) => checkSuccess(res));
         .then((data) => {
-            console.log("data", data)
             if (data?.success) return data;
             return Promise.reject(data)
         });
+};
+
+export const getIngredientsApi = () => {
+    return request("ingredients");
 };
 
 export const getUserApi = () => {
