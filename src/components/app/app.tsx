@@ -11,8 +11,8 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 // Services
 import { getIngredients } from "../../services/actions/ingredients";
-import { closeIngredient } from "../../services/actions/constructor";
-import { closeOrder } from "../../services/actions/order";
+import { closeIngredientAction } from "../../services/actions/constructor";
+import { closeOrderAction } from "../../services/actions/order";
 
 // // Компоненты
 import { AppHeader } from "../app-header/app-header";
@@ -55,11 +55,11 @@ export const App = () => {
 
     const closeModal = () => {
         if (ingredientModalVisible) {
-            dispatch(closeIngredient())
+            dispatch(closeIngredientAction())
         }
         navigate("/");
         if (orderModalVisible) {
-            dispatch(closeOrder())
+            dispatch(closeOrderAction())
         }
     };
 

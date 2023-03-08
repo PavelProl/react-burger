@@ -3,9 +3,9 @@ import {
     DELETE_INGREDIENT,
     REORDER_INGREDIENTS,
     OPEN_INGREDIENT,
-    CLOSE_INGREDIENT
-} from "../constants/constructor";
-import { CLEAR_CONSTRUCTOR } from "../actions/order";
+    CLOSE_INGREDIENT,
+    CLEAR_CONSTRUCTOR
+} from "../constants/constants";
 
 const initialState = {
     selectedIngredients: [],

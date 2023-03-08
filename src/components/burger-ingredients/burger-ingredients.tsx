@@ -1,13 +1,14 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useInView } from "react-intersection-observer";
-import { openIngredient } from "../../services/actions/constructor";
+import { openIngredientAction } from "../../services/actions/constructor";
 import ingredientsStyles from "./burger-ingredients.module.css";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IngredientsCategory } from "../ingredients-category/ingredients-category";
 
-import { IIngredient } from "../burger-ingredient/burger-ingredient";
+// import { IIngredient } from "../burger-ingredient/burger-ingredient";
+import { TIngredient } from "../../services/types/data";
 
 export const BurgerIngredients = () => {
     const dispatch = useDispatch();
@@ -46,20 +47,20 @@ export const BurgerIngredients = () => {
     
     // открытие модального окна ингредиента
     const onIngredientClick = (id: string) => {
-        const ingredient = ingredients.find((item: IIngredient) => item._id === id);
-        dispatch(openIngredient(ingredient));
+        const ingredient = ingredients.find((item: TIngredient) => item._id === id);
+        dispatch(openIngredientAction(ingredient));
     };
 
     const buns = useMemo(() => {
-        return ingredients.filter((ingredient: IIngredient) => ingredient.type === "bun")
+        return ingredients.filter((ingredient: TIngredient) => ingredient.type === "bun")
     }, [ingredients]);
 
     const mains = useMemo(() => {
-        return ingredients.filter((ingredient: IIngredient) => ingredient.type === "main")
+        return ingredients.filter((ingredient: TIngredient) => ingredient.type === "main")
     }, [ingredients]);
 
     const sauces = useMemo(() => {
-        return ingredients.filter((ingredient: IIngredient) => ingredient.type === "sauce")
+        return ingredients.filter((ingredient: TIngredient) => ingredient.type === "sauce")
     }, [ingredients]);
 
     return (

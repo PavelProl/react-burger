@@ -1,14 +1,15 @@
 import React, {useRef, FunctionComponent } from "react";
 import { useDispatch } from "react-redux";
 import { useDrop, useDrag } from "react-dnd";
-import { REORDER_INGREDIENTS, DELETE_INGREDIENT } from "../../services/constants/constructor";
+import { REORDER_INGREDIENTS, DELETE_INGREDIENT } from "../../services/constants/constants";
 import burgerConstructorElementStyles from "./burger-constructor-element.module.css";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { IIngredient } from "../burger-ingredient/burger-ingredient";
+// import { IIngredient } from "../burger-ingredient/burger-ingredient";
+import { TIngredient } from "../../services/types/data";
 
 interface IBurgerConstructorElementProps {
-    ingredient: IIngredient;
+    ingredient: TIngredient;
     index: number;
 }
 

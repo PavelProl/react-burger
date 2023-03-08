@@ -1,13 +1,12 @@
-import { request } from "../../utils/api";
 import {
     GET_INGREDIENTS_REQUEST,
     GET_INGREDIENTS_SUCCESS,
     GET_INGREDIENTS_FAILED
-} from "../constants/constructor";
+} from "../constants/constants";
 import { TData } from "../types/data";
 import { getIngredientsApi } from "../../utils/api";
 
-export interface IGetIngredientsAction {
+export interface IGetIngredientsRequestAction {
     readonly type: typeof GET_INGREDIENTS_REQUEST;
 }
 
@@ -21,12 +20,12 @@ export interface IGetIngredientsFailedAction {
 }
 
 export type TGetIngredientsActions =
-    | IGetIngredientsAction
+    | IGetIngredientsRequestAction
     | IGetIngredientsSuccessAction
     | IGetIngredientsFailedAction
 ;
 
-export const getIngredientsAction = (): IGetIngredientsAction => {
+export const getIngredientsRequestAction = (): IGetIngredientsRequestAction => {
     return {
         type: GET_INGREDIENTS_REQUEST
     }
@@ -47,7 +46,7 @@ export const getIngredientsFailedAction = (): IGetIngredientsFailedAction => {
 
 export const getIngredients = () => {
     return function(dispatch: any) {
-        dispatch(getIngredientsAction());
+        dispatch(getIngredientsRequestAction());
         getIngredientsApi()
             .then((res: any) => {
                 dispatch(getIngredientsSuccessAction(res.data))

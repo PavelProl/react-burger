@@ -2,8 +2,8 @@ import React, { useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useDrop } from "react-dnd";
-import { addIngredientToConstructor } from "../../services/actions/constructor";
-import { openOrder } from "../../services/actions/order";
+import { addIngredientToConstructorAction } from "../../services/actions/constructor";
+import { openOrderAction } from "../../services/actions/order";
 import constructorStyles from "./constructorStyles.module.css";
 
 import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -23,7 +23,7 @@ export const BurgerConstructor = () => {
     const [, dropTarget] = useDrop({
         accept: "ingredient",
         drop: (item: TIngredient) => {
-            return dispatch(addIngredientToConstructor(item))
+            return dispatch(addIngredientToConstructorAction(item))
         }
     });
 
@@ -35,7 +35,7 @@ export const BurgerConstructor = () => {
         if (!bun) {
             return;
         };
-        dispatch(openOrder());
+        dispatch(openOrderAction());
     };
 
     const finalPrice = useMemo(() => {

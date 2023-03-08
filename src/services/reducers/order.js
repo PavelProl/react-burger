@@ -5,7 +5,7 @@ import {
     GET_ORDER_REQUEST,
     GET_ORDER_SUCCESS,
     GET_ORDER_FAILED
-} from "../actions/order";
+} from "../constants/constants";
 
 const initialState = {
     orderModalVisible: false,

@@ -4,12 +4,13 @@ import ingredientsCategoryStyles from "./ingredients-category.module.css";
 import { forwardRef } from 'react';
 import { Ingredient } from "../burger-ingredient/burger-ingredient";
 
-import { IIngredient } from "../burger-ingredient/burger-ingredient";
+// import { IIngredient } from "../burger-ingredient/burger-ingredient";
+import { TIngredient } from "../../services/types/data";
 
 type TIngredientsCategoryProps = {
     id: string;
     title: string;
-    ingredients: Array<IIngredient>;
+    ingredients: Array<TIngredient>;
     onIngredientClick: any;
     ref: ForwardedRef<HTMLUListElement>;
 };
@@ -22,7 +23,7 @@ export const IngredientsCategory: FunctionComponent<TIngredientsCategoryProps> =
         const { bun, selectedIngredients } = burgerConstructor;
         const counters: any = {};
         if (selectedIngredients) {
-            selectedIngredients.forEach((ingredient: IIngredient) => {
+            selectedIngredients.forEach((ingredient: TIngredient) => {
                 if (!counters[ingredient._id]) {
                     counters[ingredient._id] = 0
                 }

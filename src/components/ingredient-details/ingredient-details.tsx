@@ -3,11 +3,12 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import ingredientDetailsStyles from "./ingredient-details.module.css";
 
-import { IIngredient } from "../burger-ingredient/burger-ingredient";
+// import { IIngredient } from "../burger-ingredient/burger-ingredient";
+import { TIngredient } from "../../services/types/data";
 
 export const IngredientDetails = () => {
     const { id } = useParams();
-    const ingredient = useSelector((store: any) => store.ingredients.ingredients.find((el: IIngredient) => el._id === id));
+    const ingredient = useSelector((store: any) => store.ingredients.ingredients.find((el: TIngredient) => el._id === id));
     const {image, name, calories, proteins, fat, carbohydrates} = ingredient;
     return (
         <div className={`${ingredientDetailsStyles.ingredientDetails_content} ${"mb-15"}`}>

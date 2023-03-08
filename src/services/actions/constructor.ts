@@ -4,8 +4,9 @@ import { TIngredient } from "../types/data";
 import {
     ADD_INGREDIENT,
     OPEN_INGREDIENT,
-    CLOSE_INGREDIENT
-} from "../constants/constructor";
+    CLOSE_INGREDIENT,
+    CLEAR_CONSTRUCTOR
+} from "../constants/constants";
 
 export interface IAddIngredientAction {
     readonly type: typeof ADD_INGREDIENT;
@@ -21,13 +22,17 @@ export interface ICloseIngredient {
     readonly type: typeof CLOSE_INGREDIENT;
 }
 
+export interface IClearConstructorAction {
+    readonly type: typeof CLEAR_CONSTRUCTOR;
+}
+
 export type TIngredientActions =
     | IAddIngredientAction
     | IOpenIngredientAction
     | ICloseIngredient
 ;
 
-export const addIngredientToConstructor = (ingredient: TIngredient): IAddIngredientAction => {
+export const addIngredientToConstructorAction = (ingredient: TIngredient): IAddIngredientAction => {
     return {
         type: ADD_INGREDIENT,
         payload: {
@@ -37,7 +42,7 @@ export const addIngredientToConstructor = (ingredient: TIngredient): IAddIngredi
     }
 };
 
-export const openIngredient = (currentIngredient: TIngredient) => {
+export const openIngredientAction = (currentIngredient: TIngredient) => {
     return {
         type: OPEN_INGREDIENT,
         currentIngredient,
@@ -45,8 +50,14 @@ export const openIngredient = (currentIngredient: TIngredient) => {
     }
 };
 
-export const closeIngredient = () => {
+export const closeIngredientAction = () => {
     return {
         type: CLOSE_INGREDIENT
+    }
+};
+
+export const clearConstructorAction = () => {
+    return {
+        type: CLEAR_CONSTRUCTOR
     }
 };

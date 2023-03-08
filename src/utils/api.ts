@@ -1,4 +1,5 @@
 import { setCookie, getCookie } from "./cookies";
+import { TData } from "../services/types/data";
 
 export const BASE_URL: string = "https://norma.nomoreparties.space/api/";
 
@@ -39,6 +40,16 @@ export const request = <T>(endpoint: string, options?: RequestInit): Promise<T> 
 
 export const getIngredientsApi = () => {
     return request("ingredients");
+};
+
+export const getOrderNumberApi = (selectedIngredients: TData[]) => {
+    return fetchWithRefresh(`${BASE_URL}orders`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify({"ingredients": selectedIngredients})
+    })
 };
 
 export const getUserApi = () => {
@@ -162,24 +173,3 @@ export const fetchWithRefresh = async <T>(
       }
     }
 };
-
-// export const fetchWithRefresh = async <T>(url: string, options: any): Promise<T> => {
-//     try {
-//         const res = await fetch(url, options);
-//         return await checkResponse(res);
-//     } catch (err: any) {
-//         if (err.message === "jwt expired") {
-//             const refreshData: any = await refreshToken();
-//             if (!refreshData.success) {
-//                 Promise.reject(refreshData);
-//             }
-//             setCookie("refreshToken", refreshData.refreshToken);
-//             setCookie("accessToken", refreshData.accessToken);
-//             options.headers.Authorization = refreshData.accessToken;
-//             const res = await fetch(url, options);
-//             return await checkResponse(res);
-//         } else {
-//             return Promise.reject(err);
-//         }
-//     }
-// };

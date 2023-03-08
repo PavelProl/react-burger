@@ -15,3 +15,7 @@ export type TIngredient = {
 };
 
 export type TData = Omit<TIngredient, "id">;
+
+export type TOrderNumber = {
+    number: number
+};
