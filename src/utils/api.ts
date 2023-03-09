@@ -1,20 +1,13 @@
 import { setCookie, getCookie } from "./cookies";
-import { TData } from "../services/types/data";
+import { TData, TUser } from "../services/types/data";
 
 export const BASE_URL: string = "https://norma.nomoreparties.space/api/";
 
 type TServerResponse<T> = {
     success: boolean;
 } & T;
-  
-type TUser = {
-    // id?: number;
-    password?: string;
-    email?: string;
-    name?: string;
-};
 
-type TCreateUserResponse = TServerResponse<TUser>;
+export type TCreateUserResponse = TServerResponse<TUser>;
 
 // функция проверки ответа на `ok`
 const checkResponse = <T>(res: Response): Promise<T> => {

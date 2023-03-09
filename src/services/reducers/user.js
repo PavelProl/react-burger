@@ -13,7 +13,7 @@ import {
     LOGIN_USER_REQUEST,
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAILED,
-    // ---- FORGOT PASS
+    // ---- FORGOT PASSWORD
     FORGOT_PASSWORD_REQUEST,
     FORGOT_PASSWORD_SUCCESS,
     FORGOT_PASSWORD_FAILED,
@@ -23,7 +23,7 @@ import {
     UPDATE_USER_FAILED,
     // ---- LOGOUT
     LOGOUT_USER
-} from "../actions/user";
+} from "../constants/constants";
 
 const initialState = {
     isAuthChecked: false,
@@ -83,7 +83,8 @@ export const userReducer = (state = initialState, action) => {
         case UPDATE_USER_SUCCESS: {
             return {
                 ...state,
-                data: action.payload
+                // data: action.payload
+                data: action.user
             }
         }
         case UPDATE_USER_FAILED: {

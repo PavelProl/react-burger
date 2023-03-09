@@ -19,3 +19,10 @@ export type TData = Omit<TIngredient, "id">;
 export type TOrderNumber = {
     number: number
 };
+
+export type TUser = {
+    // id?: number;
+    password?: string;
+    email?: string;
+    name?: string;
+};
