@@ -1,6 +1,6 @@
 import { getCookie, setCookie, deleteCookie } from "../../utils/cookies";
 import { TUser } from "../types/data";
-import { TCreateUserResponse } from "../../utils/api";
+import { TCreateUserResponse, TRegisterUserResponce } from "../../utils/api";
 import {
     registerUserApi,
     forgotPasswordApi,
@@ -38,7 +38,8 @@ export interface IRegisterUserRequestAction {
 }
 
 export interface IRegisterUserSuccessAction {
-    readonly type: typeof REGISTER_USER_SUCCESS;
+    readonly type: typeof REGISTER_USER_SUCCESS,
+    user: TRegisterUserResponce
 }
 
 export interface IRegisterUserFailedAction {
@@ -63,7 +64,8 @@ export interface ILoginUserRequestAction {
 }
 
 export interface ILoginUserSuccessAction {
-    readonly type: typeof LOGIN_USER_SUCCESS;
+    readonly type: typeof LOGIN_USER_SUCCESS,
+    user: TRegisterUserResponce
 }
 
 export interface ILoginUserFailedAction {
@@ -87,7 +89,8 @@ export interface IUpdateUserRequestAction {
 }
 
 export interface IUpdateUserSuccessAction {
-    readonly type: typeof UPDATE_USER_SUCCESS;
+    readonly type: typeof UPDATE_USER_SUCCESS,
+    user: TCreateUserResponse
 }
 
 export interface IUpdateUserFailedAction {
@@ -140,9 +143,10 @@ export const registerUserRequestAction = (): IRegisterUserRequestAction => {
     }
 };
 
-export const registerUserSuccessAction = (): IRegisterUserSuccessAction => {
+export const registerUserSuccessAction = (user: TRegisterUserResponce): IRegisterUserSuccessAction => {
     return {
-        type: REGISTER_USER_SUCCESS
+        type: REGISTER_USER_SUCCESS,
+        user
     }
 };
 
@@ -177,9 +181,10 @@ export const loginUserRequestAction = (): ILoginUserRequestAction => {
     }
 };
 
-export const loginUserSuccessAction = (): ILoginUserSuccessAction => {
+export const loginUserSuccessAction = (user: TRegisterUserResponce): ILoginUserSuccessAction => {
     return {
-        type: LOGIN_USER_SUCCESS
+        type: LOGIN_USER_SUCCESS,
+        user
     }
 };
 
@@ -213,9 +218,10 @@ export const updateUserRequestAction = (): IUpdateUserRequestAction => {
     }
 };
 
-export const updateUserSuccessAction = (): IUpdateUserSuccessAction => {
+export const updateUserSuccessAction = (user: TCreateUserResponse): IUpdateUserSuccessAction => {
     return {
-        type: UPDATE_USER_SUCCESS
+        type: UPDATE_USER_SUCCESS,
+        user
     }
 };
 
@@ -262,62 +268,61 @@ export const getUser = (afterCallback: any) => (dispatch: any) => {
         });
 };
 
-export const logoutUser = () => (dispatch) => {
+export const logoutUser = () => (dispatch: any) => {
     return logoutApi()
         .then(() => {
             deleteCookie("accessToken");
             deleteCookie("refreshToken");
-            dispatch({ type: LOGOUT_USER });
+            dispatch(logoutUserAction());
         })
         .catch(() => {
             alert("Ошибка выхода пользователя");
         })
 };
 
-export const registerUser = ({email, name, password}) => (dispatch) => {
-    dispatch(
-        {type: REGISTER_USER_REQUEST }
-    );
-    return registerUserApi({ email, name, password })
-        .then((res) => {
+export const registerUser = (user: TUser) => (dispatch: any) => {
+    dispatch(registerUserRequestAction());
+    return registerUserApi(user)
+        .then((res: any) => {
                 setCookie("accessToken", res.accessToken);
                 setCookie("refreshToken", res.refreshToken);
-            dispatch({
-                type: REGISTER_USER_SUCCESS,
-                payload: res
-            });
+                dispatch(registerUserSuccessAction(res.user))
+            // dispatch({
+            //     type: REGISTER_USER_SUCCESS,
+            //     payload: res
+            // });
         })
         .catch(() => {
             alert("Ошибка регистрации пользователя");
-            dispatch({ type: REGISTER_USER_FAILED });
+            dispatch(registerUserFailedAction());
         })
 };
 
-export const loginUser = ({ email, password }) => (dispatch) => {
-    dispatch({ type: LOGIN_USER_REQUEST });
-    return loginUserApi({ email, password })
-        .then((res) => {
+export const loginUser = (user: TUser) => (dispatch: any) => {
+    dispatch(loginUserRequestAction());
+    return loginUserApi(user)
+        .then((res: any) => {
             setCookie("accessToken", res.accessToken);
             setCookie("refreshToken", res.refreshToken);
-            console.log("RES FROM LOGIN USER", res)
-            dispatch({
-                type: LOGIN_USER_SUCCESS,
-                payload: res.user
-            });
+            console.log("RES FROM LOGIN USER", res);
+            dispatch(loginUserSuccessAction(res.user))
+            // dispatch({
+            //     type: LOGIN_USER_SUCCESS,
+            //     payload: res.user
+            // });
         });
 };
 
-export const updateUser = ({email, name, password}) => (dispatch) => {
-    dispatch(
-        {type: UPDATE_USER_REQUEST }
-    );
-    return updateUserApi({ email, name, password })
-        .then((res) => {
-                console.log("RES FROM UPDATE", res)
-            dispatch({
-                type: UPDATE_USER_SUCCESS,
-                payload: res.user
-            });
+export const updateUser = (user: TUser) => (dispatch: any) => {
+    dispatch(updateUserRequestAction());
+    return updateUserApi(user)
+        .then((res: any) => {
+                console.log("RES FROM UPDATE", res);
+                dispatch(updateUserSuccessAction(res.user))
+            // dispatch({
+            //     type: UPDATE_USER_SUCCESS,
+            //     payload: res.user
+            // });
         })
         .catch(() => {
             alert("Ошибка изменения пользователя");
@@ -325,19 +330,15 @@ export const updateUser = ({email, name, password}) => (dispatch) => {
         })
 };
 
-export const forgotUserPassword = ({ email }) => (dispatch) => {
-    dispatch(
-        { type: FORGOT_PASSWORD_REQUEST }
-    );
-    return forgotPasswordApi({ email })
-        .then(res => {
-            dispatch(
-                { type: FORGOT_PASSWORD_SUCCESS }
-            )
+export const forgotUserPassword = (user: TUser) => (dispatch: any) => {
+    dispatch(forgotPasswordRequestAction());
+    return forgotPasswordApi(user)
+        .then((res: any) => {
+            dispatch(forgotPasswordSuccessAction())
             console.log("data from forgotPass", res)
         })
         .catch(() => {
             alert("Ошибка восстановления пароля");
-            dispatch({ type: FORGOT_PASSWORD_FAILED });
+            dispatch(forgotPasswordFailedAction());
         })
 };

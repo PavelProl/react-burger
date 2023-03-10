@@ -64,7 +64,7 @@ export const userReducer = (state = initialState, action) => {
         case REGISTER_USER_SUCCESS: {
             return {
                 ...state,
-                data: action.payload
+                data: action.user
             }
         }
         case REGISTER_USER_FAILED: {
@@ -104,7 +104,7 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 getUserRequested: false,
-                data: action.payload
+                data: action.user
             }
         }
         case GET_USER_FAILED: {
@@ -124,7 +124,7 @@ export const userReducer = (state = initialState, action) => {
         case LOGIN_USER_SUCCESS: {
             return {
                 ...state,
-                data: action.payload,
+                data: action.user,
                 isLoggedIn: true
             }
         }

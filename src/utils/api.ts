@@ -9,6 +9,13 @@ type TServerResponse<T> = {
 
 export type TCreateUserResponse = TServerResponse<TUser>;
 
+export type TRefreshResponse = TServerResponse<{
+    refreshToken: string;
+    accessToken: string;
+}>;
+
+export type TRegisterUserResponce = TRefreshResponse & TUser;
+
 // функция проверки ответа на `ok`
 const checkResponse = <T>(res: Response): Promise<T> => {
   if (res.ok) {
@@ -61,7 +68,7 @@ export const getUserApi = () => {
 };
 
 export const registerUserApi = (data: TUser) => {
-    return request<TCreateUserResponse>("auth/register", {
+    return request<TRegisterUserResponce>("auth/register", {
         method: "POST",
         headers: {
             "Content-Type": "application/json;charset=utf-8"
@@ -71,7 +78,7 @@ export const registerUserApi = (data: TUser) => {
 };
 
 export const loginUserApi = (data: TUser) => {
-    return request<TCreateUserResponse>("auth/login", {
+    return request<TRegisterUserResponce>("auth/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json; charset=utf-8",
@@ -103,9 +110,7 @@ export const updateUserApi = (data: TUser) => {
     });
 };
 
-export const forgotPasswordApi = (data: {
-    password: string;
-}) => {
+export const forgotPasswordApi = (data: TUser) => {
     return request("password-reset", {
         method: "POST",
         headers: {
@@ -114,11 +119,6 @@ export const forgotPasswordApi = (data: {
         body: JSON.stringify(data)
     });
 };
-
-type TRefreshResponse = TServerResponse<{
-    refreshToken: string;
-    accessToken: string;
-}>;
 
 export const refreshToken = () => {
     return fetch(`${BASE_URL}/auth/token`, {
