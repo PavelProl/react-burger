@@ -9,6 +9,7 @@ import {
 import { TData, TOrderNumber } from "../types/data";
 import { getOrderNumberApi } from "../../utils/api";
 import { clearConstructorAction } from "./constructor";
+import { AppThunk, AppDispatch } from "../types";
 
 export interface IOpenOrderAction {
     readonly type: typeof OPEN_ORDER;
@@ -31,10 +32,12 @@ export interface IGetOrderFailedAction {
     readonly type: typeof GET_ORDER_FAILED;
 }
 
-export type IGetOrderActions =
+export type TGetOrderActions =
+    | IOpenOrderAction
+    | ICloseOrderAction
     | IGetOrderRequestAction
-    |IGetOrderSuccessAction
-    |IGetOrderFailedAction
+    | IGetOrderSuccessAction
+    | IGetOrderFailedAction
 ;
 
 export const getOrderRequestAction = (): IGetOrderRequestAction => {
@@ -68,21 +71,19 @@ export const openOrderAction = (): IOpenOrderAction => {
     }
 };
 
-export const getOrderNumber = (selectedIngredients: TData[]) => {
-    return function(dispatch: any) {
-        dispatch(getOrderRequestAction())
-        getOrderNumberApi(selectedIngredients)
-            .then((data: any) => {
-                if (data?.success) return data;
-                return Promise.reject(data);
-            })
-            .then((res) => {
-                dispatch(getOrderSuccessAction(res.order.number));
-                dispatch(clearConstructorAction());
-            })
-            .catch((e) => {
-                console.log("error from catch", e);
-                dispatch(getOrderFailedAction());
-            })
-    }
+export const getOrderNumber: AppThunk = (selectedIngredients: TData[]) => (dispatch: AppDispatch) => {
+    dispatch(getOrderRequestAction())
+    getOrderNumberApi(selectedIngredients)
+        .then((data: any) => {
+            if (data?.success) return data;
+            return Promise.reject(data);
+        })
+        .then((res) => {
+            dispatch(getOrderSuccessAction(res.order.number));
+            dispatch(clearConstructorAction());
+        })
+        .catch((e) => {
+            console.log("error from catch", e);
+            dispatch(getOrderFailedAction());
+        })
 };

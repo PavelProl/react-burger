@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+// import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import { getOrderNumber } from "../../services/actions/order";
 import orderDetailsStyles from "./order-details.module.css";
 import Img from "../../images/done.png";

@@ -1,5 +1,6 @@
 import React, { useMemo, FunctionComponent, ForwardedRef } from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
+import { useSelector } from "../../services/hooks";
 import ingredientsCategoryStyles from "./ingredients-category.module.css";
 import { forwardRef } from 'react';
 import { Ingredient } from "../burger-ingredient/burger-ingredient";

@@ -28,9 +28,10 @@ import {
     UPDATE_USER_FAILED,
     LOGOUT_USER
 } from "../constants/constants";
+import { AppThunk, AppDispatch } from "../types";
 
 export interface IAuthCheckAction {
-    readonly type: typeof AUTH_CHECK
+    readonly type: typeof AUTH_CHECK;
 }
 
 export interface IRegisterUserRequestAction {
@@ -101,31 +102,22 @@ export interface ILogoutUserAction {
     readonly type: typeof LOGOUT_USER;
 }
 
-export type IRegisterUserActions =
+// TUserActions
+export type TUserActions =
+    | IAuthCheckAction
+    | ILogoutUserAction
     | IRegisterUserRequestAction
     | IRegisterUserSuccessAction
     | IRegisterUserFailedAction
-;
-
-export type IGetUserActions =
     | IGetUserRequestAction
     | IGetUserSuccessAction
     | IGetUserFailedAction
-;
-
-export type ILoginUserActions =
     | ILoginUserRequestAction
     | ILoginUserSuccessAction
     | ILoginUserFailedAction
-;
-
-export type IForgotPasswordActions =
     | IForgotPasswordRequestAction
     | IForgotPasswordSuccessAction
     | IForgotPasswordFailedAction
-;
-
-export type IUpdateUserActions =
     | IUpdateUserRequestAction
     | IUpdateUserSuccessAction
     | IUpdateUserFailedAction
@@ -237,7 +229,8 @@ export const logoutUserAction = (): ILogoutUserAction => {
     }
 };
 
-export const checkUserAuth = () => (dispatch: any) => {
+// нужно типизировать dispatch (позже)
+export const checkUserAuth: AppThunk = () => (dispatch) => {
     if (getCookie("accessToken")) {
         // если есть токен, то запрашиваем данные пользователя
         dispatch(
@@ -250,25 +243,21 @@ export const checkUserAuth = () => (dispatch: any) => {
     }
 };
 
-export const getUser = (afterCallback: any) => (dispatch: any) => {
+export const getUser: AppThunk = (afterCallback) => (dispatch: AppDispatch) => {
     dispatch(getUserRequestAction());
     return getUserApi()
         .then((res: any) => {
             dispatch(getUserSuccessAction(res.user))
-            // dispatch({
-            //     type: GET_USER_SUCCESS,
-            //     payload: res.user
-            // });
         })
         .catch(err => {
-            dispatch(getUserFailedAction);
+            dispatch(getUserFailedAction());
         })
         .finally(() => {
             afterCallback();
         });
 };
 
-export const logoutUser = () => (dispatch: any) => {
+export const logoutUser: AppThunk = () => (dispatch: AppDispatch) => {
     return logoutApi()
         .then(() => {
             deleteCookie("accessToken");
@@ -280,7 +269,7 @@ export const logoutUser = () => (dispatch: any) => {
         })
 };
 
-export const registerUser = (user: TUser) => (dispatch: any) => {
+export const registerUser: AppThunk = (user: TUser) => (dispatch: AppDispatch) => {
     dispatch(registerUserRequestAction());
     return registerUserApi(user)
         .then((res: any) => {
@@ -298,7 +287,7 @@ export const registerUser = (user: TUser) => (dispatch: any) => {
         })
 };
 
-export const loginUser = (user: TUser) => (dispatch: any) => {
+export const loginUser: AppThunk = (user: TUser) => (dispatch: AppDispatch) => {
     dispatch(loginUserRequestAction());
     return loginUserApi(user)
         .then((res: any) => {
@@ -313,7 +302,7 @@ export const loginUser = (user: TUser) => (dispatch: any) => {
         });
 };
 
-export const updateUser = (user: TUser) => (dispatch: any) => {
+export const updateUser: AppThunk = (user: TUser) => (dispatch: AppDispatch) => {
     dispatch(updateUserRequestAction());
     return updateUserApi(user)
         .then((res: any) => {
@@ -330,7 +319,7 @@ export const updateUser = (user: TUser) => (dispatch: any) => {
         })
 };
 
-export const forgotUserPassword = (user: TUser) => (dispatch: any) => {
+export const forgotUserPassword: AppThunk = (user: TUser) => (dispatch: AppDispatch) => {
     dispatch(forgotPasswordRequestAction());
     return forgotPasswordApi(user)
         .then((res: any) => {

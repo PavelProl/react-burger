@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
-import { useSelector, useDispatch } from "react-redux";
+// import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import { Link, useNavigate } from "react-router-dom";
 import { useDrop } from "react-dnd";
 import { addIngredientToConstructorAction } from "../../services/actions/constructor";
@@ -46,7 +47,6 @@ export const BurgerConstructor = () => {
     }, [selectedIngredients, bun]);
 
     return (
-        // убрал с section className={constructorStyles.constructor}
         <section ref={dropTarget} className={"pt-15 pl-4 pr-4"}>
             <div className={`${constructorStyles.constructor_container} ${"mb-10"}`}>
 

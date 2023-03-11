@@ -1,5 +1,6 @@
 import React, { ReactNode, FunctionComponent } from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
+import { useSelector } from "../../services/hooks";
 import { useLocation, Navigate } from "react-router-dom";
 
 type TProtectedRouteProps = {

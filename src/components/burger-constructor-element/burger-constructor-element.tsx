@@ -1,5 +1,6 @@
 import React, {useRef, FunctionComponent } from "react";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/hooks";
 import { useDrop, useDrag } from "react-dnd";
 import { REORDER_INGREDIENTS, DELETE_INGREDIENT } from "../../services/constants/constants";
 import burgerConstructorElementStyles from "./burger-constructor-element.module.css";

@@ -6,16 +6,26 @@ import {
     CLOSE_INGREDIENT,
     CLEAR_CONSTRUCTOR
 } from "../constants/constants";
+import { TIngredient } from "../types/data";
+import { TIngredientActions } from "../actions/constructor";
 
-const initialState = {
+type TConstructorState = {
+    selectedIngredients: ReadonlyArray<TIngredient>,
+    bun: null | TIngredient,
+
+    currentIngredient: null | TIngredient,
+    ingredientModalVisible: boolean
+};
+
+const initialState: TConstructorState = {
     selectedIngredients: [],
     bun: null,
 
-    currentIngredient: "",
+    currentIngredient: null,
     ingredientModalVisible: false
 };
 
-export const constructorReducer = (state = initialState, action) => {
+export const constructorReducer = (state = initialState, action: TIngredientActions): TConstructorState => {
     switch (action.type) {
         case ADD_INGREDIENT:
             if (action.payload.type === "bun") {
@@ -35,7 +45,6 @@ export const constructorReducer = (state = initialState, action) => {
                 0,
                 selectedIngredients.splice(action.payload.insertFrom, 1)[0]
             );
-            console.log("reorderedIngredients", selectedIngredients)
             return {
                 ...state,
                 selectedIngredients

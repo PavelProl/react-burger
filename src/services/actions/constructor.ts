@@ -1,11 +1,13 @@
 import { v4 as uuid } from "uuid";
-import { TIngredient } from "../types/data";
+import { TIngredient, TReorderIngredientsPayload } from "../types/data";
 
 import {
     ADD_INGREDIENT,
     OPEN_INGREDIENT,
     CLOSE_INGREDIENT,
-    CLEAR_CONSTRUCTOR
+    CLEAR_CONSTRUCTOR,
+    REORDER_INGREDIENTS,
+    DELETE_INGREDIENT
 } from "../constants/constants";
 
 export interface IAddIngredientAction {
@@ -26,10 +28,23 @@ export interface IClearConstructorAction {
     readonly type: typeof CLEAR_CONSTRUCTOR;
 }
 
+export interface IReorderIngredientsAction {
+    readonly type: typeof REORDER_INGREDIENTS,
+    payload: TReorderIngredientsPayload
+}
+
+export interface IDeleteIngredientAction {
+    readonly type: typeof DELETE_INGREDIENT,
+    payload: string
+}
+
 export type TIngredientActions =
     | IAddIngredientAction
     | IOpenIngredientAction
     | ICloseIngredient
+    | IClearConstructorAction
+    | IReorderIngredientsAction
+    | IDeleteIngredientAction
 ;
 
 export const addIngredientToConstructorAction = (ingredient: TIngredient): IAddIngredientAction => {

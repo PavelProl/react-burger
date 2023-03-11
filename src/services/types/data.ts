@@ -26,3 +26,8 @@ export type TUser = {
     email?: string;
     name?: string;
 };
+
+export type TReorderIngredientsPayload = {
+    insertFrom: number,
+    insertTo: number
+}

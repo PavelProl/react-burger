@@ -5,6 +5,7 @@ import {
 } from "../constants/constants";
 import { TData } from "../types/data";
 import { getIngredientsApi } from "../../utils/api";
+import { AppThunk, AppDispatch } from "../types";
 
 export interface IGetIngredientsRequestAction {
     readonly type: typeof GET_INGREDIENTS_REQUEST;
@@ -44,15 +45,13 @@ export const getIngredientsFailedAction = (): IGetIngredientsFailedAction => {
     }
 };
 
-export const getIngredients = () => {
-    return function(dispatch: any) {
-        dispatch(getIngredientsRequestAction());
-        getIngredientsApi()
-            .then((res: any) => {
-                dispatch(getIngredientsSuccessAction(res.data))
-            })
-            .catch((e) => {
-                dispatch(getIngredientsFailedAction())
-            })
-    }
+export const getIngredients: AppThunk = () => (dispatch: AppDispatch) => {
+    dispatch(getIngredientsRequestAction());
+    getIngredientsApi()
+        .then((res: any) => {
+            dispatch(getIngredientsSuccessAction(res.data))
+        })
+        .catch((e) => {
+            dispatch(getIngredientsFailedAction())
+        })
 };

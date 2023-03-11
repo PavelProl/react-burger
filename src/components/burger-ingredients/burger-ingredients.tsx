@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+// import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import { useInView } from "react-intersection-observer";
 import { openIngredientAction } from "../../services/actions/constructor";
 import ingredientsStyles from "./burger-ingredients.module.css";
