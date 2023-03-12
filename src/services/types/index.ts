@@ -11,9 +11,9 @@ import { TUserActions } from "../actions/user";
 export type RootState = ReturnType<typeof store.getState>;
 
 // типизируем метод dispatch для проверки на валидность отправляемого экшена
-export type AppDispatch = typeof store.dispatch;
-// временно оставил закомментированным другой вариант типизации
-// export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>
+// временно оставил закомментированным вариант типизации
+// export type AppDispatch = typeof store.dispatch;
+export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>
 
 // типизируем все экшены приложения
 type TApplicationActions =
@@ -25,5 +25,5 @@ type TApplicationActions =
 
 // типизируем thunk'и
 export type AppThunk<ReturnType = void> = ActionCreator<
-  ThunkAction<ReturnType, Action, RootState, TApplicationActions>
+  ThunkAction<ReturnType, RootState, never, TApplicationActions>
 >;
