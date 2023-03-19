@@ -1,6 +1,7 @@
 // React, Redux
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 
 // DnD
 import { DndProvider } from "react-dnd";
@@ -11,8 +12,8 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 // Services
 import { getIngredients } from "../../services/actions/ingredients";
-import { closeIngredient } from "../../services/actions/currentIngredient";
-import { closeOrder } from "../../services/actions/order";
+import { closeIngredientAction } from "../../services/actions/constructor";
+import { closeOrderAction } from "../../services/actions/order";
 
 // // Компоненты
 import { AppHeader } from "../app-header/app-header";
@@ -42,7 +43,7 @@ export const App = () => {
     const ingredientsRequest = useSelector((store: any) => store.ingredients.ingredientsRequest);
     const ingredientsFailed = useSelector((store: any) => store.ingredients.ingredientsFailed);
     const ingredients = useSelector((store: any) => store.ingredients.ingredients);
-    const ingredientModalVisible = useSelector((store: any) => store.currentIngredient.ingredientModalVisible);
+    const ingredientModalVisible = useSelector((store: any) => store.constructor.ingredientModalVisible);
     const orderModalVisible = useSelector((store: any) => store.order.orderModalVisible);
 
     // получем ингредиенты запросом к API
@@ -55,11 +56,11 @@ export const App = () => {
 
     const closeModal = () => {
         if (ingredientModalVisible) {
-            dispatch(closeIngredient())
+            dispatch(closeIngredientAction())
         }
         navigate("/");
         if (orderModalVisible) {
-            dispatch(closeOrder())
+            dispatch(closeOrderAction())
         }
     };
 

@@ -1,19 +1,20 @@
 import { setCookie, getCookie } from "./cookies";
+import { TData, TUser } from "../services/types/data";
 
 export const BASE_URL: string = "https://norma.nomoreparties.space/api/";
 
 type TServerResponse<T> = {
     success: boolean;
 } & T;
-  
-type TUser = {
-    // id?: number;
-    password?: string;
-    email?: string;
-    name?: string;
-};
 
-type TCreateUserResponse = TServerResponse<TUser>;
+export type TCreateUserResponse = TServerResponse<TUser>;
+
+export type TRefreshResponse = TServerResponse<{
+    refreshToken: string;
+    accessToken: string;
+}>;
+
+export type TRegisterUserResponce = TRefreshResponse & TUser;
 
 // функция проверки ответа на `ok`
 const checkResponse = <T>(res: Response): Promise<T> => {
@@ -27,15 +28,28 @@ const checkResponse = <T>(res: Response): Promise<T> => {
 
 // универсальная фукнция запроса с проверкой ответа на `ok` и `success`
 // В вызов приходят `endpoint`(часть урла, которая идет после базового) и options
-export const request = <T>(endpoint: string, options: RequestInit): Promise<T> => {
+export const request = <T>(endpoint: string, options?: RequestInit): Promise<T> => {
     return fetch(`${BASE_URL}${endpoint}`, options)
         .then((res) => checkResponse<TServerResponse<T>>(res))
         // .then((res) => checkSuccess(res));
         .then((data) => {
-            console.log("data", data)
             if (data?.success) return data;
             return Promise.reject(data)
         });
+};
+
+export const getIngredientsApi = () => {
+    return request("ingredients");
+};
+
+export const getOrderNumberApi = (selectedIngredients: TData[]) => {
+    return fetchWithRefresh(`${BASE_URL}orders`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify({"ingredients": selectedIngredients})
+    })
 };
 
 export const getUserApi = () => {
@@ -54,7 +68,7 @@ export const getUserApi = () => {
 };
 
 export const registerUserApi = (data: TUser) => {
-    return request<TCreateUserResponse>("auth/register", {
+    return request<TRegisterUserResponce>("auth/register", {
         method: "POST",
         headers: {
             "Content-Type": "application/json;charset=utf-8"
@@ -64,7 +78,7 @@ export const registerUserApi = (data: TUser) => {
 };
 
 export const loginUserApi = (data: TUser) => {
-    return request<TCreateUserResponse>("auth/login", {
+    return request<TRegisterUserResponce>("auth/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json; charset=utf-8",
@@ -96,9 +110,7 @@ export const updateUserApi = (data: TUser) => {
     });
 };
 
-export const forgotPasswordApi = (data: {
-    password: string;
-}) => {
+export const forgotPasswordApi = (data: TUser) => {
     return request("password-reset", {
         method: "POST",
         headers: {
@@ -107,11 +119,6 @@ export const forgotPasswordApi = (data: {
         body: JSON.stringify(data)
     });
 };
-
-type TRefreshResponse = TServerResponse<{
-    refreshToken: string;
-    accessToken: string;
-}>;
 
 export const refreshToken = () => {
     return fetch(`${BASE_URL}/auth/token`, {
@@ -159,24 +166,3 @@ export const fetchWithRefresh = async <T>(
       }
     }
 };
-
-// export const fetchWithRefresh = async <T>(url: string, options: any): Promise<T> => {
-//     try {
-//         const res = await fetch(url, options);
-//         return await checkResponse(res);
-//     } catch (err: any) {
-//         if (err.message === "jwt expired") {
-//             const refreshData: any = await refreshToken();
-//             if (!refreshData.success) {
-//                 Promise.reject(refreshData);
-//             }
-//             setCookie("refreshToken", refreshData.refreshToken);
-//             setCookie("accessToken", refreshData.accessToken);
-//             options.headers.Authorization = refreshData.accessToken;
-//             const res = await fetch(url, options);
-//             return await checkResponse(res);
-//         } else {
-//             return Promise.reject(err);
-//         }
-//     }
-// };

@@ -1,12 +1,31 @@
-import { ADD_INGREDIENT, DELETE_INGREDIENT, REORDER_INGREDIENTS } from "../actions/constructor";
-import { CLEAR_CONSTRUCTOR } from "../actions/order";
+import {
+    ADD_INGREDIENT,
+    DELETE_INGREDIENT,
+    REORDER_INGREDIENTS,
+    OPEN_INGREDIENT,
+    CLOSE_INGREDIENT,
+    CLEAR_CONSTRUCTOR
+} from "../constants/constants";
+import { TIngredient } from "../types/data";
+import { TIngredientActions } from "../actions/constructor";
 
-const initialState = {
-    selectedIngredients: [],
-    bun: null
+type TConstructorState = {
+    selectedIngredients: ReadonlyArray<TIngredient>,
+    bun: null | TIngredient,
+
+    currentIngredient: null | TIngredient,
+    ingredientModalVisible: boolean
 };
 
-export const constructorReducer = (state = initialState, action) => {
+const initialState: TConstructorState = {
+    selectedIngredients: [],
+    bun: null,
+
+    currentIngredient: null,
+    ingredientModalVisible: false
+};
+
+export const constructorReducer = (state = initialState, action: TIngredientActions): TConstructorState => {
     switch (action.type) {
         case ADD_INGREDIENT:
             if (action.payload.type === "bun") {
@@ -26,7 +45,6 @@ export const constructorReducer = (state = initialState, action) => {
                 0,
                 selectedIngredients.splice(action.payload.insertFrom, 1)[0]
             );
-            console.log("reorderedIngredients", selectedIngredients)
             return {
                 ...state,
                 selectedIngredients
@@ -47,6 +65,17 @@ export const constructorReducer = (state = initialState, action) => {
                 selectedIngredients: [...filteredSelectedIngredients]
             }
         }
+        case OPEN_INGREDIENT:
+            return {
+                ...state,
+                currentIngredient: action.currentIngredient,
+                ingredientModalVisible: true
+            }
+        case CLOSE_INGREDIENT:
+            return {
+                ...state,
+                ingredientModalVisible: false
+            }
         default: return state
     }
 };

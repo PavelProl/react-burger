@@ -13,7 +13,7 @@ import {
     LOGIN_USER_REQUEST,
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAILED,
-    // ---- FORGOT PASS
+    // ---- FORGOT PASSWORD
     FORGOT_PASSWORD_REQUEST,
     FORGOT_PASSWORD_SUCCESS,
     FORGOT_PASSWORD_FAILED,
@@ -23,30 +23,53 @@ import {
     UPDATE_USER_FAILED,
     // ---- LOGOUT
     LOGOUT_USER
-} from "../actions/user";
+} from "../constants/constants";
+import { TUser } from "../types/data";
+import { TUserActions } from "../actions/user";
 
-const initialState = {
+type TUserState = {
+    isAuthChecked: boolean,
+    data?: TUser,
+
+    registerUserRequest: boolean,
+    registerUserFailed: null | boolean,
+
+    getUserRequested: boolean,
+    getUserFailed: null | boolean,
+
+    loginUserRequest: boolean,
+    loginUserFailed: null | boolean,
+    isLoggedIn: boolean,
+
+    forgotPasswordRequest: boolean,
+    resetMessageSuccess: boolean,
+
+    updateUserRequest: boolean,
+    updateUserFailed: null | boolean
+};
+
+const initialState: TUserState = {
     isAuthChecked: false,
-    data: null,
+    data: undefined,
 
     registerUserRequest: false,
-    registerUserError: null,
+    registerUserFailed: null,
 
     getUserRequested: true,
-    getUserError: null,
+    getUserFailed: null,
 
     loginUserRequest: false,
-    loginUserError: null,
+    loginUserFailed: null,
     isLoggedIn: false,
 
     forgotPasswordRequest: false,
     resetMessageSuccess: false,
 
     updateUserRequest: false,
-    updateUserError: null
+    updateUserFailed: null
 };
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action: TUserActions) => {
     switch (action.type) {
         case AUTH_CHECK: {
             return {
@@ -64,7 +87,7 @@ export const userReducer = (state = initialState, action) => {
         case REGISTER_USER_SUCCESS: {
             return {
                 ...state,
-                data: action.payload
+                data: action.user
             }
         }
         case REGISTER_USER_FAILED: {
@@ -83,7 +106,8 @@ export const userReducer = (state = initialState, action) => {
         case UPDATE_USER_SUCCESS: {
             return {
                 ...state,
-                data: action.payload
+                // data: action.payload
+                data: action.user
             }
         }
         case UPDATE_USER_FAILED: {
@@ -103,7 +127,7 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 getUserRequested: false,
-                data: action.payload
+                data: action.user
             }
         }
         case GET_USER_FAILED: {
@@ -123,7 +147,7 @@ export const userReducer = (state = initialState, action) => {
         case LOGIN_USER_SUCCESS: {
             return {
                 ...state,
-                data: action.payload,
+                data: action.user,
                 isLoggedIn: true
             }
         }

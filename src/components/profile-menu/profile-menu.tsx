@@ -1,7 +1,8 @@
 import React, { useCallback } from "react";
 import { NavLink } from "react-router-dom";
 import styles from "./profile-menu.module.css";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/hooks";
 import { logoutUser } from "../../services/actions/user";
 
 export const ProfileMenu = () => {

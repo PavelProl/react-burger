@@ -1,15 +1,17 @@
 import React, { useMemo } from "react";
-import { useSelector, useDispatch } from "react-redux";
+// import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import { Link, useNavigate } from "react-router-dom";
 import { useDrop } from "react-dnd";
-import { addIngredientToConstructor } from "../../services/actions/constructor";
-import { openOrder } from "../../services/actions/order";
+import { addIngredientToConstructorAction } from "../../services/actions/constructor";
+import { openOrderAction } from "../../services/actions/order";
 import constructorStyles from "./constructorStyles.module.css";
 
 import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerConstructorElement } from "../burger-constructor-element/burger-constructor-element";
 
-import { IIngredient } from "../burger-ingredient/burger-ingredient";
+// import { IIngredient } from "../burger-ingredient/burger-ingredient";
+import { TIngredient } from "../../services/types/data";
 
 export const BurgerConstructor = () => {
     const dispatch = useDispatch();
@@ -21,8 +23,8 @@ export const BurgerConstructor = () => {
 
     const [, dropTarget] = useDrop({
         accept: "ingredient",
-        drop: item => {
-            return dispatch(addIngredientToConstructor(item))
+        drop: (item: TIngredient) => {
+            return dispatch(addIngredientToConstructorAction(item))
         }
     });
 
@@ -34,18 +36,17 @@ export const BurgerConstructor = () => {
         if (!bun) {
             return;
         };
-        dispatch(openOrder());
+        dispatch(openOrderAction());
     };
 
     const finalPrice = useMemo(() => {
         return (
             (bun ? bun.price * 2 : 0) +
-            (selectedIngredients.reduce((acc: number, item: IIngredient) => acc + item.price, 0))
+            (selectedIngredients.reduce((acc: number, item: TIngredient) => acc + item.price, 0))
         );
     }, [selectedIngredients, bun]);
 
     return (
-        // убрал с section className={constructorStyles.constructor}
         <section ref={dropTarget} className={"pt-15 pl-4 pr-4"}>
             <div className={`${constructorStyles.constructor_container} ${"mb-10"}`}>
 
@@ -69,7 +70,7 @@ export const BurgerConstructor = () => {
 
                 {/* СКРОЛЛ-КОНТЕЙНЕР ИНГРЕДИЕНТОВ */}
                 <ul className={constructorStyles.scroll_container}>
-                    {selectedIngredients.length > 0 && selectedIngredients.map((ingredient: IIngredient, index: number) => {
+                    {selectedIngredients.length > 0 && selectedIngredients.map((ingredient: TIngredient, index: number) => {
                         return (
                             <BurgerConstructorElement
                                 ingredient={ingredient}
