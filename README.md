@@ -26,6 +26,15 @@
 
 <img width="1351" alt="4" src="https://user-images.githubusercontent.com/47940601/226434302-2c2065c5-5781-4c42-91a8-42be7f929a36.png">
 
+
+> *`Если хочешь, можно поменять ингредиенты местами. Как-то так:`*
+
+<img width="545" alt="20" src="https://user-images.githubusercontent.com/47940601/226452861-d09dcddb-650f-4909-8020-a81bebff37b7.png">
+
+
+<img width="667" alt="21" src="https://user-images.githubusercontent.com/47940601/226453149-8a0781bf-7a32-42eb-b0fd-657103c1b3dd.png">
+
+
 > *`Так-так, остановись, тут уже целых 2 котлеты! Пора оформлять заказ, за нами уже люди стоят, ждут очереди.`*
 
 <img width="438" alt="5" src="https://user-images.githubusercontent.com/47940601/226435272-86f532de-0e16-404d-b032-74a0938d728c.png">
