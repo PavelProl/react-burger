@@ -1,10 +1,7 @@
 import React from "react";
-// import { useSelector } from "react-redux";
 import { useSelector } from "../../services/hooks";
 import { useParams } from "react-router-dom";
 import ingredientDetailsStyles from "./ingredient-details.module.css";
-
-// import { IIngredient } from "../burger-ingredient/burger-ingredient";
 import { TIngredient } from "../../services/types/data";
 
 export const IngredientDetails = () => {

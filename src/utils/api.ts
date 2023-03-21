@@ -129,9 +129,6 @@ export const refreshToken = () => {
         body: JSON.stringify({
             "token":  getCookie("refreshToken") || ""
         }),
-        // body: JSON.stringify({
-        //     token: localStorage.getItem("refreshToken"),
-        // }),
     })
     .then((res) => checkResponse<TRefreshResponse>(res))
     .then((refreshData) => {
@@ -139,7 +136,6 @@ export const refreshToken = () => {
             return Promise.reject(refreshData);
         }
         setCookie("refreshToken", refreshData.refreshToken);
-        // localStorage.setItem("refreshToken", refreshData.refreshToken);
         setCookie("accessToken", refreshData.accessToken);
         return refreshData;
     });

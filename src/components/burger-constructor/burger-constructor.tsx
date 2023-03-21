@@ -1,5 +1,4 @@
 import React, { useMemo } from "react";
-// import { useSelector, useDispatch } from "react-redux";
 import { useDispatch, useSelector } from "../../services/hooks";
 import { Link, useNavigate } from "react-router-dom";
 import { useDrop } from "react-dnd";
@@ -9,13 +8,10 @@ import constructorStyles from "./constructorStyles.module.css";
 
 import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerConstructorElement } from "../burger-constructor-element/burger-constructor-element";
-
-// import { IIngredient } from "../burger-ingredient/burger-ingredient";
 import { TIngredient } from "../../services/types/data";
 
 export const BurgerConstructor = () => {
     const dispatch = useDispatch();
-    // const location = useLocation();
     const navigate = useNavigate();
     const bun = useSelector((store: any) => store.burgerConstructor.bun);
     const selectedIngredients = useSelector((store: any) => store.burgerConstructor.selectedIngredients);
@@ -76,7 +72,6 @@ export const BurgerConstructor = () => {
                                 ingredient={ingredient}
                                 index={index}
                                 key={ingredient.id}
-                                // id={ingredient.id}
                             />
                         );
                     })}

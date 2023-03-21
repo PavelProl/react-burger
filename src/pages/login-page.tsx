@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
-// import { useDispatch } from "react-redux";
+import React, { useCallback } from "react";
 import { useDispatch } from "../services/hooks";
 import { FormContainer } from "../components/form-container/form-container";
 import { PagesCenterContainer } from "../components/pages-center-container/pages-center-container";
@@ -12,19 +11,12 @@ import { useForm } from "../hooks/useForm";
 
 export const LoginPage = () => {
     const dispatch = useDispatch();
-    // const emailRef = useRef<HTMLInputElement>(null);
-
     const { values, handleChange } = useForm({ email: "", password: "", name: "" });
-    console.log(values)
-
-    // useEffect(() => {
-    //     emailRef.current?.focus();
-    // }, []);
 
     const login: React.FormEventHandler<HTMLFormElement> = useCallback(
         (e) => {
             e.preventDefault();
-            dispatch<any>(loginUser(values));
+            dispatch(loginUser(values));
         },
         [loginUser, values]
     );
@@ -35,7 +27,6 @@ export const LoginPage = () => {
             <FormContainer onFormClick={login} classname={"mb-20"}>
                 <FormHeader title="Вход" />
                 <EmailInput
-                    // ref={emailRef}
                     autoFocus
                     onChange={handleChange}
                     value={values.email}

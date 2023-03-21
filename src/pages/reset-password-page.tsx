@@ -14,7 +14,6 @@ export const ResetPasswordPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("LOCATION FROM ResetPasswordPage", location)
         !location?.state?.resetPassword && navigate("/forgot-password");
     }, [location.state, navigate]);
 

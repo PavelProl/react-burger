@@ -106,7 +106,6 @@ export const userReducer = (state = initialState, action: TUserActions) => {
         case UPDATE_USER_SUCCESS: {
             return {
                 ...state,
-                // data: action.payload
                 data: action.user
             }
         }

@@ -1,5 +1,4 @@
 import React, { useCallback, useState, useEffect, useRef } from "react";
-// import { useDispatch } from "react-redux";
 import { useDispatch } from "../services/hooks";
 import { FormContainer } from "../components/form-container/form-container";
 import { PagesCenterContainer } from "../components/pages-center-container/pages-center-container";
@@ -28,7 +27,7 @@ export const RegisterPage = () => {
     const register: React.FormEventHandler<HTMLFormElement> = useCallback(
         (e: React.FormEvent) => {
             e.preventDefault();
-            dispatch<any>(registerUser(form))
+            dispatch(registerUser(form))
         },
         [registerUser, form]
     );

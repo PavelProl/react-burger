@@ -1,5 +1,4 @@
 import React, { useCallback } from "react";
-// import { useDispatch, useSelector } from "react-redux";
 import { useDispatch, useSelector } from "../services/hooks";
 import { FormContainer } from "../components/form-container/form-container";
 import { PagesCenterContainer } from "../components/pages-center-container/pages-center-container";
@@ -15,22 +14,11 @@ export const ProfilePage = () => {
 
     const user = useSelector((store: any) => store.user.data);
     const { values, handleChange, setValues } = useForm({ email: user?.email, name: user?.name, password: ""});
-    
-    // временно оставлю тут закомментированный код
-    // const [formValue, setFormValue] = useState({ email: user?.email, name: user?.name, password: "" }); 
-
-    // временно оставлю тут закомментированный код
-    // const handleInputChange = (e) => {
-    //     setFormValue((prevState) => ({
-    //     ...prevState,
-    //     [e.target.name]: e.target.value,
-    //     }));
-    // };
 
     const update: React.FormEventHandler<HTMLFormElement> = useCallback(
         (e: React.FormEvent) => {
             e.preventDefault();
-            dispatch<any>(updateUser(values))
+            dispatch(updateUser(values))
         },
         [updateUser, values]
     );

@@ -1,7 +1,6 @@
 import {
     OPEN_ORDER,
     CLOSE_ORDER,
-    // CALCULATE_PRICE,
     GET_ORDER_REQUEST,
     GET_ORDER_SUCCESS,
     GET_ORDER_FAILED
@@ -36,12 +35,6 @@ export const orderReducer = (state = initialState, action: TGetOrderActions) => 
                 ...state,
                 orderModalVisible: false
             }
-        // case CALCULATE_PRICE: {
-        //     return {
-        //         ...state,
-        //         finalPrice: action.finalPrice
-        //     }
-        // }
         case GET_ORDER_REQUEST:
             return { ...state, orderRequest: true }
         case GET_ORDER_SUCCESS:

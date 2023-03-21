@@ -1,7 +1,4 @@
-// import { IIngredient } from "../components/burger-ingredient/burger-ingredient";
 import { TData } from "../services/types/data";
-
-// type TData = Omit<TIngredient, "id">;
 
 export const data: TData[] = [
     {

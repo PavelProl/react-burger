@@ -4,7 +4,6 @@ type TForm = {
     email: string;
     name: string;
     password: string;
-    // key: string;
 };
 
 export function useForm(inputValues: TForm) {

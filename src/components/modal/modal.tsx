@@ -48,7 +48,6 @@ export const Modal: FunctionComponent<TModalProps> = (props) => {
 
             {/* ОВЕРЛЭЙ */}
             <ModalOverlay closeModal={closeModal} />
-            {/* утверждаю ненулевое значение modalRoot */}
         </>, modalRoot!
     );
 }

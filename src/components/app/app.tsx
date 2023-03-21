@@ -14,6 +14,7 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { getIngredients } from "../../services/actions/ingredients";
 import { closeIngredientAction } from "../../services/actions/constructor";
 import { closeOrderAction } from "../../services/actions/order";
+import { checkUserAuth } from "../../services/actions/user";
 
 // // Компоненты
 import { AppHeader } from "../app-header/app-header";
@@ -32,7 +33,6 @@ import { NotFound404 } from "../../pages/not-found-404";
 import { ProtectedRoute } from "../protected-route/protected-route";
 
 import appStyles from "./app.module.css";
-import { checkUserAuth } from "../../services/actions/user";
 
 export const App = () => {
     const dispatch = useDispatch();
@@ -48,10 +48,10 @@ export const App = () => {
 
     // получем ингредиенты запросом к API
     useEffect(() => {
-        dispatch<any>(getIngredients());
+        dispatch(getIngredients());
 
     // проверяем, авторизован ли пользователь
-        dispatch<any>(checkUserAuth());
+        dispatch(checkUserAuth());
     }, [dispatch]);
 
     const closeModal = () => {

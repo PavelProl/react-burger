@@ -276,10 +276,6 @@ export const registerUser: AppThunk = (user: TUser) => (dispatch: AppDispatch) =
                 setCookie("accessToken", res.accessToken);
                 setCookie("refreshToken", res.refreshToken);
                 dispatch(registerUserSuccessAction(res.user))
-            // dispatch({
-            //     type: REGISTER_USER_SUCCESS,
-            //     payload: res
-            // });
         })
         .catch(() => {
             alert("Ошибка регистрации пользователя");
@@ -293,12 +289,7 @@ export const loginUser: AppThunk = (user: TUser) => (dispatch: AppDispatch) => {
         .then((res: any) => {
             setCookie("accessToken", res.accessToken);
             setCookie("refreshToken", res.refreshToken);
-            console.log("RES FROM LOGIN USER", res);
             dispatch(loginUserSuccessAction(res.user))
-            // dispatch({
-            //     type: LOGIN_USER_SUCCESS,
-            //     payload: res.user
-            // });
         });
 };
 
@@ -306,12 +297,7 @@ export const updateUser: AppThunk = (user: TUser) => (dispatch: AppDispatch) => 
     dispatch(updateUserRequestAction());
     return updateUserApi(user)
         .then((res: any) => {
-                console.log("RES FROM UPDATE", res);
                 dispatch(updateUserSuccessAction(res.user))
-            // dispatch({
-            //     type: UPDATE_USER_SUCCESS,
-            //     payload: res.user
-            // });
         })
         .catch(() => {
             alert("Ошибка изменения пользователя");
@@ -322,9 +308,8 @@ export const updateUser: AppThunk = (user: TUser) => (dispatch: AppDispatch) => 
 export const forgotUserPassword: AppThunk = (user: TUser) => (dispatch: AppDispatch) => {
     dispatch(forgotPasswordRequestAction());
     return forgotPasswordApi(user)
-        .then((res: any) => {
+        .then(() => {
             dispatch(forgotPasswordSuccessAction())
-            console.log("data from forgotPass", res)
         })
         .catch(() => {
             alert("Ошибка восстановления пароля");

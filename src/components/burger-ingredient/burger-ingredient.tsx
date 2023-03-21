@@ -5,22 +5,6 @@ import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
 import { TIngredient } from "../../services/types/data";
 
-// export interface IIngredient {
-//     _id: string;
-//     name: string;
-//     type: string;
-//     proteins: number;
-//     fat: number;
-//     carbohydrates: number;
-//     calories: number;
-//     price: number;
-//     image: string;
-//     image_mobile: string;
-//     image_large: string;
-//     __v: number;
-//     id: string;
-// }
-
 type TIngredientProps = {
     count: number;
     item: TIngredient;

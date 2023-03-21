@@ -1,15 +1,11 @@
 import React, { useState, useMemo, useEffect } from "react";
-// import { useSelector, useDispatch } from "react-redux";
 import { useDispatch, useSelector } from "../../services/hooks";
 import { useInView } from "react-intersection-observer";
 import { openIngredientAction } from "../../services/actions/constructor";
-import ingredientsStyles from "./burger-ingredients.module.css";
-
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IngredientsCategory } from "../ingredients-category/ingredients-category";
-
-// import { IIngredient } from "../burger-ingredient/burger-ingredient";
 import { TIngredient } from "../../services/types/data";
+import ingredientsStyles from "./burger-ingredients.module.css";
 
 export const BurgerIngredients = () => {
     const dispatch = useDispatch();
@@ -69,7 +65,6 @@ export const BurgerIngredients = () => {
             <h1 className="text text_type_main-large mb-5">
                 Соберите бургер
             </h1>
-            {/* временно убрал из Tab id="buns", "mains", "sauces" */}
             <ul className={`${ingredientsStyles.tabs_container} ${"mb-10"}`}>
                 <Tab value="buns" active={currentTab === 'buns'} onClick={onTabClick}>
                     Булки
